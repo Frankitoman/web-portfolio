@@ -20,10 +20,13 @@
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   /* ---------- Photo fade-in on load ---------- */
-  document.querySelectorAll('.photo img').forEach(function (img) {
-    if (img.complete) img.classList.add('is-loaded');
-    else img.addEventListener('load', function () { img.classList.add('is-loaded'); });
-  });
+  window.initPhotoFade = function (root) {
+    (root || document).querySelectorAll('.photo img').forEach(function (img) {
+      if (img.complete) img.classList.add('is-loaded');
+      else img.addEventListener('load', function () { img.classList.add('is-loaded'); });
+    });
+  };
+  window.initPhotoFade();
 
   /* ---------- Split hero title into spans for line-reveal ---------- */
   document.querySelectorAll('[data-reveal-text]').forEach(function (el) {

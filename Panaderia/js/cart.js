@@ -108,6 +108,8 @@
       );
     }).join('');
 
+    if (window.initPhotoFade) window.initPhotoFade(grid);
+
     grid.addEventListener('click', function (e) {
       var btn = e.target.closest('[data-add]');
       if (!btn) return;

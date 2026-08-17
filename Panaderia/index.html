@@ -45,6 +45,11 @@
       <a href="#contacto" class="nav__link" data-cursor-hover>Contacto</a>
     </nav>
 
+    <button class="nav__cart" id="cartBtn" aria-label="Ver carrito" data-cursor-hover type="button">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 4h2l1.4 11.2A2 2 0 008.4 17h9.2a2 2 0 002-1.7L21 8H6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="21" r="1.4" fill="currentColor"/><circle cx="17" cy="21" r="1.4" fill="currentColor"/></svg>
+      <span class="nav__cart-count" id="cartCount" hidden>0</span>
+    </button>
+
     <a href="#contacto" class="btn btn--small btn--primary nav__cta" data-cursor-hover>
       <span>Hacer un pedido</span>
     </a>
@@ -202,47 +207,7 @@
       </p>
     </div>
 
-    <div class="productos__grid">
-      <article class="product-card" data-reveal>
-        <div class="photo photo--product">
-          <img src="assets/images/product-alfajores.jpg" alt="Alfajores de dulce de leche" loading="lazy">
-        </div>
-        <div class="product-card__body">
-          <h3>Alfajores</h3>
-          <p>De dulce de leche, bañados en chocolate o con coco. Los de siempre.</p>
-        </div>
-      </article>
-
-      <article class="product-card" data-reveal>
-        <div class="photo photo--product">
-          <img src="assets/images/product-medialunas.jpg" alt="Medialunas de manteca" loading="lazy">
-        </div>
-        <div class="product-card__body">
-          <h3>Medialunas</h3>
-          <p>De manteca, bien dulces y hojaldradas. Ideales para el desayuno.</p>
-        </div>
-      </article>
-
-      <article class="product-card" data-reveal>
-        <div class="photo photo--product">
-          <img src="assets/images/product-facturas.jpg" alt="Facturas surtidas" loading="lazy">
-        </div>
-        <div class="product-card__body">
-          <h3>Facturas</h3>
-          <p>Vigilantes, cañoncitos y sacramentos, como en la panadería de la esquina.</p>
-        </div>
-      </article>
-
-      <article class="product-card" data-reveal>
-        <div class="photo photo--product">
-          <img src="assets/images/product-tortas.jpg" alt="Torta argentina por encargo" loading="lazy">
-        </div>
-        <div class="product-card__body">
-          <h3>Tortas por encargo</h3>
-          <p>Cumpleaños, egresos y festejos con torta de manzana o chocolate argentina.</p>
-        </div>
-      </article>
-    </div>
+    <div class="productos__grid" id="productsGrid"></div>
   </section>
 
   <!-- ============ CTA MEDIO ============ -->
@@ -521,7 +486,34 @@
   </button>
 </div>
 
+<!-- ============ CARRITO ============ -->
+<div class="cart-backdrop" id="cartBackdrop"></div>
+<aside class="cart-drawer" id="cartDrawer" role="dialog" aria-label="Tu carrito" aria-hidden="true">
+  <div class="cart-drawer__header">
+    <strong>Tu carrito</strong>
+    <button class="cart-drawer__close" id="cartClose" aria-label="Cerrar carrito" type="button">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+
+  <div class="cart-drawer__items" id="cartItems"></div>
+
+  <p class="cart-drawer__empty" id="cartEmpty">Todavía no agregaste productos. ¡Dale una vuelta por nuestra panadería! 🥐</p>
+
+  <div class="cart-drawer__footer" id="cartFooter">
+    <div class="cart-drawer__subtotal">
+      <span>Subtotal</span>
+      <strong id="cartSubtotal">0 kr.</strong>
+    </div>
+    <p class="cart-drawer__note">Los pagos y el envío online todavía se están configurando. Al continuar, armamos el detalle de tu pedido en el formulario de contacto y coordinamos el pago y la entrega por email.</p>
+    <button class="btn btn--primary btn--large cart-drawer__checkout" id="cartCheckout" type="button">
+      <span>Continuar con el pedido</span>
+    </button>
+  </div>
+</aside>
+
 <script src="js/main.js"></script>
 <script src="js/chat.js"></script>
+<script src="js/cart.js"></script>
 </body>
 </html>

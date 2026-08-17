@@ -4,10 +4,10 @@
 (function () {
   'use strict';
 
-  // TODO: reemplazar por la URL real del Worker después de `wrangler deploy`
-  // (ver gemini-proxy/README.md). Ejemplo:
-  // "https://anoranza-gemini-proxy.tu-subdominio.workers.dev"
-  var CHAT_ENDPOINT = "https://anoranza-gemini-proxy.YOUR-SUBDOMAIN.workers.dev";
+  // TODO: reemplazar por la URL real después de desplegar en Vercel
+  // (ver chat-api/README.md). Ejemplo:
+  // "https://web-portfolio-xxxx.vercel.app/api/chat"
+  var CHAT_ENDPOINT = "https://YOUR-PROJECT.vercel.app/api/chat";
 
   var GREETING = "¡Hola! 👋 Soy el asistente virtual de Añoranza. Puedo ayudarte con dudas sobre nuestros productos, pedidos u horarios. ¿En qué te ayudo?";
   var FALLBACK_ERROR = "No pudimos conectar con el asistente en este momento. Mientras tanto, escribinos a hola@anoranza.dk y te respondemos apenas podamos.";

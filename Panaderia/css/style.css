@@ -414,9 +414,7 @@ main > section, .contacto, .productos, .historia, .testimonios, .galeria {
   border-radius: 50%;
   box-shadow: 0 20px 40px -18px rgba(14,42,69,.4);
 }
-.historia__badge-spin { position: absolute; inset: 0; color: var(--navy); animation: spin 16s linear infinite; }
 .historia__badge-center { color: var(--blue); display: flex; }
-@keyframes spin { to { transform: rotate(360deg); } }
 
 .historia__text { color: var(--ink-soft); font-size: 1.03rem; line-height: 1.75; max-width: 52ch; margin-top: 1.3rem; }
 .historia__values { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }

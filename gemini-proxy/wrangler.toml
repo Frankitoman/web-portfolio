@@ -2,10 +2,11 @@ name = "anoranza-gemini-proxy"
 main = "src/index.js"
 compatibility_date = "2026-08-01"
 
-# CORS: mientras no tengan el dominio final de Cloudflare Pages, "*" permite
-# probar desde cualquier origen (localhost incluido). En cuanto tengan el
-# dominio definitivo, reemplacen por ese origen exacto (sin barra al final,
-# ej: "https://anoranza.pages.dev") y vuelvan a correr `wrangler deploy`.
+# CORS: mientras el sitio no esté publicado, "*" permite probar desde
+# cualquier origen (localhost incluido). Una vez publicado en GitHub Pages,
+# reemplazar por el origen exacto (sin barra al final):
+#   ALLOWED_ORIGIN = "https://frankitoman.github.io"
+# y volver a correr `wrangler deploy`.
 [vars]
 ALLOWED_ORIGIN = "*"
 

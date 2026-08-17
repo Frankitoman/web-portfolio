@@ -36,15 +36,13 @@ Navegador del cliente  →  este Worker (guarda la clave)  →  API de Gemini
    ```
    Copiá esa URL.
 
-5. Abrí [`Panaderia/js/chat.js`](../Panaderia/js/chat.js) y reemplazá el valor de `CHAT_ENDPOINT` (arriba del todo del archivo) por la URL que te dio el paso anterior.
-
-6. Subí `Panaderia/` a Cloudflare Pages (arrastrando la carpeta en el dashboard, o conectando el repositorio si usan Git).
+5. Abrí [`Panaderia/js/chat.js`](../Panaderia/js/chat.js) y reemplazá el valor de `CHAT_ENDPOINT` (arriba del todo del archivo) por la URL que te dio el paso anterior. Después hacé `git add`, `commit` y `push` — el sitio se publica solo vía GitHub Actions (ver `.github/workflows/deploy-pages.yml`) en **GitHub Pages**, en `https://frankitoman.github.io/web-portfolio/`.
 
 ## Asegurar el proxy con el dominio final
 
-Mientras no tengan el dominio de Cloudflare Pages, `wrangler.toml` permite pedidos desde cualquier origen (`ALLOWED_ORIGIN = "*"`) para poder probar. **Una vez que tengan el dominio final** (ej. `https://anoranza.pages.dev` o su dominio propio):
+Mientras prueban, `wrangler.toml` permite pedidos desde cualquier origen (`ALLOWED_ORIGIN = "*"`). **Una vez que el sitio esté publicado en GitHub Pages**:
 
-1. Editá `wrangler.toml` y cambiá `ALLOWED_ORIGIN` por ese dominio exacto.
+1. Editá `wrangler.toml` y cambiá `ALLOWED_ORIGIN` a `https://frankitoman.github.io` (sin barra al final, sin el `/web-portfolio` — el origen es solo protocolo + dominio).
 2. Volvé a correr `npx wrangler deploy`.
 
 Así el Worker solo va a responder pedidos que vengan de su propia web, no de cualquier otro sitio que intente usar el endpoint.

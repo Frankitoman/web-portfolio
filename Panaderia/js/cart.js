@@ -5,16 +5,16 @@
   'use strict';
 
   var PRODUCTS = [
-    { id: 'alfajor-dulce-de-leche', name: 'Alfajores de dulce de leche', desc: 'Caja x6 — el clásico de siempre, relleno bien generoso.', price: 145, image: 'assets/images/product-alfajores.jpg' },
-    { id: 'alfajor-chocolate', name: 'Alfajores bañados en chocolate', desc: 'Caja x6 — dulce de leche cubierto con chocolate negro.', price: 155, image: 'assets/images/product-alfajores.jpg' },
-    { id: 'alfajor-coco', name: 'Alfajores de coco', desc: 'Caja x6 — rebozados en coco rallado.', price: 145, image: 'assets/images/product-alfajores.jpg' },
+    { id: 'alfajor-dulce-de-leche', name: 'Alfajores de dulce de leche', desc: 'Caja x6 — el clásico de siempre, relleno bien generoso.', price: 145, image: 'assets/images/products/alfajor-dulce-de-leche.jpg' },
+    { id: 'alfajor-chocolate', name: 'Alfajores bañados en chocolate', desc: 'Caja x6 — dulce de leche cubierto con chocolate negro.', price: 155, image: 'assets/images/products/alfajor-chocolate.jpg' },
+    { id: 'alfajor-coco', name: 'Alfajores de coco', desc: 'Caja x6 — rebozados en coco rallado.', price: 145, image: 'assets/images/products/alfajor-coco.jpg' },
     { id: 'medialunas', name: 'Medialunas de manteca', desc: 'Caja x6 — bien dulces y hojaldradas.', price: 140, image: 'assets/images/product-medialunas.jpg' },
-    { id: 'facturas-surtidas', name: 'Facturas surtidas', desc: 'Caja x6 — variedad de la casa.', price: 150, image: 'assets/images/product-facturas.jpg' },
-    { id: 'vigilantes', name: 'Vigilantes de dulce de leche', desc: 'Caja x4 — hojaldre relleno, bañados en almíbar.', price: 110, image: 'assets/images/product-facturas.jpg' },
-    { id: 'canoncitos', name: 'Cañoncitos de dulce de leche', desc: 'Caja x4 — crocantes por fuera, cremosos por dentro.', price: 115, image: 'assets/images/product-facturas.jpg' },
-    { id: 'empanadas-dulces', name: 'Empanadas dulces', desc: 'Caja x6 — de dulce de leche, recién horneadas.', price: 135, image: 'assets/images/gallery-2.jpg' },
-    { id: 'torta-manzana', name: 'Torta de manzana', desc: 'Entera — 8 a 10 porciones, ideal para cumpleaños.', price: 420, image: 'assets/images/product-tortas.jpg' },
-    { id: 'torta-chocolate', name: 'Torta de chocolate y dulce de leche', desc: 'Entera — 8 a 10 porciones, capas de bizcochuelo y ganache.', price: 460, image: 'assets/images/product-tortas.jpg' }
+    { id: 'facturas-surtidas', name: 'Facturas surtidas', desc: 'Caja x6 — variedad de la casa.', price: 150, image: 'assets/images/products/facturas-surtidas.jpg' },
+    { id: 'vigilantes', name: 'Vigilantes de dulce de leche', desc: 'Caja x4 — hojaldre relleno, bañados en almíbar.', price: 110, image: 'assets/images/products/vigilantes.jpg' },
+    { id: 'canoncitos', name: 'Cañoncitos de dulce de leche', desc: 'Caja x4 — crocantes por fuera, cremosos por dentro.', price: 115, image: 'assets/images/products/canoncitos.jpg' },
+    { id: 'empanadas-dulces', name: 'Empanadas dulces', desc: 'Caja x6 — de dulce de leche, recién horneadas.', price: 135, image: 'assets/images/products/empanadas-dulces.jpg' },
+    { id: 'torta-manzana', name: 'Torta de manzana', desc: 'Entera — 8 a 10 porciones, ideal para cumpleaños.', price: 420, image: 'assets/images/products/torta-manzana.jpg' },
+    { id: 'torta-chocolate', name: 'Torta de chocolate y dulce de leche', desc: 'Entera — 8 a 10 porciones, capas de bizcochuelo y ganache.', price: 460, image: 'assets/images/products/torta-chocolate.jpg' }
   ];
 
   var STORAGE_KEY = 'anoranza_cart';

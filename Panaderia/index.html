@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Añoranza — Panadería Argentina en Dinamarca</title>
+<meta name="description" content="Añoranza: panadería y pastelería artesanal argentina en Dinamarca. Alfajores, medialunas, facturas y tortas hechas como en casa.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ PRELOADER ============ -->
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="preloader__mark">
+    <span>Añoranza</span>
+  </div>
+</div>
+
+<!-- ============ CURSOR (desktop only, decorative) ============ -->
+<div class="cursor" id="cursor" aria-hidden="true">
+  <div class="cursor__dot"></div>
+  <div class="cursor__ring"></div>
+</div>
+
+<!-- ============ NOISE OVERLAY ============ -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============ HEADER ============ -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="#inicio" class="nav__logo" data-cursor-hover>
+      <span class="nav__logo-mark">A</span>
+      <span class="nav__logo-text">Añoranza</span>
+    </a>
+
+    <nav class="nav__links" id="navLinks">
+      <a href="#historia" class="nav__link" data-cursor-hover>Historia</a>
+      <a href="#productos" class="nav__link" data-cursor-hover>Productos</a>
+      <a href="#testimonios" class="nav__link" data-cursor-hover>Testimonios</a>
+      <a href="#contacto" class="nav__link" data-cursor-hover>Contacto</a>
+    </nav>
+
+    <a href="#contacto" class="btn btn--small btn--primary nav__cta" data-cursor-hover>
+      <span>Hacer un pedido</span>
+    </a>
+
+    <button class="nav__burger" id="navBurger" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="nav__mobile" id="navMobile">
+    <a href="#historia" class="nav__mobile-link">Historia</a>
+    <a href="#productos" class="nav__mobile-link">Productos</a>
+    <a href="#testimonios" class="nav__mobile-link">Testimonios</a>
+    <a href="#contacto" class="nav__mobile-link">Contacto</a>
+    <a href="#contacto" class="btn btn--primary nav__mobile-cta">Hacer un pedido</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="inicio">
+    <div class="hero__blob hero__blob--1" aria-hidden="true"></div>
+    <div class="hero__blob hero__blob--2" aria-hidden="true"></div>
+
+    <div class="hero__grain-badge" data-reveal>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2C12 2 7 8 7 13a5 5 0 0010 0c0-5-5-11-5-11z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      <span>Panadería 100% argentina, horneada en Dinamarca</span>
+    </div>
+
+    <div class="hero__inner">
+      <h1 class="hero__title">
+        <span class="hero__title-line" data-reveal-text>El sabor de casa,</span>
+        <span class="hero__title-line hero__title-line--accent" data-reveal-text>a 12.000&nbsp;km de distancia.</span>
+      </h1>
+
+      <p class="hero__subtitle" data-reveal>
+        Alfajores, medialunas y facturas hechas a mano, con recetas de familia,
+        para todos los argentinos que llevan Buenos Aires en el paladar
+        &mdash;ahora, con un poquito de <em>hygge</em> danés.
+      </p>
+
+      <div class="hero__actions" data-reveal>
+        <a href="#productos" class="btn btn--primary btn--large" data-cursor-hover data-magnetic>
+          <span>Ver productos</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#contacto" class="btn btn--ghost btn--large" data-cursor-hover data-magnetic>
+          <span>Reservar para un evento</span>
+        </a>
+      </div>
+
+      <div class="hero__stats" data-reveal>
+        <div class="hero__stat">
+          <span class="hero__stat-num" data-counter="12">0</span><span class="hero__stat-suffix">+</span>
+          <span class="hero__stat-label">años horneando<br>nostalgia</span>
+        </div>
+        <div class="hero__stat">
+          <span class="hero__stat-num" data-counter="4300">0</span><span class="hero__stat-suffix">+</span>
+          <span class="hero__stat-label">alfajores servidos<br>este año</span>
+        </div>
+        <div class="hero__stat">
+          <span class="hero__stat-num" data-counter="98">0</span><span class="hero__stat-suffix">%</span>
+          <span class="hero__stat-label">clientes que<br>vuelven</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__visual" data-reveal>
+      <div class="hero__image-frame">
+        <div class="photo photo--hero" data-cursor-hover>
+          <img src="assets/images/hero.jpg" alt="Bandeja de alfajores y facturas argentinas recién horneadas" loading="eager" fetchpriority="high">
+        </div>
+        <div class="hero__floating-card" data-float>
+          <div class="hero__floating-card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7.5-4.6-10-9.3C.5 8.2 2.3 4.8 5.6 4.2 8 3.8 10 5 12 7.4 14 5 16 3.8 18.4 4.2c3.3.6 5.1 4 3.6 7.5C19.5 16.4 12 21 12 21z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <strong>Hecho con amor</strong>
+            <span>desde 2014</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a href="#historia" class="hero__scroll" data-cursor-hover aria-label="Bajar">
+      <span>Descubrí nuestra historia</span>
+      <div class="hero__scroll-line"><i></i></div>
+    </a>
+  </section>
+
+  <!-- ============ MARQUEE ============ -->
+  <div class="marquee">
+    <div class="marquee__track">
+      <span>Alfajores</span><i>·</i><span>Medialunas</span><i>·</i><span>Facturas</span><i>·</i><span>Dulce de leche</span><i>·</i><span>Tortas de cumpleaños</span><i>·</i><span>Empanadas dulces</span><i>·</i><span>Pan casero</span><i>·</i>
+      <span>Alfajores</span><i>·</i><span>Medialunas</span><i>·</i><span>Facturas</span><i>·</i><span>Dulce de leche</span><i>·</i><span>Tortas de cumpleaños</span><i>·</i><span>Empanadas dulces</span><i>·</i><span>Pan casero</span><i>·</i>
+    </div>
+  </div>
+
+  <!-- ============ HISTORIA ============ -->
+  <section class="historia" id="historia">
+    <div class="historia__visual" data-reveal>
+      <div class="photo photo--historia">
+        <img src="assets/images/historia.jpg" alt="Manos amasando en el obrador de Añoranza" loading="lazy">
+      </div>
+      <div class="historia__badge" data-float>
+        <svg width="54" height="54" viewBox="0 0 54 54" class="historia__badge-spin" aria-hidden="true">
+          <defs><path id="circlePath" d="M27,27 m-20,0 a20,20 0 1,1 40,0 a20,20 0 1,1 -40,0"/></defs>
+          <text font-size="7.2" letter-spacing="2" fill="currentColor">
+            <textPath href="#circlePath">RECETA DE FAMILIA · DESDE 1998 ·</textPath>
+          </text>
+        </svg>
+        <span class="historia__badge-center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2C12 2 7 8 7 13a5 5 0 0010 0c0-5-5-11-5-11z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+    </div>
+
+    <div class="historia__content">
+      <span class="eyebrow" data-reveal>Nuestra historia</span>
+      <h2 class="section-title" data-reveal>
+        De la cocina de mi abuela<br> a las mesas de Copenhague.
+      </h2>
+      <p class="historia__text" data-reveal>
+        Añoranza nació de una valija, un cuaderno de recetas heredado y muchas ganas
+        de no perder el sabor de Argentina al otro lado del mundo. Horneamos cada
+        alfajor y cada factura como se hacía en casa: despacio, con dulce de leche
+        de verdad y sin apurar el hojaldre.
+      </p>
+      <p class="historia__text" data-reveal>
+        Hoy somos el rincón donde muchos argentinos en Dinamarca vienen a buscar
+        un pedacito de casa &mdash;y donde muchos daneses descubren que el
+        <em>hygge</em> también sabe a dulce de leche.
+      </p>
+
+      <div class="historia__values" data-reveal>
+        <div class="value-chip">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 4h16v4a4 4 0 01-4 4H8a4 4 0 01-4-4V4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 12v6h8v-6M6 20h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span>Ingredientes traídos de Argentina</span>
+        </div>
+        <div class="value-chip">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3v2m6.36.64l-1.41 1.41M21 12h-2M5 12H3m2.05-6.95L6.46 6.46M12 21a8 8 0 100-16 8 8 0 000 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span>Horneado fresco todos los días</span>
+        </div>
+        <div class="value-chip">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7.5-4.6-10-9.3C.5 8.2 2.3 4.8 5.6 4.2 8 3.8 10 5 12 7.4 14 5 16 3.8 18.4 4.2c3.3.6 5.1 4 3.6 7.5C19.5 16.4 12 21 12 21z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          <span>Recetas 100% de familia</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRODUCTOS ============ -->
+  <section class="productos" id="productos">
+    <div class="section-head">
+      <span class="eyebrow" data-reveal>Lo que horneamos</span>
+      <h2 class="section-title" data-reveal>Clásicos que te van a<br>transportar a casa.</h2>
+      <p class="section-lead" data-reveal>
+        Una selección pensada para cada antojo &mdash;del mate de la tarde
+        a la mesa de cumpleaños.
+      </p>
+    </div>
+
+    <div class="productos__grid">
+      <article class="product-card" data-reveal>
+        <div class="photo photo--product">
+          <img src="assets/images/product-alfajores.jpg" alt="Alfajores de dulce de leche" loading="lazy">
+        </div>
+        <div class="product-card__body">
+          <h3>Alfajores</h3>
+          <p>De dulce de leche, bañados en chocolate o con coco. Los de siempre.</p>
+        </div>
+      </article>
+
+      <article class="product-card" data-reveal>
+        <div class="photo photo--product">
+          <img src="assets/images/product-medialunas.jpg" alt="Medialunas de manteca" loading="lazy">
+        </div>
+        <div class="product-card__body">
+          <h3>Medialunas</h3>
+          <p>De manteca, bien dulces y hojaldradas. Ideales para el desayuno.</p>
+        </div>
+      </article>
+
+      <article class="product-card" data-reveal>
+        <div class="photo photo--product">
+          <img src="assets/images/product-facturas.jpg" alt="Facturas surtidas" loading="lazy">
+        </div>
+        <div class="product-card__body">
+          <h3>Facturas</h3>
+          <p>Vigilantes, cañoncitos y sacramentos, como en la panadería de la esquina.</p>
+        </div>
+      </article>
+
+      <article class="product-card" data-reveal>
+        <div class="photo photo--product">
+          <img src="assets/images/product-tortas.jpg" alt="Torta argentina por encargo" loading="lazy">
+        </div>
+        <div class="product-card__body">
+          <h3>Tortas por encargo</h3>
+          <p>Cumpleaños, egresos y festejos con torta de manzana o chocolate argentina.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ CTA MEDIO ============ -->
+  <section class="cta-strip">
+    <div class="cta-strip__inner" data-reveal>
+      <h2>¿Se te antojó un cafecito con algo dulce?</h2>
+      <a href="#contacto" class="btn btn--primary btn--large" data-cursor-hover data-magnetic>
+        <span>Encargar ahora</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIOS ============ -->
+  <section class="testimonios" id="testimonios">
+    <div class="section-head section-head--center">
+      <span class="eyebrow" data-reveal>Lo que dicen de nosotros</span>
+      <h2 class="section-title" data-reveal>Historias con gusto<br>a dulce de leche.</h2>
+    </div>
+
+    <div class="testi-slider" data-reveal>
+      <div class="testi-slider__track" id="testiTrack">
+
+        <article class="testi-card">
+          <div class="testi-card__stars">★★★★★</div>
+          <p>&ldquo;Probé un alfajor y se me llenaron los ojos de lágrimas, literal.
+          Sabe exactamente igual al de mi abuela en Rosario.&rdquo;</p>
+          <div class="testi-card__author">
+            <div class="testi-card__avatar photo photo--avatar">
+              <img src="assets/images/avatar-1.jpg" alt="" loading="lazy">
+            </div>
+            <div>
+              <strong>Valentina M.</strong>
+              <span>Copenhague, DK</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="testi-card">
+          <div class="testi-card__stars">★★★★★</div>
+          <p>&ldquo;Pedimos la torta para el cumpleaños de mi hijo y todos preguntaron
+          la receta. Nadie creía que era &laquo;hecha en casa&raquo; en Dinamarca.&rdquo;</p>
+          <div class="testi-card__author">
+            <div class="testi-card__avatar photo photo--avatar">
+              <img src="assets/images/avatar-2.jpg" alt="" loading="lazy">
+            </div>
+            <div>
+              <strong>Federico R.</strong>
+              <span>Aarhus, DK</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="testi-card">
+          <div class="testi-card__stars">★★★★★</div>
+          <p>&ldquo;Vivo hace 6 años acá y hasta que encontré Añoranza no había vuelto
+          a comer una medialuna de verdad. Ahora voy todos los sábados.&rdquo;</p>
+          <div class="testi-card__author">
+            <div class="testi-card__avatar photo photo--avatar">
+              <img src="assets/images/avatar-3.jpg" alt="" loading="lazy">
+            </div>
+            <div>
+              <strong>Sofía L.</strong>
+              <span>Odense, DK</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="testi-card">
+          <div class="testi-card__stars">★★★★★</div>
+          <p>&ldquo;Mi marido es danés y ahora es más fanático de las facturas que
+          yo. Este lugar es un pedacito de Buenos Aires en Dinamarca.&rdquo;</p>
+          <div class="testi-card__author">
+            <div class="testi-card__avatar photo photo--avatar">
+              <img src="assets/images/avatar-4.jpg" alt="" loading="lazy">
+            </div>
+            <div>
+              <strong>Camila G.</strong>
+              <span>Copenhague, DK</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="testi-slider__controls">
+        <button class="testi-slider__btn" id="testiPrev" aria-label="Anterior" data-cursor-hover>
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 4L3 8l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="testi-slider__btn" id="testiNext" aria-label="Siguiente" data-cursor-hover>
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GALERÍA ============ -->
+  <section class="galeria">
+    <div class="section-head section-head--center">
+      <span class="eyebrow" data-reveal>@anoranza.bakery</span>
+      <h2 class="section-title" data-reveal>Seguinos el rastro<br>de manteca.</h2>
+    </div>
+    <div class="galeria__grid" data-reveal>
+      <div class="photo photo--gallery"><img src="assets/images/gallery-1.jpg" alt="Vitrina de la panadería" loading="lazy"></div>
+      <div class="photo photo--gallery"><img src="assets/images/gallery-2.jpg" alt="Dulce de leche sobre una factura" loading="lazy"></div>
+      <div class="photo photo--gallery"><img src="assets/images/gallery-3.jpg" alt="Mate y medialunas en la mesa" loading="lazy"></div>
+      <div class="photo photo--gallery"><img src="assets/images/gallery-4.jpg" alt="Fachada de la panadería" loading="lazy"></div>
+      <div class="photo photo--gallery"><img src="assets/images/gallery-5.jpg" alt="Caja de alfajores lista para entregar" loading="lazy"></div>
+      <div class="photo photo--gallery"><img src="assets/images/gallery-6.jpg" alt="Interior acogedor de la panadería" loading="lazy"></div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACTO ============ -->
+  <section class="contacto" id="contacto">
+    <div class="contacto__info">
+      <span class="eyebrow" data-reveal>Contacto</span>
+      <h2 class="section-title" data-reveal>Hablemos de tu<br>próximo antojo.</h2>
+      <p class="section-lead" data-reveal>
+        Escribinos para pedidos, encargos de tortas o simplemente para
+        saber cuándo salen las medialunas del horno.
+      </p>
+
+      <ul class="contacto__list" data-reveal>
+        <li>
+          <span class="contacto__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21 10c0 6-9 12-9 12S3 16 3 10a9 9 0 1118 0z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+          </span>
+          <div>
+            <strong>Dirección</strong>
+            <span>Dirección exacta próximamente — Copenhague, Dinamarca</span>
+          </div>
+        </li>
+        <li>
+          <span class="contacto__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.5 2.1L8 9.7a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.5c.9.3 1.8.5 2.7.6a2 2 0 011.7 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          </span>
+          <div>
+            <strong>Teléfono</strong>
+            <span>+45 00 00 00 00</span>
+          </div>
+        </li>
+        <li>
+          <span class="contacto__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 4h16v16H4V4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 6l8 7 8-7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          </span>
+          <div>
+            <strong>Email</strong>
+            <span>hola@anoranza.dk</span>
+          </div>
+        </li>
+        <li>
+          <span class="contacto__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/></svg>
+          </span>
+          <div>
+            <strong>Horario</strong>
+            <span>Mar–Dom · 8:00–18:00</span>
+          </div>
+        </li>
+      </ul>
+
+      <div class="contacto__social" data-reveal>
+        <a href="#" aria-label="Instagram" data-cursor-hover>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor"/></svg>
+        </a>
+        <a href="#" aria-label="Facebook" data-cursor-hover>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M15 8h2V4h-2a4 4 0 00-4 4v2H9v4h2v6h3v-6h2.3l.7-4H14v-1.5c0-.6.4-.5 1-.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <form class="contacto__form" id="contactForm" data-reveal novalidate>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="name">Nombre</label>
+          <input type="text" id="name" name="name" placeholder="Tu nombre" required>
+          <span class="form-field__error">Contanos tu nombre.</span>
+        </div>
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+          <span class="form-field__error">Necesitamos un email válido.</span>
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="phone">Teléfono (opcional)</label>
+        <input type="tel" id="phone" name="phone" placeholder="+45 00 00 00 00">
+      </div>
+      <div class="form-field">
+        <label for="message">Mensaje</label>
+        <textarea id="message" name="message" rows="4" placeholder="Contame qué antojo tenés…" required></textarea>
+        <span class="form-field__error">Escribinos un mensaje.</span>
+      </div>
+
+      <button type="submit" class="btn btn--primary btn--large form-submit" data-cursor-hover data-magnetic>
+        <span class="form-submit__label">Enviar mensaje</span>
+        <span class="form-submit__loading" aria-hidden="true"></span>
+      </button>
+
+      <p class="form-success" id="formSuccess" role="status">
+        ¡Gracias! Recibimos tu mensaje y te vamos a responder a la brevedad. 💙
+      </p>
+    </form>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="footer__top">
+    <a href="#inicio" class="nav__logo footer__logo">
+      <span class="nav__logo-mark">A</span>
+      <span class="nav__logo-text">Añoranza</span>
+    </a>
+    <p>Panadería y pastelería argentina, horneada con nostalgia en Dinamarca.</p>
+  </div>
+
+  <div class="footer__links">
+    <div>
+      <strong>Navegación</strong>
+      <a href="#historia">Historia</a>
+      <a href="#productos">Productos</a>
+      <a href="#testimonios">Testimonios</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+    <div>
+      <strong>Seguinos</strong>
+      <a href="#">Instagram</a>
+      <a href="#">Facebook</a>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <span>© <span id="year"></span> Añoranza Bakery. Todos los derechos reservados.</span>
+    <span>Hecho con 💙 en Dinamarca</span>
+  </div>
+</footer>
+
+<!-- ============ CHAT DE SOPORTE (IA) ============ -->
+<div class="chat-widget" id="chatWidget">
+  <div class="chat-panel" id="chatPanel" role="dialog" aria-label="Asistente de soporte de Añoranza" aria-hidden="true">
+    <div class="chat-panel__header">
+      <div class="chat-panel__title">
+        <span class="chat-panel__avatar">A</span>
+        <div>
+          <strong>Asistente Añoranza</strong>
+          <span class="chat-panel__status"><i></i>En línea</span>
+        </div>
+      </div>
+      <button class="chat-panel__close" id="chatClose" aria-label="Cerrar chat" type="button">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <div class="chat-panel__messages" id="chatMessages"></div>
+
+    <div class="chat-panel__quick" id="chatQuick">
+      <button class="chat-chip" type="button" data-q="¿Qué tipo de facturas venden?">¿Qué facturas tienen?</button>
+      <button class="chat-chip" type="button" data-q="¿Puedo encargar y retirar en el local?">¿Retiro en el local?</button>
+      <button class="chat-chip" type="button" data-q="¿Cuál es el horario de atención?">Horarios</button>
+    </div>
+
+    <form class="chat-panel__form" id="chatForm">
+      <input type="text" id="chatInput" placeholder="Escribí tu pregunta…" autocomplete="off" maxlength="500" aria-label="Tu pregunta">
+      <button type="submit" class="chat-panel__send" id="chatSend" aria-label="Enviar">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </form>
+
+    <p class="chat-panel__disclaimer">Respuestas generadas por IA. Para pedidos importantes, escribinos a <a href="mailto:hola@anoranza.dk">hola@anoranza.dk</a>.</p>
+  </div>
+
+  <button class="chat-fab" id="chatFab" aria-label="Abrir asistente de soporte" aria-expanded="false" type="button">
+    <svg class="chat-fab__icon-chat" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    <svg class="chat-fab__icon-close" width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+</div>
+
+<script src="js/main.js"></script>
+<script src="js/chat.js"></script>
+</body>
+</html>

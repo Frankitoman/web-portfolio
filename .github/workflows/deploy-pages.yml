@@ -1,11 +1,8 @@
-name: Deploy Panaderia to GitHub Pages
+name: Deploy portfolio hub to GitHub Pages
 
 on:
   push:
     branches: [main]
-    paths:
-      - "Panaderia/**"
-      - ".github/workflows/deploy-pages.yml"
   workflow_dispatch:
 
 permissions:
@@ -27,13 +24,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Stage site files only
+        run: |
+          mkdir _site
+          cp -r assets css js index.html _site/
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "Panaderia"
+          path: "_site"
 
       - name: Deploy to GitHub Pages
         id: deployment

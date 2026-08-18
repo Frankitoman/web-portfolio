@@ -4,7 +4,7 @@
 (function () {
   'use strict';
 
-  var CHAT_ENDPOINT = "https://web-portfolio-lac-five.vercel.app/api/chat";
+  var CHAT_ENDPOINT = "https://anoranza-gemini-proxy.francojmansilla.workers.dev";
 
   var GREETING = "¡Hola! 👋 Soy el asistente virtual de Añoranza. Puedo ayudarte con dudas sobre nuestros productos, pedidos u horarios. ¿En qué te ayudo?";
   var FALLBACK_ERROR = "No pudimos conectar con el asistente en este momento. Mientras tanto, escribinos a hola@anoranza.dk y te respondemos apenas podamos.";

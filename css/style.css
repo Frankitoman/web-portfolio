@@ -211,24 +211,24 @@ main > section, .contacto {
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 /* ---------- PROYECTOS ---------- */
+/* Catálogo compacto: todas las tarjetas del mismo tamaño (en vivo o no),
+   como fichas de producto — sin ninguna ocupando 2x2 celdas. */
 .proyectos { padding-top: var(--section-pad); padding-bottom: var(--section-pad); }
-.proyectos__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; }
+.proyectos__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1rem; }
 .project-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   overflow: hidden;
   transition: transform .5s var(--ease-out), border-color .5s ease;
   display: flex; flex-direction: column;
 }
-.project-card--live { grid-column: span 2; grid-row: span 2; }
 .project-card:hover { transform: translateY(-6px); border-color: rgba(255,255,255,.18); }
 
 .project-card__preview { display: block; aspect-ratio: 16/11; background: var(--surface-2); position: relative; overflow: hidden; }
-.project-card--live .project-card__preview { aspect-ratio: 16/10; }
 .project-card__browser { width: 100%; height: 100%; display: flex; flex-direction: column; }
-.project-card__browser-bar { display: flex; gap: 6px; padding: .7rem .9rem; background: #0D1220; }
-.project-card__browser-bar i { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.15); }
+.project-card__browser-bar { display: flex; gap: 5px; padding: .5rem .7rem; background: #0D1220; }
+.project-card__browser-bar i { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.15); }
 .project-card__browser img { width: 100%; flex: 1; object-fit: cover; object-position: top; transition: transform .6s var(--ease-out); }
 .project-card:hover .project-card__browser img { transform: scale(1.04); }
 
@@ -239,35 +239,34 @@ main > section, .contacto {
   background-size: 20px 20px;
 }
 
-.project-card__body { padding: 1.5rem 1.6rem 1.7rem; display: flex; flex-direction: column; gap: .7rem; flex: 1; }
-.project-card--live .project-card__body { padding: 1.8rem 2rem 2rem; }
-.project-card__top { display: flex; align-items: center; justify-content: space-between; gap: .8rem; }
-.project-card__top h3 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; color: var(--ink); }
-.project-card--live .project-card__top h3 { font-size: 1.5rem; }
+.project-card__body { padding: 1rem 1.1rem 1.2rem; display: flex; flex-direction: column; gap: .45rem; flex: 1; }
+.project-card__top { display: flex; align-items: center; justify-content: space-between; gap: .6rem; }
+.project-card__top h3 { font-family: var(--font-display); font-size: .96rem; font-weight: 600; color: var(--ink); }
 .project-card__status {
-  font-size: .68rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
-  padding: .3rem .65rem; border-radius: var(--radius-pill);
+  font-size: .6rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+  padding: .24rem .55rem; border-radius: var(--radius-pill);
   background: rgba(255,255,255,.06); color: var(--ink-soft);
   flex-shrink: 0;
 }
 .project-card__status--live { background: rgba(52,211,153,.14); color: var(--green); }
-.project-card__body p { font-size: .88rem; color: var(--ink-soft); line-height: 1.6; flex-grow: 1; }
-.project-card__tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+.project-card__body p { font-size: .76rem; color: var(--ink-soft); line-height: 1.5; flex-grow: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.project-card__tags { display: flex; flex-wrap: wrap; gap: .35rem; }
 .project-card__tags span {
-  font-size: .74rem; font-weight: 600; color: var(--accent);
-  background: var(--accent-soft); padding: .3rem .65rem; border-radius: var(--radius-pill);
+  font-size: .66rem; font-weight: 600; color: var(--accent);
+  background: var(--accent-soft); padding: .22rem .55rem; border-radius: var(--radius-pill);
 }
-.project-card__link { display: inline-flex; align-items: center; gap: .4rem; font-size: .88rem; font-weight: 600; color: var(--accent); margin-top: .3rem; }
+.project-card__link { display: inline-flex; align-items: center; gap: .35rem; font-size: .78rem; font-weight: 600; color: var(--accent); margin-top: .15rem; }
 .project-card__link svg { transition: transform .3s var(--ease-out); }
 .project-card:hover .project-card__link svg { transform: translateX(3px); }
 
 @media (max-width: 1080px) {
-  .proyectos__grid { grid-template-columns: repeat(2, 1fr); }
-  .project-card--live { grid-column: span 2; }
+  .proyectos__grid { grid-template-columns: repeat(3, 1fr); }
 }
-@media (max-width: 640px) {
+@media (max-width: 760px) {
+  .proyectos__grid { grid-template-columns: repeat(2, 1fr); gap: .8rem; }
+}
+@media (max-width: 460px) {
   .proyectos__grid { grid-template-columns: 1fr; }
-  .project-card--live { grid-column: span 1; }
 }
 
 /* ---------- SERVICIOS ---------- */

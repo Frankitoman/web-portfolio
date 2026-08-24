@@ -19,7 +19,7 @@
 <span data-sc-progress></span>
 <div class="sc-grain" aria-hidden="true"></div>
 
-<a class="skip-link" href="#contacto-cta">Ir al contacto</a>
+<a class="skip-link" href="#contacto-cta" data-i18n="skip_link">Ir al contacto</a>
 
 <header class="topbar">
   <a href="/" class="topbar__brand">
@@ -32,6 +32,18 @@
     </svg>
     <span>Tierra</span>
   </a>
+
+  <div class="lang-switch" role="group" aria-label="Idioma / Language / Sprog">
+    <svg class="lang-switch__peak" width="15" height="15" viewBox="0 0 100 100" aria-hidden="true">
+      <polygon points="50,12 12,88 88,88" fill="#8b97a3"/>
+      <polygon points="50,12 40,46 60,46" fill="#d9713c"/>
+    </svg>
+    <button type="button" class="lang-switch__btn" data-lang="es" aria-pressed="true">ES</button>
+    <span class="lang-switch__sep" aria-hidden="true"></span>
+    <button type="button" class="lang-switch__btn" data-lang="en" aria-pressed="false">EN</button>
+    <span class="lang-switch__sep" aria-hidden="true"></span>
+    <button type="button" class="lang-switch__btn" data-lang="da" aria-pressed="false">DA</button>
+  </div>
 </header>
 
 <!-- ============ EL SENDERO — waypoint map / signature move ============ -->
@@ -40,11 +52,11 @@
     <path class="sendero__track" d="M 30 8 C 12 42, 46 60, 20 96 C 4 122, 42 140, 26 168 C 14 188, 40 198, 30 212"/>
     <path class="sendero__lit" d="M 30 8 C 12 42, 46 60, 20 96 C 4 122, 42 140, 26 168 C 14 188, 40 198, 30 212"/>
   </svg>
-  <button type="button" class="sendero__dot" data-leg="0" style="--sy:8" aria-current="true"><span>Cresta</span></button>
-  <button type="button" class="sendero__dot" data-leg="1" style="--sy:60"><span>Valle</span></button>
-  <button type="button" class="sendero__dot" data-leg="2" style="--sy:122"><span>Ladera</span></button>
-  <button type="button" class="sendero__dot" data-leg="3" style="--sy:168"><span>Bifurcación</span></button>
-  <button type="button" class="sendero__dot" data-leg="4" style="--sy:212"><span>Ventana</span></button>
+  <button type="button" class="sendero__dot" data-leg="0" aria-current="true"><span data-i18n="leg_cresta">Cresta</span></button>
+  <button type="button" class="sendero__dot" data-leg="1"><span data-i18n="leg_valle">Valle</span></button>
+  <button type="button" class="sendero__dot" data-leg="2"><span data-i18n="leg_ladera">Ladera</span></button>
+  <button type="button" class="sendero__dot" data-leg="3"><span data-i18n="leg_bifurcacion">Bifurcación</span></button>
+  <button type="button" class="sendero__dot" data-leg="4"><span data-i18n="leg_ventana">Ventana</span></button>
 </nav>
 
 <main data-sc-mode="worldflight" data-sc-seam="0.32" data-sc-lerp="0.12">
@@ -58,11 +70,11 @@
          data-sc-waypoint labels (copy windows, nav dots, dark-scrim legs). -->
     <img class="sc-journey" src="assets/sendero/journey.svg" alt="La cordillera, de la cresta al valle, la ladera, el cruce del sendero y la ventana encendida de noche" decoding="async">
 
-    <div data-sc-segment data-sc-w="1.3" data-sc-linger="0.3" data-sc-waypoint="Cresta"></div>
-    <div data-sc-segment data-sc-w="1.5" data-sc-linger="0.2" data-sc-waypoint="Valle"></div>
-    <div data-sc-segment data-sc-w="2.1" data-sc-linger="0.42" data-sc-waypoint="Ladera"></div>
-    <div data-sc-segment data-sc-w="1.9" data-sc-linger="0.15" data-sc-waypoint="Bifurcación"></div>
-    <div data-sc-segment data-sc-w="1.5" data-sc-linger="0.3" data-sc-waypoint="Ventana"></div>
+    <div data-sc-segment data-sc-w="1.5" data-sc-linger="0.3" data-sc-waypoint="Cresta"></div>
+    <div data-sc-segment data-sc-w="1.7" data-sc-linger="0.2" data-sc-waypoint="Valle"></div>
+    <div data-sc-segment data-sc-w="2.5" data-sc-linger="0.42" data-sc-waypoint="Ladera"></div>
+    <div data-sc-segment data-sc-w="2.2" data-sc-linger="0.15" data-sc-waypoint="Bifurcación"></div>
+    <div data-sc-segment data-sc-w="1.7" data-sc-linger="0.3" data-sc-waypoint="Ventana"></div>
 
   </div>
 
@@ -73,65 +85,81 @@
 
     <!-- 1 · Cresta — quietud, sostenida -->
     <div class="sc-copy sc-copy--lead copy--dawn" data-sc-copy data-sc-window="hero">
-      <p class="copy__eyebrow">Disponible para nuevos negocios</p>
-      <h1 class="copy__title">
+      <p class="copy__eyebrow" data-i18n="hero_eyebrow">Disponible para nuevos negocios</p>
+      <h1 class="copy__title" data-i18n="hero_title">
         <span class="mix-plain">Todo negocio merece</span><br>
         <span class="mix-accent">un hogar digital.</span>
       </h1>
-      <p class="copy__lead">Diseño y desarrollo sitios a medida — no una plantilla con tu logo pegado encima. Un solo interlocutor, de punta a punta.</p>
+      <p class="copy__lead" data-i18n="hero_lead">Diseño y desarrollo sitios a medida — no una plantilla con tu logo pegado encima. Un solo interlocutor, de punta a punta.</p>
     </div>
 
     <!-- 2 · Valle — reconocimiento -->
-    <div class="sc-copy sc-copy--trail copy--day" data-sc-copy data-sc-window="0.174 0.330">
-      <p class="copy__eyebrow">Trabajos</p>
-      <h2 class="copy__title copy__title--md">Negocios que ya<br>tienen su lugar.</h2>
-      <p class="copy__lead">Cada uno con su propia identidad — pensado desde cero para representar lo que ya construyeron, no para parecerse al del vecino.</p>
+    <div class="sc-copy sc-copy--trail copy--day" data-sc-copy data-sc-window="0.182 0.318">
+      <p class="copy__eyebrow" data-i18n="valle_eyebrow">Trabajos</p>
+      <h2 class="copy__title copy__title--md" data-i18n="valle_title">Negocios que ya<br>tienen su lugar.</h2>
+      <p class="copy__lead" data-i18n="valle_lead">Cada uno con su propia identidad — pensado desde cero para representar lo que ya construyeron, no para parecerse al del vecino.</p>
       <ul class="copy__linklist">
         <li><a href="https://anoranza-bakery.francojmansilla.workers.dev/" target="_blank" rel="noopener">Añoranza</a></li>
         <li><a href="https://duosonus.dk/" target="_blank" rel="noopener">Duo Sonus</a></li>
         <li><a href="https://froken.francojmansilla.workers.dev/" target="_blank" rel="noopener">FRØKEN</a></li>
         <li><a href="https://wandering-die.francojmansilla.workers.dev/" target="_blank" rel="noopener">The Wandering Die</a></li>
       </ul>
-      <p class="copy__fact">Directo: hablás conmigo, no con un equipo de ventas.</p>
+      <p class="copy__fact" data-i18n="valle_fact">Directo: hablás conmigo, no con un equipo de ventas.</p>
     </div>
 
     <!-- 3 · Ladera — EL PICO -->
-    <div class="sc-copy sc-copy--center copy--peak" data-sc-copy data-sc-window="0.343 0.582">
-      <p class="copy__eyebrow">Quién está del otro lado</p>
-      <h2 class="copy__title copy__title--lg">
+    <div class="sc-copy sc-copy--center copy--peak" data-sc-copy data-sc-window="0.349 0.578">
+      <p class="copy__eyebrow" data-i18n="ladera_eyebrow">Quién está del otro lado</p>
+      <h2 class="copy__title copy__title--lg" data-i18n="ladera_title">
         <span class="mix-plain">Construyo cada sitio</span><br>
         <span class="mix-accent">como si fuera el mío.</span>
       </h2>
-      <p class="copy__lead">Soy Franco, y Tierra es mi estudio — trabajo solo, basado en Dinamarca. Me dedico a que pequeños negocios tengan, por fin, una identidad propia en internet.</p>
-      <p class="copy__lead">Sin intermediarios ni procesos de agencia: cada decisión, chica o grande, la tomamos entre los dos.</p>
+      <p class="copy__lead" data-i18n="ladera_lead1">Soy Franco, y Tierra es mi estudio — trabajo solo, basado en Dinamarca. Me dedico a que pequeños negocios tengan, por fin, una identidad propia en internet.</p>
+      <p class="copy__lead" data-i18n="ladera_lead2">Sin intermediarios ni procesos de agencia: cada decisión, chica o grande, la tomamos entre los dos.</p>
     </div>
 
     <!-- 4 · Bifurcación — dos caminos, uno a cada lado del sendero -->
-    <div class="sc-copy sc-copy--lead copy--dusk plan-card" data-sc-copy data-sc-window="0.620 0.789">
-      <p class="copy__eyebrow">Cómo trabajamos</p>
-      <p class="plan-card__name">Plan A</p>
-      <p class="plan-card__price">700 kr. <span class="plan-card__unit">/ mes</span></p>
-      <p class="copy__lead">Yo mantengo el sitio, vos solo lo usás. Sin ataduras técnicas.</p>
+    <div class="sc-copy sc-copy--lead copy--dusk plan-card" data-sc-copy data-sc-window="0.609 0.807">
+      <p class="copy__eyebrow" data-i18n="plan_a_eyebrow">Cómo trabajamos</p>
+      <p class="plan-card__name" data-i18n="plan_a_name">Plan A</p>
+      <p class="plan-card__price"><span data-i18n="plan_a_price">700 kr.</span> <span class="plan-card__unit" data-i18n="plan_a_unit">/ mes</span></p>
+      <p class="copy__lead" data-i18n="plan_a_lead">Yo diseño, publico y mantengo tu sitio — vos solo avisás qué cambiar. Incluye hosting, actualizaciones y ajustes chicos todo el tiempo que lo uses.</p>
+      <p class="copy__fact" data-i18n="plan_a_fact">Ideal si querés arrancar rápido y no pensar en lo técnico nunca más.</p>
     </div>
-    <div class="sc-copy sc-copy--trail copy--dusk plan-card plan-card--b" data-sc-copy data-sc-window="0.620 0.789">
-      <p class="copy__eyebrow">Control total</p>
-      <p class="plan-card__name">Plan B</p>
-      <p class="plan-card__price">20.000 kr. <span class="plan-card__unit">pago único</span></p>
-      <p class="copy__lead">El sitio queda enteramente tuyo, sin mensualidad.</p>
+    <div class="sc-copy sc-copy--trail copy--dusk plan-card plan-card--b" data-sc-copy data-sc-window="0.609 0.807">
+      <p class="copy__eyebrow" data-i18n="plan_b_eyebrow">Control total</p>
+      <p class="plan-card__name" data-i18n="plan_b_name">Plan B</p>
+      <p class="plan-card__price"><span data-i18n="plan_b_price">20.000 kr.</span> <span class="plan-card__unit" data-i18n="plan_b_unit">pago único</span></p>
+      <p class="copy__lead" data-i18n="plan_b_lead">Te entrego el sitio terminado, con el código y el dominio a tu nombre. De ahí en más es enteramente tuyo — lo alojás donde quieras.</p>
+      <p class="copy__fact" data-i18n="plan_b_fact">Ideal si preferís pagar una vez y no depender de nadie después.</p>
     </div>
 
     <!-- 5 · Ventana — alivio, resuelve -->
     <div class="sc-copy sc-copy--trail copy--night" data-sc-copy data-sc-window="finale">
-      <p class="copy__eyebrow">Contacto</p>
-      <h2 class="copy__title copy__title--md">
+      <p class="copy__eyebrow" data-i18n="ventana_eyebrow">Contacto</p>
+      <h2 class="copy__title copy__title--md" data-i18n="ventana_title">
         <span class="mix-plain">Démosle a tu negocio</span><br>
         <span class="mix-accent">su lugar propio.</span>
       </h2>
-      <p class="copy__lead">Contame de qué se trata y qué te gustaría lograr. Sin compromiso — solo para ver si encajamos.</p>
-      <a id="contacto-cta" class="copy__cta" href="mailto:francojmansilla@gmail.com?subject=Nuevo%20mensaje%20desde%20Tierra">
-        Escribime
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
+      <p class="copy__lead" data-i18n="ventana_lead">Contame de qué se trata y qué te gustaría lograr. Sin compromiso — solo para ver si encajamos.</p>
+
+      <form id="contactForm" class="contact-form-compact" novalidate>
+        <span id="contacto-cta" tabindex="-1"></span>
+        <div class="contact-form-compact__row">
+          <input type="text" name="name" autocomplete="name" data-i18n-placeholder="form_name" placeholder="Nombre" required>
+          <input type="email" name="email" autocomplete="email" data-i18n-placeholder="form_email" placeholder="Email" required>
+        </div>
+        <textarea name="message" rows="2" data-i18n-placeholder="form_message" placeholder="Mensaje" required></textarea>
+        <input type="text" name="company" class="contact-form-compact__hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="contact-form-compact__row contact-form-compact__row--end">
+          <p class="contact-form-compact__error" id="contactFormError" hidden data-i18n="form_error">Completá tu nombre, email y mensaje.</p>
+          <button type="submit" class="copy__cta">
+            <span data-i18n="form_submit">Enviar</span>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <p class="contact-form-compact__note" data-i18n="form_note">Se abre tu programa de mail con todo ya escrito.</p>
+      </form>
     </div>
   </div>
 
@@ -140,6 +168,31 @@
 
 <script src="js/scrollcraft.js"></script>
 <script src="js/sendero.js"></script>
-<script>ScrollCraft.mount(document.body);</script>
+<script src="js/i18n-sendero.js"></script>
+<script>
+  ScrollCraft.mount(document.body);
+
+  // Mailto stand-in until a custom domain + Cloudflare Email Routing exist
+  // (same pattern as duo-sonus/src/index.js) — opens the visitor's own mail
+  // app with the message pre-filled, rather than posting anywhere.
+  (function () {
+    var form = document.getElementById('contactForm');
+    if (!form) return;
+    var errorEl = document.getElementById('contactFormError');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = form.name.value.trim();
+      var email = form.email.value.trim();
+      var message = form.message.value.trim();
+      if (form.company.value.trim()) return;
+      if (!name || !email || !message) { if (errorEl) errorEl.hidden = false; return; }
+      if (errorEl) errorEl.hidden = true;
+      var subject = 'Nuevo mensaje desde Tierra — ' + name;
+      var body = 'Nombre: ' + name + '\nEmail: ' + email + '\n\n' + message;
+      window.location.href = 'mailto:francojmansilla@gmail.com' +
+        '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    });
+  })();
+</script>
 </body>
 </html>

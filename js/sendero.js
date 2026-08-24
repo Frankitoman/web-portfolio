@@ -34,6 +34,31 @@
   litPath.style.strokeDasharray = String(len);
   litPath.style.strokeDashoffset = String(len);
 
+  // Waypoint dots are placed from the path's own drawn geometry, not
+  // hand-picked coordinates: a fixed horizontal centre line looked right for
+  // most of them by luck, but the path genuinely bows left partway down (the
+  // second bend), so the third dot sat visibly off the actual curve there.
+  // Evenly spaced by arc length, same as before, just measured instead of
+  // guessed. --sy on the buttons in index.html is no longer read.
+  var railEl = document.querySelector('.sendero');
+  var railSvg = document.querySelector('.sendero__path');
+  var railBox = railSvg && railSvg.viewBox && railSvg.viewBox.baseVal;
+  function placeDots() {
+    // Hidden (display:none) below 720px — clientWidth/Height would read 0
+    // and place every dot at the origin. Harmless (nothing paints), but
+    // skip the divide-by-zero and leave them for when the rail is visible.
+    if (!railBox || !railEl.clientWidth) return;
+    var sx = railEl.clientWidth / railBox.width;
+    var sy = railEl.clientHeight / railBox.height;
+    dots.forEach(function (d, i) {
+      var pt = litPath.getPointAtLength(len * (i / Math.max(dots.length - 1, 1)));
+      d.style.left = (pt.x * sx).toFixed(2) + 'px';
+      d.style.top = (pt.y * sy).toFixed(2) + 'px';
+    });
+  }
+  addEventListener('resize', placeDots);
+  placeDots();
+
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var raf = null;
 

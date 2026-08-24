@@ -6,17 +6,21 @@
 (function () {
   'use strict';
 
-  // worldflight.md §7b: one resize once layout/fonts have settled, or the
-  // spacer can be measured against a pre-font-swap height (or, in some
-  // embedded preview panes, against innerHeight=0 at the moment mount() ran,
-  // which leaves the track at 0px and the page looking un-scrollable while
-  // reporting no error at all). Several independent triggers, all cheap and
-  // idempotent, so whichever one lands in a valid layout wins.
-  function relayout() { dispatchEvent(new Event('resize')); }
-  addEventListener('DOMContentLoaded', relayout);
-  addEventListener('load', relayout);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
-  setTimeout(relayout, 300);
+  // Mobile browsers fire a real 'resize' event every time the address bar
+  // shows or hides on scroll — innerHeight changes, nothing about the
+  // window actually did. Re-sizing the journey image and re-measuring the
+  // rail against that is what read as "harsh cuts" instead of a smooth pan:
+  // the image's own height (and therefore the whole pan range and where the
+  // peak/house land) would jump mid-scroll for no real layout reason. Only
+  // innerWidth distinguishes a genuine resize/rotation from a toolbar
+  // toggle, so that's the only thing this gates on.
+  var lastWidth = window.innerWidth;
+  function widthChanged() {
+    var w = window.innerWidth;
+    if (w === lastWidth) return false;
+    lastWidth = w;
+    return true;
+  }
 
   var mode = document.querySelector('[data-sc-mode="worldflight"]');
   var segEls = Array.prototype.slice.call(document.querySelectorAll('[data-sc-segment]'));
@@ -56,8 +60,6 @@
       d.style.top = (pt.y * sy).toFixed(2) + 'px';
     });
   }
-  addEventListener('resize', placeDots);
-  placeDots();
 
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var raf = null;
@@ -77,8 +79,21 @@
     journeyImg.style.height = imgH + 'px';
     journeyPanRange = Math.max(0, imgH - vh);
   }
-  addEventListener('resize', sizeJourney);
-  sizeJourney();
+
+  // The real settling sequence: called directly, not through a synthetic
+  // 'resize' dispatch, so it never gets confused with the toolbar-toggle
+  // noise the native listener below has to filter out.
+  function layout() { sizeJourney(); placeDots(); requestTick(); }
+  addEventListener('DOMContentLoaded', layout);
+  addEventListener('load', layout);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+  setTimeout(layout, 300);
+  layout();
+
+  // The native 'resize' event doubles as "the toolbar just moved" on every
+  // mobile browser, dozens of times over one scroll — re-sizing the journey
+  // image against that mid-pan is exactly the "harsh cut" this filters out.
+  addEventListener('resize', function () { if (widthChanged()) layout(); });
 
   function currentLeg(pr) {
     var t = pr * total;
@@ -96,7 +111,7 @@
 
     if (!reduce) {
       litPath.style.strokeDashoffset = String(len * (1 - pr));
-      if (journeyImg) journeyImg.style.transform = 'translateY(' + (-pr * journeyPanRange).toFixed(1) + 'px)';
+      if (journeyImg) journeyImg.style.transform = 'translate3d(0,' + (-pr * journeyPanRange).toFixed(1) + 'px,0)';
     }
 
     var k = currentLeg(pr);
@@ -117,7 +132,7 @@
       var i = 0;
       segEls.forEach(function (el, idx) { if (el.getAttribute('data-sc-waypoint') === (e.detail && e.detail.label)) i = idx; });
       var legMidPr = (bounds[i] + weights[i] / 2) / total;
-      journeyImg.style.transform = 'translateY(' + (-legMidPr * journeyPanRange).toFixed(1) + 'px)';
+      journeyImg.style.transform = 'translate3d(0,' + (-legMidPr * journeyPanRange).toFixed(1) + 'px,0)';
     });
   }
 

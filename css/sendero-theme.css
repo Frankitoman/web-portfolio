@@ -287,9 +287,14 @@ body { background: var(--sc-canvas); }
      lands exactly on top of A. There's no room to keep them side by side
      here, so stack B above A instead, both left-aligned. */
   .plan-card--b {
-    bottom: calc(clamp(3rem, 12vh, 9rem) + 21rem);
+    bottom: calc(clamp(3rem, 12vh, 9rem) + 17rem);
     text-align: left;
   }
+
+  /* Two full price cards stacked is a lot of reading on a phone. Drop the
+     "ideal if..." line on both — the eyebrow, name, price and one sentence
+     carry the decision; the qualifier is the part a thumb can skip. */
+  .plan-card .copy__fact { display: none; }
 }
 
 @media (max-width: 720px) {

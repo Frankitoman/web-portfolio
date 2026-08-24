@@ -223,7 +223,10 @@ body { background: var(--sc-canvas); }
 .contact-form-compact textarea {
   flex: 1; min-width: 0; width: 100%;
   font-family: var(--sc-font-text); font-size: .85rem;
-  background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.28);
+  /* A solid dark fill, not a translucent one: this form sits over the lit
+     window in the scene, and a see-through field over a warm glow reads as
+     a beige/orange smear instead of a clean input. */
+  background: rgba(10,12,16,.62); border: 1px solid rgba(255,255,255,.28);
   border-radius: 8px; padding: .55rem .75rem; color: #fff;
   resize: none;
 }
@@ -292,6 +295,12 @@ body { background: var(--sc-canvas); }
 @media (max-width: 720px) {
   .sendero { display: none; }
 
+  /* Bigger type and a real touch target — .15rem/.1rem padding around .74rem
+     text is a ~20x14px hit area, well under the ~44px a thumb needs. */
+  .lang-switch { gap: .3rem; padding: .4rem .65rem; }
+  .lang-switch__btn { font-size: .8rem; padding: .5rem .3rem; }
+  .lang-switch__sep { height: 1em; }
+
   /* Ladera's copy block runs near full viewport width on a narrow screen
      (the 30rem max-width never binds), so the ellipse sized for desktop's
      much narrower centred column leaves the eyebrow and the ends of the
@@ -326,10 +335,10 @@ body { background: var(--sc-canvas); }
      toward the top where the house's roofline sits. */
   .sc-scrim-dark--corner {
     background: linear-gradient(to top,
-      color-mix(in oklab, var(--sc-ink) 90%, transparent) 0%,
-      color-mix(in oklab, var(--sc-ink) 70%, transparent) 32%,
-      color-mix(in oklab, var(--sc-ink) 34%, transparent) 55%,
-      transparent 76%);
+      color-mix(in oklab, var(--sc-ink) 94%, transparent) 0%,
+      color-mix(in oklab, var(--sc-ink) 86%, transparent) 40%,
+      color-mix(in oklab, var(--sc-ink) 55%, transparent) 62%,
+      transparent 82%);
   }
 }
 

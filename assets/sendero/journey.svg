@@ -33,7 +33,10 @@
   <polygon points="0,610 260,510 420,550 560,390 700,510 760,450 820,510 980,410 1180,550 1360,490 1600,570 1600,900 0,900" fill="#8b97a3"/>
   <!-- the tallest peak, echoing the mark — enlarged so it dominates the load frame -->
   <polygon points="620,100 470,590 770,590" fill="#8b97a3"/>
-  <polygon points="620,100 680,315 560,315" fill="#d9713c" opacity="0.85"/>
+  <!-- Ember cap base at the exact edge-intersection points (t=0.44 along
+       each side from the apex), not eyeballed — a mismatch here reads as a
+       sliver of the peak's own colour showing past the orange tip. -->
+  <polygon points="620,100 686,316 554,316" fill="#d9713c" opacity="0.85"/>
   <polygon points="0,900 0,820 300,780 620,830 900,790 1200,830 1600,800 1600,900" fill="#1c232b"/>
 
   <!-- ============================================================ -->
@@ -88,12 +91,16 @@
   <!-- ============================================================ -->
   <polygon points="0,3860 400,3780 800,3840 1200,3760 1600,3800 1600,4500 0,4500" fill="#4f9d8a" opacity="0.14"/>
   <polygon points="0,4120 300,4040 620,4100 940,4020 1260,4100 1600,4040 1600,4500 0,4500" fill="#12171d"/>
-  <polygon points="680,4120 800,4020 920,4120 920,4280 680,4280" fill="#0f1319"/>
-  <polygon points="680,4120 800,4020 800,4120" fill="#1c232b"/>
-  <rect x="760" y="4160" width="80" height="120" fill="url(#warmglow)"/>
-  <rect x="772" y="4172" width="56" height="96" fill="#d9713c"/>
-  <rect x="712" y="4160" width="30" height="30" fill="#d9713c" opacity="0.8"/>
-  <rect x="860" y="4160" width="30" height="30" fill="#d9713c" opacity="0.8"/>
+  <!-- Shifted down ~138 so the house's own centre lands in the middle of the
+       viewport-tall slice that's actually visible once the pan reaches its
+       end (visible range = last 4500/(total+1) viewBox units, currently
+       ~[4075, 4500] — recompute this offset if the leg weights change). -->
+  <polygon points="680,4258 800,4158 920,4258 920,4418 680,4418" fill="#0f1319"/>
+  <polygon points="680,4258 800,4158 800,4258" fill="#1c232b"/>
+  <rect x="760" y="4298" width="80" height="120" fill="url(#warmglow)"/>
+  <rect x="772" y="4310" width="56" height="96" fill="#d9713c"/>
+  <rect x="712" y="4298" width="30" height="30" fill="#d9713c" opacity="0.8"/>
+  <rect x="860" y="4298" width="30" height="30" fill="#d9713c" opacity="0.8"/>
 
   <!-- ============================================================ -->
   <!-- foreground rock, near-silhouette (Cresta's own trail start)   -->

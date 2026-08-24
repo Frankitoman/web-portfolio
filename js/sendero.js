@@ -37,6 +37,24 @@
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var raf = null;
 
+  // The continuous journey image (one asset, one camera move down the
+  // mountain — see index.html). Sized to (total + 1) viewport-heights, the
+  // same formula the engine uses for the spacer, so the pan finishes exactly
+  // as the last leg's copy does. Under reduced motion it doesn't track scroll
+  // pixel-by-pixel; like the engine's own leg opacity, it jumps once per leg
+  // instead (see the sc:waypoint listener below), never a smooth camera move.
+  var journeyImg = document.querySelector('.sc-journey');
+  var journeyPanRange = 0;
+  function sizeJourney() {
+    if (!journeyImg) return;
+    var vh = window.innerHeight || 1;
+    var imgH = (total + 1) * vh;
+    journeyImg.style.height = imgH + 'px';
+    journeyPanRange = Math.max(0, imgH - vh);
+  }
+  addEventListener('resize', sizeJourney);
+  sizeJourney();
+
   function currentLeg(pr) {
     var t = pr * total;
     var k = 0;
@@ -51,7 +69,10 @@
     var t = Math.max(0, (window.scrollY - top) / vh);
     var pr = Math.min(1, t / Math.max(total, 0.001));
 
-    if (!reduce) litPath.style.strokeDashoffset = String(len * (1 - pr));
+    if (!reduce) {
+      litPath.style.strokeDashoffset = String(len * (1 - pr));
+      if (journeyImg) journeyImg.style.transform = 'translateY(' + (-pr * journeyPanRange).toFixed(1) + 'px)';
+    }
 
     var k = currentLeg(pr);
     dots.forEach(function (d, i) {
@@ -65,6 +86,15 @@
   addEventListener('scroll', requestTick, { passive: true });
   addEventListener('resize', requestTick);
   tick();
+
+  if (reduce && journeyImg) {
+    mode.addEventListener('sc:waypoint', function (e) {
+      var i = 0;
+      segEls.forEach(function (el, idx) { if (el.getAttribute('data-sc-waypoint') === (e.detail && e.detail.label)) i = idx; });
+      var legMidPr = (bounds[i] + weights[i] / 2) / total;
+      journeyImg.style.transform = 'translateY(' + (-legMidPr * journeyPanRange).toFixed(1) + 'px)';
+    });
+  }
 
   dots.forEach(function (d, i) {
     d.addEventListener('click', function () {

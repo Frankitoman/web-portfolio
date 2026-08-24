@@ -51,25 +51,18 @@
 
   <div data-sc-world>
 
-    <div data-sc-segment data-sc-w="1.3" data-sc-linger="0.3" data-sc-waypoint="Cresta">
-      <img class="sc-world__poster" src="assets/sendero/01-cresta.svg" alt="Cordillera al amanecer" decoding="async">
-    </div>
+    <!-- One continuous illustration, panned by sendero.js as a single camera
+         move down the mountain — not a crossfade between five images. The
+         segments below carry no visual content of their own any more; they
+         stay only for their data-sc-w weights (spacer sizing) and
+         data-sc-waypoint labels (copy windows, nav dots, dark-scrim legs). -->
+    <img class="sc-journey" src="assets/sendero/journey.svg" alt="La cordillera, de la cresta al valle, la ladera, el cruce del sendero y la ventana encendida de noche" decoding="async">
 
-    <div data-sc-segment data-sc-w="1.5" data-sc-linger="0.2" data-sc-waypoint="Valle">
-      <img class="sc-world__poster" src="assets/sendero/02-valle.svg" alt="Un valle con cuatro casas ya encendidas" decoding="async">
-    </div>
-
-    <div data-sc-segment data-sc-w="2.1" data-sc-linger="0.42" data-sc-waypoint="Ladera">
-      <img class="sc-world__poster" src="assets/sendero/03-ladera.svg" alt="Una casa en la ladera, encendida por el alpenglow" decoding="async">
-    </div>
-
-    <div data-sc-segment data-sc-w="1.2" data-sc-linger="0.15" data-sc-waypoint="Bifurcación">
-      <img class="sc-world__poster" src="assets/sendero/04-bifurcacion.svg" alt="Un cartel de sendero con dos caminos" decoding="async">
-    </div>
-
-    <div data-sc-segment data-sc-w="1.5" data-sc-linger="0.3" data-sc-waypoint="Ventana">
-      <img class="sc-world__poster" src="assets/sendero/05-ventana.svg" alt="Una ventana encendida de noche, al final del camino" decoding="async">
-    </div>
+    <div data-sc-segment data-sc-w="1.3" data-sc-linger="0.3" data-sc-waypoint="Cresta"></div>
+    <div data-sc-segment data-sc-w="1.5" data-sc-linger="0.2" data-sc-waypoint="Valle"></div>
+    <div data-sc-segment data-sc-w="2.1" data-sc-linger="0.42" data-sc-waypoint="Ladera"></div>
+    <div data-sc-segment data-sc-w="1.9" data-sc-linger="0.15" data-sc-waypoint="Bifurcación"></div>
+    <div data-sc-segment data-sc-w="1.5" data-sc-linger="0.3" data-sc-waypoint="Ventana"></div>
 
   </div>
 
@@ -89,7 +82,7 @@
     </div>
 
     <!-- 2 · Valle — reconocimiento -->
-    <div class="sc-copy sc-copy--trail copy--day" data-sc-copy data-sc-window="0.19 0.36">
+    <div class="sc-copy sc-copy--trail copy--day" data-sc-copy data-sc-window="0.174 0.330">
       <p class="copy__eyebrow">Trabajos</p>
       <h2 class="copy__title copy__title--md">Negocios que ya<br>tienen su lugar.</h2>
       <p class="copy__lead">Cada uno con su propia identidad — pensado desde cero para representar lo que ya construyeron, no para parecerse al del vecino.</p>
@@ -103,7 +96,7 @@
     </div>
 
     <!-- 3 · Ladera — EL PICO -->
-    <div class="sc-copy sc-copy--center copy--peak" data-sc-copy data-sc-window="0.375 0.635">
+    <div class="sc-copy sc-copy--center copy--peak" data-sc-copy data-sc-window="0.343 0.582">
       <p class="copy__eyebrow">Quién está del otro lado</p>
       <h2 class="copy__title copy__title--lg">
         <span class="mix-plain">Construyo cada sitio</span><br>
@@ -113,13 +106,18 @@
       <p class="copy__lead">Sin intermediarios ni procesos de agencia: cada decisión, chica o grande, la tomamos entre los dos.</p>
     </div>
 
-    <!-- 4 · Bifurcación — claridad, breve -->
-    <div class="sc-copy sc-copy--lead copy--dusk" data-sc-copy data-sc-window="0.655 0.80">
+    <!-- 4 · Bifurcación — dos caminos, uno a cada lado del sendero -->
+    <div class="sc-copy sc-copy--lead copy--dusk plan-card" data-sc-copy data-sc-window="0.620 0.789">
       <p class="copy__eyebrow">Cómo trabajamos</p>
-      <h2 class="copy__title copy__title--md">Dos formas de<br>empezar tu sitio.</h2>
-      <p class="copy__lead">Elegís según cuánto control técnico querés tener vos, no según el presupuesto.</p>
-      <p class="copy__fact">Plan A — 700 kr. / mes. Yo mantengo el sitio, vos solo lo usás.</p>
-      <p class="copy__fact">Plan B — 20.000 kr. pago único. El sitio queda enteramente tuyo.</p>
+      <p class="plan-card__name">Plan A</p>
+      <p class="plan-card__price">700 kr. <span class="plan-card__unit">/ mes</span></p>
+      <p class="copy__lead">Yo mantengo el sitio, vos solo lo usás. Sin ataduras técnicas.</p>
+    </div>
+    <div class="sc-copy sc-copy--trail copy--dusk plan-card plan-card--b" data-sc-copy data-sc-window="0.620 0.789">
+      <p class="copy__eyebrow">Control total</p>
+      <p class="plan-card__name">Plan B</p>
+      <p class="plan-card__price">20.000 kr. <span class="plan-card__unit">pago único</span></p>
+      <p class="copy__lead">El sitio queda enteramente tuyo, sin mensualidad.</p>
     </div>
 
     <!-- 5 · Ventana — alivio, resuelve -->

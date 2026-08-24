@@ -16,6 +16,17 @@
 
 body { background: var(--sc-canvas); }
 
+/* The continuous journey image — one asset, panned by sendero.js instead of
+   the engine's segment crossfade. Height is set inline (JS) to a multiple of
+   the viewport so the pan has room regardless of the asset's own aspect
+   ratio; xMidYMid slice inside the SVG itself guarantees full-bleed cover
+   with no gaps at any width. */
+.sc-journey {
+  position: absolute; top: 0; left: 0;
+  width: 100%; z-index: 0;
+  will-change: transform;
+}
+
 /* Base scrim stays the engine default (mixes toward the light paper token) —
    right for Cresta and Valle, whose scenes are mostly pale sky and whose copy
    stays dark ink. Only the legs whose own art is genuinely dark where the
@@ -94,6 +105,28 @@ body { background: var(--sc-canvas); }
 .copy--peak, .copy--dusk, .copy--night { color: #fff; }
 .copy--peak .mix-plain, .copy--dusk .mix-plain, .copy--night .mix-plain { color: #fff; }
 
+/* Plan A / Plan B: one card each side of the signpost drawn into the scene
+   below, so the price carries the weight a fact-line bullet used to share
+   with everything else in the block. */
+.plan-card__name {
+  font-family: var(--sc-font-text); font-size: .78rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--sc-ink-soft);
+  margin: 0 0 .3rem;
+}
+.copy--dusk .plan-card__name { color: rgba(255,255,255,.65); }
+.plan-card__price {
+  font-family: var(--sc-font-display); font-weight: 500;
+  font-size: clamp(2.1rem, 4.6vw, 3.2rem); line-height: 1.05;
+  letter-spacing: -.01em; margin: 0 0 .8rem; color: var(--sc-ink);
+}
+.copy--dusk .plan-card__price { color: #fff; }
+.plan-card--b .plan-card__price { color: var(--sc-accent); }
+.plan-card__unit {
+  font-family: var(--sc-font-text); font-size: 1rem; font-weight: 400;
+  letter-spacing: 0; color: var(--sc-ink-soft);
+}
+.copy--dusk .plan-card__unit { color: rgba(255,255,255,.6); }
+
 .copy__lead {
   font-family: var(--sc-font-text); font-size: .92rem; line-height: 1.7;
   color: var(--sc-ink-soft); margin: 0;
@@ -170,6 +203,17 @@ body { background: var(--sc-canvas); }
      true centering explicitly; this loads after scrollcraft.css so it wins
      without touching the engine file. */
   .sc-copy--center { inset-inline: auto; left: 50%; translate: -50% -50%; }
+
+  /* Plan A and Plan B are two simultaneous blocks, one lead- one
+     trail-anchored, positioned side by side by design (left/right, echoing
+     the signpost drawn into the scene). The same inset-inline reset above
+     collapses both to the identical gutter box on a narrow screen, so B
+     lands exactly on top of A. There's no room to keep them side by side
+     here, so stack B above A instead, both left-aligned. */
+  .plan-card--b {
+    bottom: calc(clamp(3rem, 12vh, 9rem) + 13.5rem);
+    text-align: left;
+  }
 }
 
 @media (max-width: 720px) {

@@ -16,6 +16,11 @@
 
 body { background: var(--sc-canvas); }
 
+/* Mobile-only short copy, defined here so desktop's default (hidden) is
+   unambiguous regardless of source order; the <=720px query below is the
+   only place that ever shows it. */
+.mobile-only { display: none; }
+
 /* The continuous journey image — one asset, panned by sendero.js instead of
    the engine's segment crossfade. Height is set inline (JS) to a multiple of
    the viewport so the pan has room regardless of the asset's own aspect
@@ -287,18 +292,34 @@ body { background: var(--sc-canvas); }
      lands exactly on top of A. There's no room to keep them side by side
      here, so stack B above A instead, both left-aligned. */
   .plan-card--b {
-    bottom: calc(clamp(3rem, 12vh, 9rem) + 17rem);
+    bottom: calc(clamp(3rem, 12vh, 9rem) + 11.5rem);
     text-align: left;
   }
 
-  /* Two full price cards stacked is a lot of reading on a phone. Drop the
-     "ideal if..." line on both — the eyebrow, name, price and one sentence
-     carry the decision; the qualifier is the part a thumb can skip. */
-  .plan-card .copy__fact { display: none; }
 }
 
 @media (max-width: 720px) {
-  .sendero { display: none; }
+  /* Mobile gets its own short copy throughout (see index.html): a phone
+     screen is where "less text, more mountain" matters most — small type,
+     one hand, scrolling to feel the descent rather than to read. Every
+     section keeps its eyebrow and headline (those already carry the idea)
+     and swaps any paragraph for a single short line, or drops it outright.
+     Desktop is untouched — .hide-mobile does nothing above this width, and
+     .mobile-only stays display:none (set near the top of the file) until
+     this query turns it on. */
+  .hide-mobile { display: none; }
+  .mobile-only { display: block; }
+
+  /* The trail rail stays visible here (it didn't before): with so much less
+     to read, the descent itself — and this, the one visual that literally
+     traces it — is more of the point on a phone, not less. Moved to the top
+     left, under the logo: every copy block anchors bottom or centre, so
+     that's the one zone nothing ever sits in — the original bottom-left
+     spot overlapped the (now much shorter, so lower-sitting) text. */
+  .sendero {
+    top: 5.2rem; bottom: auto; left: clamp(1.2rem, 4vw, 2.4rem);
+    width: 22px; height: 130px;
+  }
 
   /* Bigger type and a real touch target — .15rem/.1rem padding around .74rem
      text is a ~20x14px hit area, well under the ~44px a thumb needs. */
@@ -345,6 +366,13 @@ body { background: var(--sc-canvas); }
       color-mix(in oklab, var(--sc-ink) 55%, transparent) 62%,
       transparent 82%);
   }
+
+  /* With one short line standing in for a paragraph, there's room to set it
+     bigger — the actual complaint was small type on a small screen, and
+     less text is what makes reading it at this size still fit. */
+  .copy__eyebrow { font-size: .84rem; }
+  .copy__lead { font-size: 1.18rem; line-height: 1.5; }
+  .copy__fact { font-size: 1rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

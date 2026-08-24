@@ -31,12 +31,14 @@
       ladera_title: '<span class="mix-plain">Construyo cada sitio</span><br><span class="mix-accent">como si fuera el mío.</span>',
       ladera_lead1: 'Soy Franco, y Tierra es mi estudio — trabajo solo, basado en Dinamarca. Me dedico a que pequeños negocios tengan, por fin, una identidad propia en internet.',
       ladera_lead2: 'Sin intermediarios ni procesos de agencia: cada decisión, chica o grande, la tomamos entre los dos.',
+      ladera_lead_mobile: 'Soy Franco. Trabajo solo, desde Dinamarca.',
 
       plan_a_eyebrow: 'Cómo trabajamos',
       plan_a_name: 'Plan A',
       plan_a_price: '700 kr.',
       plan_a_unit: '/ mes',
       plan_a_lead: 'Yo diseño, publico y mantengo tu sitio — vos solo avisás qué cambiar. Incluye hosting, actualizaciones y ajustes chicos todo el tiempo que lo uses.',
+      plan_a_lead_mobile: 'Yo mantengo todo. Vos solo avisás qué cambiar.',
       plan_a_fact: 'Ideal si querés arrancar rápido y no pensar en lo técnico nunca más.',
 
       plan_b_eyebrow: 'Control total',
@@ -44,11 +46,13 @@
       plan_b_price: '20.000 kr.',
       plan_b_unit: 'pago único',
       plan_b_lead: 'Te entrego el sitio terminado, con el código y el dominio a tu nombre. De ahí en más es enteramente tuyo — lo alojás donde quieras.',
+      plan_b_lead_mobile: 'El sitio queda tuyo. Sin mensualidad.',
       plan_b_fact: 'Ideal si preferís pagar una vez y no depender de nadie después.',
 
       ventana_eyebrow: 'Contacto',
       ventana_title: '<span class="mix-plain">Démosle a tu negocio</span><br><span class="mix-accent">su lugar propio.</span>',
       ventana_lead: 'Contame de qué se trata y qué te gustaría lograr. Sin compromiso — solo para ver si encajamos.',
+      ventana_lead_mobile: 'Contame tu idea.',
 
       form_name: 'Nombre',
       form_email: 'Email',
@@ -81,12 +85,14 @@
       ladera_title: '<span class="mix-plain">I build every site</span><br><span class="mix-accent">as if it were my own.</span>',
       ladera_lead1: 'I’m Franco, and Tierra is my studio — I work alone, based in Denmark. I help small businesses finally have their own identity online.',
       ladera_lead2: 'No middlemen, no agency process: every decision, big or small, we make together.',
+      ladera_lead_mobile: 'I’m Franco. I work alone, from Denmark.',
 
       plan_a_eyebrow: 'How we work',
       plan_a_name: 'Plan A',
       plan_a_price: '700 kr.',
       plan_a_unit: '/ month',
       plan_a_lead: 'I design, publish and maintain your site — you just tell me what to change. Includes hosting, updates and small tweaks for as long as you use it.',
+      plan_a_lead_mobile: 'I maintain everything. You just say what to change.',
       plan_a_fact: 'Ideal if you want to start fast and never think about the technical side again.',
 
       plan_b_eyebrow: 'Full control',
@@ -94,11 +100,13 @@
       plan_b_price: '20,000 kr.',
       plan_b_unit: 'one-time',
       plan_b_lead: 'I hand over the finished site, with the code and domain in your name. From there it’s entirely yours — host it wherever you like.',
+      plan_b_lead_mobile: 'The site is yours. No monthly fee.',
       plan_b_fact: 'Ideal if you’d rather pay once and not depend on anyone afterwards.',
 
       ventana_eyebrow: 'Contact',
       ventana_title: '<span class="mix-plain">Let’s give your business</span><br><span class="mix-accent">its own place.</span>',
       ventana_lead: 'Tell me what it’s about and what you’d like to achieve. No commitment — just to see if we’re a good fit.',
+      ventana_lead_mobile: 'Tell me your idea.',
 
       form_name: 'Name',
       form_email: 'Email',
@@ -131,12 +139,14 @@
       ladera_title: '<span class="mix-plain">Jeg bygger hvert website,</span><br><span class="mix-accent">som var det mit eget.</span>',
       ladera_lead1: 'Jeg er Franco, og Tierra er mit studie — jeg arbejder alene, baseret i Danmark. Jeg hjælper små virksomheder med endelig at få deres egen identitet online.',
       ladera_lead2: 'Ingen mellemmænd, ingen bureauproces: hver beslutning, stor eller lille, tager vi sammen.',
+      ladera_lead_mobile: 'Jeg er Franco. Jeg arbejder alene, fra Danmark.',
 
       plan_a_eyebrow: 'Sådan arbejder vi',
       plan_a_name: 'Plan A',
       plan_a_price: '700 kr.',
       plan_a_unit: '/ md.',
       plan_a_lead: 'Jeg designer, udgiver og vedligeholder dit website — du siger bare til, hvad der skal ændres. Inkluderer hosting, opdateringer og små justeringer, så længe du bruger det.',
+      plan_a_lead_mobile: 'Jeg vedligeholder alt. Du siger bare til.',
       plan_a_fact: 'Ideelt hvis du vil i gang hurtigt og aldrig skal tænke på det tekniske igen.',
 
       plan_b_eyebrow: 'Fuld kontrol',
@@ -144,11 +154,13 @@
       plan_b_price: '20.000 kr.',
       plan_b_unit: 'engangsbeløb',
       plan_b_lead: 'Jeg afleverer det færdige website, med koden og domænet i dit navn. Derefter er det helt dit — host det, hvor du vil.',
+      plan_b_lead_mobile: 'Websitet bliver dit. Ingen månedlig betaling.',
       plan_b_fact: 'Ideelt hvis du hellere vil betale én gang og ikke være afhængig af nogen bagefter.',
 
       ventana_eyebrow: 'Kontakt',
       ventana_title: '<span class="mix-plain">Lad os give din virksomhed</span><br><span class="mix-accent">sin egen plads.</span>',
       ventana_lead: 'Fortæl mig, hvad det handler om, og hvad du gerne vil opnå. Uforpligtende — bare for at se, om vi passer sammen.',
+      ventana_lead_mobile: 'Fortæl mig din idé.',
 
       form_name: 'Navn',
       form_email: 'Email',

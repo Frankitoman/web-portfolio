@@ -137,19 +137,26 @@
   // different SHAPE too, not just a colour — so .sc-scrim-dark carries
   // whichever one applies and fades on its own opacity transition (theme.css)
   // keyed off the engine's own waypoint event, so entering/leaving never snaps.
-  // Two separate elements, not one shared one with a swapped class: Ladera
-  // and Bifurcación are adjacent legs, and if both used the same element a
-  // leg-to-leg change between two "dark" legs would still leave opacity at 1
-  // throughout, so the background-image swap (ellipse -> band) would pop
-  // instantly instead of cross-fading with the rest of the transition.
+  // Three separate elements, not one shared one with a swapped class: any two
+  // of these legs can be adjacent, and if they shared an element a leg-to-leg
+  // change between two "dark" legs would still leave opacity at 1 throughout,
+  // so the background-image swap would pop instantly instead of cross-fading
+  // with the rest of the transition. Ventana gets its own corner shape (not
+  // the band): its copy is the only block on screen there, sitting in one
+  // corner, and a full-width band also darkens the centred house, which has
+  // no text over it and doesn't need any of it.
   var peakScrim = document.querySelector('.sc-scrim-dark--peak');
   var bandScrim = document.querySelector('.sc-scrim-dark--band');
-  var DARK_BAND_LEGS = { 'Bifurcación': 1, 'Ventana': 1 };
-  if (peakScrim && bandScrim) {
+  var cornerScrim = document.querySelector('.sc-scrim-dark--corner');
+  var baseScrim = document.querySelector('.sc-world__scrim');
+  var DARK_LEGS = { 'Ladera': 1, 'Bifurcación': 1, 'Ventana': 1 };
+  if (peakScrim && bandScrim && cornerScrim) {
     mode.addEventListener('sc:waypoint', function (e) {
       var label = e.detail && e.detail.label;
       peakScrim.classList.toggle('is-active', label === 'Ladera');
-      bandScrim.classList.toggle('is-active', !!DARK_BAND_LEGS[label]);
+      bandScrim.classList.toggle('is-active', label === 'Bifurcación');
+      cornerScrim.classList.toggle('is-active', label === 'Ventana');
+      if (baseScrim) baseScrim.classList.toggle('is-suppressed', !!DARK_LEGS[label]);
     });
   }
 })();

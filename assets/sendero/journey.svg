@@ -31,12 +31,14 @@
   <polygon points="0,410 180,270 340,350 520,210 700,320 880,190 1060,310 1240,230 1420,320 1600,260 1600,900 0,900" fill="#cfd7de" opacity="0.9"/>
   <polygon points="0,490 220,370 420,450 620,320 820,440 1020,330 1220,450 1420,360 1600,430 1600,900 0,900" fill="#b7c2cc"/>
   <polygon points="0,610 260,510 420,550 560,390 700,510 760,450 820,510 980,410 1180,550 1360,490 1600,570 1600,900 0,900" fill="#8b97a3"/>
-  <!-- the tallest peak, echoing the mark — enlarged so it dominates the load frame -->
-  <polygon points="620,100 470,590 770,590" fill="#8b97a3"/>
+  <!-- the tallest peak, echoing the mark — enlarged so it dominates the load
+       frame, apex at x=800 (the viewBox's own horizontal centre, which is
+       what xMidYMid slice centres on screen regardless of viewport width). -->
+  <polygon points="800,100 650,590 950,590" fill="#8b97a3"/>
   <!-- Ember cap base at the exact edge-intersection points (t=0.44 along
        each side from the apex), not eyeballed — a mismatch here reads as a
        sliver of the peak's own colour showing past the orange tip. -->
-  <polygon points="620,100 686,316 554,316" fill="#d9713c" opacity="0.85"/>
+  <polygon points="800,100 866,316 734,316" fill="#d9713c" opacity="0.85"/>
   <polygon points="0,900 0,820 300,780 620,830 900,790 1200,830 1600,800 1600,900" fill="#1c232b"/>
 
   <!-- ============================================================ -->

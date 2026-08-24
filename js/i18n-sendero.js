@@ -54,7 +54,6 @@
       form_email: 'Email',
       form_message: 'Mensaje',
       form_submit: 'Enviar',
-      form_note: 'Se abre tu programa de mail con todo ya escrito.',
       form_error: 'Completá tu nombre, email y mensaje.',
     },
 
@@ -105,7 +104,6 @@
       form_email: 'Email',
       form_message: 'Message',
       form_submit: 'Send',
-      form_note: 'Opens your mail app with everything already written.',
       form_error: 'Fill in your name, email and message.',
     },
 
@@ -156,7 +154,6 @@
       form_email: 'Email',
       form_message: 'Besked',
       form_submit: 'Send',
-      form_note: 'Åbner din mailapp med alt allerede skrevet.',
       form_error: 'Udfyld navn, email og besked.',
     },
   };

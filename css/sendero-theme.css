@@ -27,6 +27,17 @@ body { background: var(--sc-canvas); }
   will-change: transform;
 }
 
+/* The engine's own scrim always mixes toward the light paper token, which is
+   invisible over Cresta/Valle's own pale scenes but reads as a grey haze
+   wherever it's layered over genuinely dark art underneath a dedicated dark
+   scrim that fades out (any spot the dark scrim leaves alone — the corner
+   scrim leaves most of Ventana's frame alone by design, since the house
+   needs no darkening at all). Muted on the three dark legs, where a
+   .sc-scrim-dark already does the real work. */
+.sc-world__scrim { transition: opacity 300ms ease; }
+.sc-world__scrim.is-suppressed { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .sc-world__scrim { transition: none; } }
+
 /* Base scrim stays the engine default (mixes toward the light paper token) —
    right for Cresta and Valle, whose scenes are mostly pale sky and whose copy
    stays dark ink. Only the legs whose own art is genuinely dark where the
@@ -54,6 +65,18 @@ body { background: var(--sc-canvas); }
     color-mix(in oklab, var(--sc-ink) 76%, transparent) 26%,
     color-mix(in oklab, var(--sc-ink) 42%, transparent) 50%,
     transparent 72%);
+}
+/* Ventana's copy is the only block on screen there, and it sits in the
+   bottom-right corner — a full-width band also darkens the centred house,
+   which needs none of it (no text ever sits over it) and reads as haze over
+   otherwise-clear night art. A corner gradient, not a band: dense under the
+   text, gone by the time it reaches the house. */
+.sc-scrim-dark--corner {
+  background: linear-gradient(to top left,
+    color-mix(in oklab, var(--sc-ink) 92%, transparent) 0%,
+    color-mix(in oklab, var(--sc-ink) 72%, transparent) 28%,
+    color-mix(in oklab, var(--sc-ink) 30%, transparent) 50%,
+    transparent 70%);
 }
 
 /* ---------- Skip link ---------- */
@@ -212,7 +235,6 @@ body { background: var(--sc-canvas); }
 .contact-form-compact__row--end { align-items: center; justify-content: space-between; gap: 1rem; margin-top: .1rem; }
 .contact-form-compact__error { font-size: .78rem; color: #f0a98a; margin: 0; }
 .contact-form-compact .copy__cta { margin-top: 0; flex: none; }
-.contact-form-compact__note { font-size: .72rem; color: rgba(255,255,255,.5); margin: 0; }
 
 /* ---------- El sendero (waypoint map + signature move) ---------- */
 .sendero {
@@ -295,6 +317,19 @@ body { background: var(--sc-canvas); }
       color-mix(in oklab, var(--sc-ink) 88%, transparent) 78%,
       color-mix(in oklab, var(--sc-ink) 55%, transparent) 94%,
       transparent 100%);
+  }
+
+  /* Ventana's copy also collapses to the full-width gutter box here (same
+     engine breakpoint as everything else), so the corner shape sized for a
+     right-anchored column on desktop needs to reach most of the width too —
+     closer to the band above than a true corner, just still fading out
+     toward the top where the house's roofline sits. */
+  .sc-scrim-dark--corner {
+    background: linear-gradient(to top,
+      color-mix(in oklab, var(--sc-ink) 90%, transparent) 0%,
+      color-mix(in oklab, var(--sc-ink) 70%, transparent) 32%,
+      color-mix(in oklab, var(--sc-ink) 34%, transparent) 55%,
+      transparent 76%);
   }
 }
 

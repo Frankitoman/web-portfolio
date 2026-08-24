@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e3e9ee"/>
+      <stop offset="100%" stop-color="#eef2f5"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky2)"/>
+
+  <!-- same range, seen lower down, further ridges receding -->
+  <polygon points="0,420 260,320 520,400 780,300 1040,400 1300,320 1600,380 1600,900 0,900" fill="#cfd7de"/>
+  <polygon points="0,520 300,430 600,500 900,420 1200,500 1600,450 1600,900 0,900" fill="#b7c2cc"/>
+
+  <!-- the valley floor -->
+  <polygon points="0,900 0,640 400,600 800,650 1200,600 1600,640 1600,900" fill="#8b97a3" opacity="0.55"/>
+  <polygon points="0,900 0,720 400,690 800,730 1200,690 1600,720 1600,900" fill="#1c232b"/>
+
+  <!-- four small structures, each with one lit window -->
+  <g>
+    <polygon points="260,690 300,650 340,690 340,720 260,720" fill="#5b6672"/>
+    <rect x="292" y="678" width="16" height="16" fill="#d9713c"/>
+  </g>
+  <g>
+    <polygon points="560,700 596,662 632,700 632,730 560,730" fill="#5b6672"/>
+    <rect x="586" y="686" width="20" height="18" fill="#d9713c"/>
+  </g>
+  <g>
+    <polygon points="960,695 998,656 1036,695 1036,726 960,726" fill="#5b6672"/>
+    <rect x="988" y="682" width="20" height="18" fill="#d9713c"/>
+  </g>
+  <g>
+    <polygon points="1260,705 1294,668 1328,705 1328,733 1260,733" fill="#5b6672"/>
+    <rect x="1284" y="692" width="18" height="16" fill="#d9713c"/>
+  </g>
+
+  <!-- the trail, now clearer, running between the four houses -->
+  <path d="M 60 900 C 220 800, 300 760, 380 720 S 560 740, 610 715 S 900 730, 1000 705 S 1250 720, 1300 700 S 1500 730, 1560 800"
+        fill="none" stroke="#5b6672" stroke-width="4" stroke-dasharray="3 12" stroke-linecap="round" opacity="0.75"/>
+</svg>

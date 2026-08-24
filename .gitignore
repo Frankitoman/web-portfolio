@@ -4,3 +4,8 @@ node_modules/
 Thumbs.db
 *.log
 .wrangler/
+
+# scrollcraft authoring workspace (build scripts, screenshots, BRIEF.md,
+# FINGERPRINTS.md) — a local dev tool, not site content. The finished page
+# it produced is copied into index.html/css/js/assets above.
+scrollcraft/

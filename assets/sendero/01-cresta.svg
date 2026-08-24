@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eef2f5"/>
+      <stop offset="55%" stop-color="#e3e9ee"/>
+      <stop offset="100%" stop-color="#cfe0ea"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky1)"/>
+
+  <!-- far ridge -->
+  <polygon points="0,560 180,420 340,500 520,360 700,470 880,340 1060,460 1240,380 1420,470 1600,410 1600,900 0,900" fill="#cfd7de" opacity="0.9"/>
+  <!-- mid ridge -->
+  <polygon points="0,640 220,520 420,600 620,470 820,590 1020,480 1220,600 1420,510 1600,580 1600,900 0,900" fill="#b7c2cc"/>
+  <!-- near ridge, darkest, main peak echoes the mark -->
+  <polygon points="0,760 260,660 420,700 560,540 700,660 760,600 820,660 980,560 1180,700 1360,640 1600,720 1600,900 0,900" fill="#8b97a3"/>
+  <!-- the tallest peak, drawn like the mark: two-facet main peak + alpenglow sliver -->
+  <polygon points="560,540 480,700 640,700" fill="#8b97a3"/>
+  <polygon points="560,540 592,610 528,610" fill="#d9713c" opacity="0.85"/>
+
+  <!-- foreground ink ground, the trail starts here -->
+  <polygon points="0,900 0,820 300,780 620,830 900,790 1200,830 1600,800 1600,900" fill="#1c232b"/>
+
+  <!-- the trail, low, quiet, barely visible at dawn -->
+  <path d="M 120 900 C 260 830, 340 810, 460 800" fill="none" stroke="#5b6672" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" opacity="0.5"/>
+</svg>

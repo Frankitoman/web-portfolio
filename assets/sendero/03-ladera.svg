@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f0d9c6"/>
+      <stop offset="45%" stop-color="#eecdac"/>
+      <stop offset="100%" stop-color="#d9713c"/>
+    </linearGradient>
+    <linearGradient id="glow3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d9713c"/>
+      <stop offset="100%" stop-color="#a85630"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky3)"/>
+
+  <!-- the mountainside itself, catching full alpenglow -->
+  <polygon points="0,900 0,300 480,120 900,340 1250,180 1600,360 1600,900" fill="url(#glow3)"/>
+  <polygon points="0,900 0,420 480,240 900,440 1250,300 1600,460 1600,900" fill="#a85630" opacity="0.85"/>
+
+  <!-- the shaded (ink) flank, so the lit side reads as lit -->
+  <polygon points="900,340 1250,180 1250,900 900,900" fill="#1c232b" opacity="0.28"/>
+
+  <!-- the house, built into the slope, off-center so it never fights the
+       centered peak copy for the same patch of frame -->
+  <polygon points="180,420 280,340 380,420 380,540 180,540" fill="#1c232b"/>
+  <polygon points="180,420 280,340 280,420" fill="#eef2f5" opacity="0.92"/>
+  <polygon points="280,340 380,420 280,420" fill="#f0d9c6" opacity="0.85"/>
+  <rect x="215" y="450" width="60" height="60" fill="#d9713c"/>
+  <rect x="310" y="450" width="42" height="60" fill="#d9713c" opacity="0.9"/>
+
+  <!-- foreground rock, near-silhouette -->
+  <polygon points="0,900 0,620 200,560 340,640 260,900" fill="#1c232b"/>
+
+  <!-- the trail, arriving right at the door -->
+  <path d="M 60 900 C 110 780, 140 700, 175 650 S 205 560, 215 500"
+        fill="none" stroke="#eef2f5" stroke-width="4" stroke-dasharray="3 12" stroke-linecap="round" opacity="0.85"/>
+</svg>

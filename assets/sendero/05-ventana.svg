@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky5" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c232b"/>
+      <stop offset="55%" stop-color="#243039"/>
+      <stop offset="100%" stop-color="#2d4a44"/>
+    </linearGradient>
+    <radialGradient id="warm5" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#d9713c" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#d9713c" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky5)"/>
+
+  <!-- soft aurora wash, low, at the horizon -->
+  <polygon points="0,300 400,240 800,300 1200,220 1600,280 1600,460 0,460" fill="#4f9d8a" opacity="0.16"/>
+
+  <!-- night ridge, near-black -->
+  <polygon points="0,560 300,480 620,540 940,460 1260,530 1600,480 1600,900 0,900" fill="#12171d"/>
+
+  <!-- the arrival: a small structure, one lit doorway -->
+  <polygon points="680,560 800,460 920,560 920,720 680,720" fill="#0f1319"/>
+  <polygon points="680,560 800,460 800,560" fill="#1c232b"/>
+  <rect x="760" y="600" width="80" height="120" fill="url(#warm5)"/>
+  <rect x="772" y="612" width="56" height="96" fill="#d9713c"/>
+  <rect x="712" y="600" width="30" height="30" fill="#d9713c" opacity="0.8"/>
+  <rect x="860" y="600" width="30" height="30" fill="#d9713c" opacity="0.8"/>
+
+  <!-- the trail, complete, arriving at the door -->
+  <path d="M 60 900 C 300 800, 500 760, 620 700 S 740 660, 796 630"
+        fill="none" stroke="#d9713c" stroke-width="3" stroke-dasharray="3 10" stroke-linecap="round" opacity="0.7"/>
+</svg>

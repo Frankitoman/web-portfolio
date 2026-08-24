@@ -16,18 +16,33 @@
 
 body { background: var(--sc-canvas); }
 
-/* Ladera (peak) and Ventana (close) carry white copy over a warm/dark scene;
-   the scrim needs to mix toward ink there instead of the light paper token.
-   Toggled by sendero.js off the engine's sc:waypoint event. Ventana's copy is
-   bottom-right anchored, which the stock band shape already covers well once
-   recoloured — but Ladera's is centre-anchored, so it gets its own elliptical
-   scrim over the middle of the frame instead of the (bottom-only) band. */
-.sc-world__scrim.is-dark-band { --sc-canvas: var(--sc-ink); }
-.sc-world__scrim.is-dark-center {
+/* Base scrim stays the engine default (mixes toward the light paper token) —
+   right for Cresta and Valle, whose scenes are mostly pale sky and whose copy
+   stays dark ink. Only the legs whose own art is genuinely dark where the
+   copy sits — Ladera (full alpenglow + ink flank), Bifurcación (its ground
+   band is a full third of the frame, not a thin strip like the other legs)
+   and Ventana (night) — get a local dark overlay and white copy instead.
+   Each overlay fades on its own opacity transition, keyed off the engine's
+   sc:waypoint event in sendero.js, so entering/leaving never snaps. */
+.sc-scrim-dark {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  opacity: 0; transition: opacity 300ms ease;
+}
+.sc-scrim-dark.is-active { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .sc-scrim-dark { transition: none; } }
+
+.sc-scrim-dark--peak {
   background: radial-gradient(58% 52% at 50% 47%,
     color-mix(in oklab, var(--sc-ink) 86%, transparent) 0%,
     color-mix(in oklab, var(--sc-ink) 55%, transparent) 60%,
     transparent 88%);
+}
+.sc-scrim-dark--band {
+  background: linear-gradient(to top,
+    color-mix(in oklab, var(--sc-ink) 92%, transparent) 0%,
+    color-mix(in oklab, var(--sc-ink) 76%, transparent) 26%,
+    color-mix(in oklab, var(--sc-ink) 42%, transparent) 50%,
+    transparent 72%);
 }
 
 /* ---------- Skip link ---------- */
@@ -71,28 +86,27 @@ body { background: var(--sc-canvas); }
 .mix-plain  { font-family: var(--sc-font-display); font-style: normal; color: var(--sc-ink); }
 .mix-accent { font-family: "Instrument Serif", Georgia, serif; font-style: italic; color: var(--sc-accent); }
 
-/* Set on the container too, not just the inner spans: a contrast auditor
-   (and any assistive tech reading inherited color) should see the same white
-   the page actually renders, not the dark ink the block would fall back to. */
-.copy--peak, .copy--night { color: #fff; }
-.copy--peak .mix-plain, .copy--night .mix-plain { color: #fff; }
+/* Dark ink is the default (right for Cresta/Valle's pale scenes). Ladera,
+   Bifurcación and Ventana sit under their own dark overlay (above) and flip
+   to white — set on the container too, not just inner spans, so a contrast
+   auditor (and assistive tech reading inherited color) sees the same colour
+   the page actually renders, not whatever the block would fall back to. */
+.copy--peak, .copy--dusk, .copy--night { color: #fff; }
+.copy--peak .mix-plain, .copy--dusk .mix-plain, .copy--night .mix-plain { color: #fff; }
 
 .copy__lead {
   font-family: var(--sc-font-text); font-size: .92rem; line-height: 1.7;
   color: var(--sc-ink-soft); margin: 0;
   text-wrap: pretty;
 }
-.copy--peak .copy__lead, .copy--night .copy__lead { color: rgba(255,255,255,.82); }
-.copy--dusk .copy__lead { color: rgba(255,255,255,.8); }
+.copy--peak .copy__lead, .copy--dusk .copy__lead, .copy--night .copy__lead { color: rgba(255,255,255,.82); }
 
 .copy__fact {
   font-family: var(--sc-font-text); font-size: .8rem; color: var(--sc-ink-soft);
   margin: .5rem 0 0; padding-left: 1.1rem; position: relative;
 }
 .copy__fact::before { content: ''; position: absolute; left: 0; top: .5em; width: 6px; height: 6px; border-radius: 50%; background: var(--sc-accent); }
-.copy--dusk .copy__fact, .copy--day .copy__fact { color: var(--sc-ink-soft); }
-.copy--dusk .copy__fact { color: rgba(255,255,255,.75); }
-.copy--dusk .copy__fact::before { background: var(--sc-accent); }
+.copy--peak .copy__fact, .copy--dusk .copy__fact, .copy--night .copy__fact { color: rgba(255,255,255,.75); }
 
 .copy__linklist {
   display: flex; flex-wrap: wrap; gap: .4rem .9rem; list-style: none;
@@ -148,8 +162,29 @@ body { background: var(--sc-canvas); }
 .sendero__dot.is-visited { background: var(--sc-accent); border-color: var(--sc-accent); }
 .sendero__dot[aria-current="true"] { transform: translate(-50%, calc(var(--sy) * 200 / 220 * 1px - 50%)) scale(1.35); }
 
+@media (max-width: 860px) {
+  /* The engine's own mobile breakpoint resets inset-inline to the gutter for
+     every copy anchor, which is right for lead/trail but leaves --center's
+     translate(-50%,-50%) still applied against that new, no-longer-50% left
+     value — the block ends up shifted almost entirely off-screen. Restore
+     true centering explicitly; this loads after scrollcraft.css so it wins
+     without touching the engine file. */
+  .sc-copy--center { inset-inline: auto; left: 50%; translate: -50% -50%; }
+}
+
 @media (max-width: 720px) {
   .sendero { display: none; }
+
+  /* Ladera's copy block runs near full viewport width on a narrow screen
+     (the 30rem max-width never binds), so the ellipse sized for desktop's
+     much narrower centred column leaves the eyebrow and the ends of the
+     heading spilling past it into the bare alpenglow. Widen it to match. */
+  .sc-scrim-dark--peak {
+    background: radial-gradient(85% 58% at 50% 44%,
+      color-mix(in oklab, var(--sc-ink) 90%, transparent) 0%,
+      color-mix(in oklab, var(--sc-ink) 72%, transparent) 65%,
+      transparent 95%);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

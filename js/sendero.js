@@ -75,23 +75,26 @@
     });
   });
 
-  // The engine's scrim always mixes toward --sc-canvas (this theme's light
-  // paper token), which is right for the day/dusk legs where copy stays
-  // dark-ink, but works against the white copy on Ladera (peak) and Ventana
-  // (close) — a light scrim over a warm/dark scene doesn't darken it at all.
-  // Swap the scrim's mix source to --sc-ink locally on those two legs, driven
-  // off the engine's own sc:waypoint event, no engine files touched. Ladera's
-  // copy is centre-anchored (spans the vertical middle of the frame) so it
-  // also needs a different scrim SHAPE than the stock bottom band, which only
-  // covers the lower ~40% of the frame and leaves the eyebrow + first heading
-  // line — sitting higher, over the brightest part of the alpenglow — bare.
-  var scrim = document.querySelector('.sc-world__scrim');
-  var SCRIM_CLASS = { 'Ladera': 'is-dark-center', 'Ventana': 'is-dark-band' };
-  if (scrim) {
+  // Cresta and Valle are pale scenes with only a thin ground band, so the
+  // engine's own light-mixing scrim + dark ink copy (the theme default) is
+  // right there. Ladera, Bifurcación and Ventana each have real dark art
+  // where their copy sits — Ladera's is centre-anchored so it needs a
+  // different SHAPE too, not just a colour — so .sc-scrim-dark carries
+  // whichever one applies and fades on its own opacity transition (theme.css)
+  // keyed off the engine's own waypoint event, so entering/leaving never snaps.
+  // Two separate elements, not one shared one with a swapped class: Ladera
+  // and Bifurcación are adjacent legs, and if both used the same element a
+  // leg-to-leg change between two "dark" legs would still leave opacity at 1
+  // throughout, so the background-image swap (ellipse -> band) would pop
+  // instantly instead of cross-fading with the rest of the transition.
+  var peakScrim = document.querySelector('.sc-scrim-dark--peak');
+  var bandScrim = document.querySelector('.sc-scrim-dark--band');
+  var DARK_BAND_LEGS = { 'Bifurcación': 1, 'Ventana': 1 };
+  if (peakScrim && bandScrim) {
     mode.addEventListener('sc:waypoint', function (e) {
-      var cls = SCRIM_CLASS[e.detail && e.detail.label];
-      scrim.classList.toggle('is-dark-center', cls === 'is-dark-center');
-      scrim.classList.toggle('is-dark-band', cls === 'is-dark-band');
+      var label = e.detail && e.detail.label;
+      peakScrim.classList.toggle('is-active', label === 'Ladera');
+      bandScrim.classList.toggle('is-active', !!DARK_BAND_LEGS[label]);
     });
   }
 })();

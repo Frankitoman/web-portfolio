@@ -65,6 +65,37 @@
     <rect x="1184" y="1592" width="18" height="16" fill="#d9713c" opacity="0.9"/>
   </g>
 
+  <!-- A small campfire between the second and third house: no literal
+       figures, just dark rounded shapes gathered around the glow — reads
+       better than detailed people at the scale this ever actually renders
+       at. The flame is animated via SMIL (<animate>), not CSS: a <style>
+       block with @keyframes here silently broke the whole image when
+       loaded as <img src>  (WebKit renders it blank past this point) —
+       SMIL is the animation mechanism that's actually safe inside an
+       img-referenced SVG. -->
+  <g>
+    <ellipse cx="700" cy="1636" rx="120" ry="60" fill="url(#warmglow)">
+      <animate attributeName="opacity" values="0.75;0.5;0.75" dur="2.1s" repeatCount="indefinite"/>
+    </ellipse>
+    <polygon points="696,1616 704,1616 708,1628 700,1636 692,1628" fill="#d9713c">
+      <animate attributeName="points" dur="1.6s" repeatCount="indefinite"
+        values="696,1616 704,1616 708,1628 700,1636 692,1628;
+                 697,1612 703,1612 709,1627 700,1637 691,1627;
+                 694,1618 706,1618 707,1629 700,1634 693,1629;
+                 696,1616 704,1616 708,1628 700,1636 692,1628"/>
+    </polygon>
+    <polygon points="698,1622 702,1622 704,1629 700,1634 696,1629" fill="#f0d9c6">
+      <animate attributeName="points" dur="1.3s" repeatCount="indefinite"
+        values="698,1622 702,1622 704,1629 700,1634 696,1629;
+                 699,1619 701,1619 705,1628 700,1635 695,1628;
+                 697,1624 703,1624 703,1630 700,1633 697,1630;
+                 698,1622 702,1622 704,1629 700,1634 696,1629"/>
+    </polygon>
+    <path d="M632,1640 Q642,1614 652,1640 Z" fill="#1c232b"/>
+    <path d="M752,1644 Q762,1620 772,1644 Z" fill="#1c232b"/>
+    <path d="M668,1646 Q677,1626 686,1646 Z" fill="#12171d"/>
+  </g>
+
   <!-- ============================================================ -->
   <!-- ZONE C · Ladera (~1800-2700) — EL PICO: the alpenglow house   -->
   <!-- ============================================================ -->

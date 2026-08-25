@@ -47,7 +47,7 @@
 
       ventana_eyebrow: 'Contacto',
       ventana_title: '<span class="mix-plain">Démosle a tu negocio</span><br><span class="mix-accent">su propio hogar.</span>',
-      ventana_lead: 'Contanos de qué se trata tu negocio y qué te gustaría lograr. Te respondemos para ver si podemos ayudarte.',
+      ventana_lead: 'Contanos de qué se trata tu negocio y qué te gustaría lograr. Creemos tu hogar juntos.',
       ventana_lead_mobile: 'Contanos tu idea.',
 
       form_name: 'Nombre',
@@ -97,7 +97,7 @@
 
       ventana_eyebrow: 'Contact',
       ventana_title: '<span class="mix-plain">Let’s give your business</span><br><span class="mix-accent">its own home.</span>',
-      ventana_lead: 'Tell us what your business is about and what you’d like to achieve. We’ll get back to you to see if we can help.',
+      ventana_lead: 'Tell us what your business is about and what you’d like to achieve. Let’s build your home together.',
       ventana_lead_mobile: 'Tell us your idea.',
 
       form_name: 'Name',
@@ -147,7 +147,7 @@
 
       ventana_eyebrow: 'Kontakt',
       ventana_title: '<span class="mix-plain">Lad os give din virksomhed</span><br><span class="mix-accent">sit eget hjem.</span>',
-      ventana_lead: 'Fortæl os, hvad din virksomhed handler om, og hvad du gerne vil opnå. Vi vender tilbage for at se, om vi kan hjælpe.',
+      ventana_lead: 'Fortæl os, hvad din virksomhed handler om, og hvad du gerne vil opnå. Lad os skabe dit hjem sammen.',
       ventana_lead_mobile: 'Fortæl os din idé.',
 
       form_name: 'Navn',

@@ -82,7 +82,10 @@
   <!-- ============================================================ -->
   <polygon points="0,2980 300,2900 620,2970 940,2880 1260,2960 1600,2900 1600,3600 0,3600" fill="#5b6672" opacity="0.6"/>
   <polygon points="0,3600 0,3300 1600,3300 1600,3600" fill="#1c232b"/>
-  <rect x="788" y="3140" width="24" height="160" fill="#1c232b"/>
+  <!-- A slim flagpole, not the old 24-wide post: at the old width, the pole
+       stuck out past the pennants' own narrow tip near the top instead of
+       staying hidden behind them. -->
+  <rect x="796" y="3132" width="8" height="168" fill="#1c232b"/>
   <!-- Proper pennant proportions (width roughly 2x height, not the ~3:1 span
        the old rectangles had) so these actually read as small flags rather
        than long banners. -->

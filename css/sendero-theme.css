@@ -192,9 +192,10 @@ body { background: var(--sc-canvas); }
 .copy--peak .copy__fact, .copy--dusk .copy__fact, .copy--night .copy__fact { color: rgba(255,255,255,.75); }
 
 .copy__linklist {
-  display: flex; flex-wrap: wrap; gap: .4rem .9rem; list-style: none;
+  display: flex; flex-wrap: wrap; gap: .5rem 1rem; list-style: none;
   margin: 1.1rem 0 0; padding: 0;
-  font-family: var(--sc-font-text); font-size: .78rem; letter-spacing: .02em;
+  font-family: var(--sc-font-text); font-size: 1.05rem; font-weight: 600;
+  letter-spacing: .01em;
 }
 .copy__linklist a {
   color: var(--sc-ink); text-decoration: underline; text-underline-offset: 3px;
@@ -296,6 +297,52 @@ body { background: var(--sc-canvas); }
     text-align: left;
   }
 
+}
+
+/* ---------- iPad tier ---------- */
+/* Targeted by touch (coarse pointer) rather than width alone, so a resized
+   desktop browser window never falls into it — only an actual tablet does,
+   in portrait (~768-834px) or landscape (up to ~1366px). Phones are already
+   handled below at <=720px and are excluded here since real iPhones report
+   widths under 721px even in landscape (max ~926px)... except large iPhones
+   in landscape, which legitimately want the same treatment as a small iPad,
+   so this range is allowed to overlap that case rather than exclude it. */
+@media (min-width: 481px) and (max-width: 1366px) and (pointer: coarse) {
+  /* Same fix as the 860px block above, extended past 860px: the engine's own
+     breakpoint stops resetting .sc-copy's inset-inline/text-align/height at
+     860px, so a portrait iPad Pro (1024px) or any landscape iPad otherwise
+     falls back to desktop's wide-viewport positioning, which overlaps the
+     art and clips the copy block off the right edge. */
+  .sc-copy { inset-inline: var(--sc-gutter); max-width: none; }
+  .sc-copy--trail { text-align: left; }
+  .sc-copy--center { inset-inline: auto; left: 50%; translate: -50% -50%; }
+  .sc-stage { height: 100svh; }
+
+  /* Keeps every paragraph inside the visible frame regardless of how narrow
+     or short the tablet's own viewport is — the desktop-tuned 36rem/vw-free
+     max-width is what let text run past the right edge here. */
+  .sc-world__copy [data-sc-copy] { max-width: min(34rem, 86vw); }
+
+  .plan-card--b {
+    /* Tablet keeps each plan's full lead paragraph (no fact-line, but three
+       lines of body copy is still much taller than mobile's single short
+       line), so it needs more clearance than the 860px block's phone-tuned
+       offset — measured directly against Plan A's real rendered height on
+       an iPad 7 viewport, not guessed. */
+    bottom: calc(clamp(3rem, 12vh, 9rem) + 14rem);
+    text-align: left;
+  }
+
+  /* Tablet keeps the real lead paragraphs (unlike the phone tier below,
+     which swaps them for one line) but drops the bullet fact-lines and
+     Ladera's second paragraph — a screen this size still has less real
+     reading room than a laptop, so it gets its own, lighter trim rather
+     than either the full desktop copy or the phone's single line. */
+  .copy__fact { display: none; }
+  .hide-tablet { display: none; }
+
+  .copy__eyebrow { font-size: .84rem; }
+  .copy__lead { font-size: 1.08rem; line-height: 1.58; }
 }
 
 @media (max-width: 720px) {

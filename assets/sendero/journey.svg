@@ -82,11 +82,14 @@
   <!-- ============================================================ -->
   <polygon points="0,2980 300,2900 620,2970 940,2880 1260,2960 1600,2900 1600,3600 0,3600" fill="#5b6672" opacity="0.6"/>
   <polygon points="0,3600 0,3300 1600,3300 1600,3600" fill="#1c232b"/>
-  <rect x="788" y="3160" width="24" height="140" fill="#1c232b"/>
-  <polygon points="620,3160 800,3140 800,3190 620,3210" fill="#8b97a3"/>
-  <polygon points="800,3140 980,3160 980,3210 800,3190" fill="#d9713c"/>
-  <text x="710" y="3183" font-family="'Space Mono', monospace" font-size="18" fill="#1c232b" text-anchor="middle">A</text>
-  <text x="890" y="3183" font-family="'Space Mono', monospace" font-size="18" fill="#eef2f5" text-anchor="middle">B</text>
+  <rect x="788" y="3140" width="24" height="160" fill="#1c232b"/>
+  <!-- Proper pennant proportions (width roughly 2x height, not the ~3:1 span
+       the old rectangles had) so these actually read as small flags rather
+       than long banners. -->
+  <polygon points="800,3138 705,3163 800,3188" fill="#8b97a3"/>
+  <polygon points="800,3138 895,3163 800,3188" fill="#d9713c"/>
+  <text x="755" y="3170" font-family="'Space Mono', monospace" font-size="16" fill="#1c232b" text-anchor="middle">A</text>
+  <text x="845" y="3170" font-family="'Space Mono', monospace" font-size="16" fill="#eef2f5" text-anchor="middle">B</text>
 
   <!-- ============================================================ -->
   <!-- ZONE E · Ventana (~3600-4500) — arrival, one lit doorway      -->
@@ -127,9 +130,9 @@
     C 850 2680, 800 2800, 780 2950
     C 770 3050, 785 3120, 800 3160
     L 800 3300
-    C 700 3260, 560 3230, 420 3210
-    M 800 3300 C 900 3260, 1040 3230, 1180 3210
-    C 900 3400, 780 3600, 800 3750
-    C 815 3870, 790 3960, 800 4020
+    C 900 3260, 1040 3230, 1180 3210
+    M 800 3300 C 700 3260, 560 3230, 420 3210
+    C 700 3400, 820 3600, 800 3750
+    C 785 3870, 810 3960, 800 4020
   " fill="none" stroke="#eef2f5" stroke-width="4" stroke-dasharray="3 12" stroke-linecap="round" opacity="0.7"/>
 </svg>

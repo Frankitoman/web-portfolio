@@ -60,9 +60,14 @@ body { background: var(--sc-canvas); }
 
 .sc-scrim-dark--peak {
   background: radial-gradient(58% 52% at 50% 47%,
-    color-mix(in oklab, var(--sc-ink) 86%, transparent) 0%,
-    color-mix(in oklab, var(--sc-ink) 55%, transparent) 60%,
+    color-mix(in oklab, var(--sc-ink) 76%, transparent) 0%,
+    color-mix(in oklab, var(--sc-ink) 45%, transparent) 60%,
     transparent 88%);
+  /* Slower than the shared 300ms default: this scrim's own leg starts right
+     as the campfire scene is still on screen, and a quick snap to full
+     darkness read as fog dropped over the village. A longer fade gives that
+     scene more time lit before it's covered. */
+  transition: opacity 900ms ease;
 }
 .sc-scrim-dark--band {
   background: linear-gradient(to top,

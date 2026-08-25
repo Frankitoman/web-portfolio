@@ -22,7 +22,7 @@
       hero_lead: 'Diseño a medida y desarrollo digital: la imagen de tu negocio hecha realidad.',
 
       valle_eyebrow: 'Trabajos',
-      valle_title: '<span class="mix-plain">Negocios con un</span><br><span class="mix-accent">Hogar</span>',
+      valle_title: '<span class="mix-plain">Negocios con su nuevo</span><br><span class="mix-accent">Hogar</span>',
       valle_lead: 'Cada uno con su propia identidad, pensada desde cero para representar lo que ya construyeron.',
 
       ladera_eyebrow: 'Quién está del otro lado',
@@ -72,7 +72,7 @@
       hero_lead: 'Custom design and digital development: your business, made real online.',
 
       valle_eyebrow: 'Work',
-      valle_title: '<span class="mix-plain">Businesses with</span><br><span class="mix-accent">a Home</span>',
+      valle_title: '<span class="mix-plain">Businesses with their new</span><br><span class="mix-accent">Home</span>',
       valle_lead: 'Each with its own identity, built from scratch to represent what they already built.',
 
       ladera_eyebrow: 'Who’s on the other side',
@@ -122,7 +122,7 @@
       hero_lead: 'Skræddersyet design og digital udvikling: din virksomhed, gjort til virkelighed online.',
 
       valle_eyebrow: 'Arbejde',
-      valle_title: '<span class="mix-plain">Virksomheder med</span><br><span class="mix-accent">et Hjem</span>',
+      valle_title: '<span class="mix-plain">Virksomheder med deres nye</span><br><span class="mix-accent">Hjem</span>',
       valle_lead: 'Hver med sin egen identitet, bygget fra bunden til at repræsentere det, de allerede har opbygget.',
 
       ladera_eyebrow: 'Hvem der er i den anden ende',

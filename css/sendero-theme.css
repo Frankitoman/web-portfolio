@@ -107,12 +107,13 @@ body { background: var(--sc-canvas); }
 }
 .topbar__brand {
   pointer-events: auto;
-  display: inline-flex; align-items: center; gap: .55rem;
-  font-family: var(--sc-font-text); font-size: .82rem; font-weight: 500;
+  display: inline-flex; align-items: center; gap: .7rem;
+  font-family: var(--sc-font-text); font-size: 1.05rem; font-weight: 600;
   letter-spacing: .06em; text-transform: uppercase; color: var(--sc-ink);
   background: rgba(238,242,245,.7); backdrop-filter: blur(10px);
-  padding: .5rem .9rem; border-radius: 100px;
+  padding: .6rem 1.1rem; border-radius: 100px;
 }
+.topbar__brand svg { width: 32px; height: 32px; flex: none; }
 
 /* Language selector — same floating-pill language as the brand mark, with
    a small low-poly peak standing in for a flag (three languages, one of
@@ -250,6 +251,11 @@ body { background: var(--sc-canvas); }
 .contact-form-compact__error { font-size: .78rem; color: #f0a98a; margin: 0; }
 .contact-form-compact .copy__cta { margin-top: 0; flex: none; }
 
+.contact-footnote {
+  font-family: var(--sc-font-text); font-size: .74rem;
+  color: rgba(255,255,255,.5); margin: .9rem 0 0; letter-spacing: .02em;
+}
+
 /* ---------- El sendero (waypoint map + signature move) ---------- */
 .sendero {
   position: fixed; left: clamp(1rem, 3vw, 2rem); bottom: clamp(1.4rem, 5vh, 2.6rem);
@@ -348,6 +354,27 @@ body { background: var(--sc-canvas); }
 
   .copy__eyebrow { font-size: .84rem; }
   .copy__lead { font-size: 1.08rem; line-height: 1.58; }
+
+  /* The rail's default desktop spot (fixed bottom-left) collides directly
+     with the contact form and with Plan A's bottom-anchored text at this
+     width — moved to top-left, under the logo, the one zone no bottom- or
+     centre-anchored copy block ever reaches. Same fix already applied at
+     the phone tier below. */
+  .sendero {
+    top: 5.2rem; bottom: auto; left: clamp(1.2rem, 4vw, 2.4rem);
+    width: 24px; height: 140px;
+  }
+
+  /* iPad Safari's own chrome (address/tab bar) does not collapse on scroll
+     the way iPhone's does, so it can permanently cover part of the true
+     viewport bottom even once the page itself is fully scrolled — content
+     anchored to `bottom` needs more real clearance here than the shared
+     clamp gives it, and the compact form itself gets slightly tighter
+     spacing so the whole block is shorter. */
+  .sc-copy--trail.copy--night {
+    bottom: calc(clamp(3rem, 12vh, 9rem) + 2.5rem);
+  }
+  .contact-form-compact { margin-top: .9rem; gap: .45rem; }
 }
 
 @media (max-width: 720px) {

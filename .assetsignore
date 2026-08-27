@@ -1,0 +1,17 @@
+node_modules
+src
+wrangler.toml
+package.json
+package-lock.json
+.assetsignore
+scrollcraft
+.git
+.gitignore
+README.md
+.claude
+.wrangler
+Duo Sonus
+*.txt
+*.jpeg
+*.jpg
+*.log

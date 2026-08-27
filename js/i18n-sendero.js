@@ -55,6 +55,7 @@
       form_message: 'Mensaje',
       form_submit: 'Enviar',
       form_error: 'Completá tu nombre, email y mensaje.',
+      form_success: '¡Listo! Te respondemos pronto.',
     },
 
     en: {
@@ -105,6 +106,7 @@
       form_message: 'Message',
       form_submit: 'Send',
       form_error: 'Fill in your name, email and message.',
+      form_success: 'Done! We’ll get back to you soon.',
     },
 
     da: {
@@ -155,6 +157,7 @@
       form_message: 'Besked',
       form_submit: 'Send',
       form_error: 'Udfyld navn, email og besked.',
+      form_success: 'Klar! Vi vender tilbage snart.',
     },
   };
 

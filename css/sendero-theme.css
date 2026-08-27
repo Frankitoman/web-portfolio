@@ -249,6 +249,7 @@ body { background: var(--sc-canvas); }
 .contact-form-compact__hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 .contact-form-compact__row--end { align-items: center; justify-content: space-between; gap: 1rem; margin-top: .1rem; }
 .contact-form-compact__error { font-size: .78rem; color: #f0a98a; margin: 0; }
+.contact-form-compact__success { font-size: .78rem; color: var(--aurora); margin: 0; }
 .contact-form-compact .copy__cta { margin-top: 0; flex: none; }
 
 .contact-footnote {

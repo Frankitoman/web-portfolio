@@ -1,0 +1,19 @@
+name = "web-portfolio"
+main = "src/index.js"
+compatibility_date = "2026-08-15"
+
+[assets]
+directory = "."
+binding = "ASSETS"
+
+[[send_email]]
+name = "CONTACT_EMAIL"
+destination_address = "francojmansilla@gmail.com"
+
+[[routes]]
+pattern = "tierra.dk"
+custom_domain = true
+
+[[routes]]
+pattern = "www.tierra.dk"
+custom_domain = true

@@ -11,8 +11,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400&family=Instrument+Serif:ital@0;1&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/scrollcraft.css?v=17">
-<link rel="stylesheet" href="css/sendero-theme.css?v=17">
+<link rel="stylesheet" href="css/scrollcraft.css?v=18">
+<link rel="stylesheet" href="css/sendero-theme.css?v=18">
 </head>
 <body>
 
@@ -68,7 +68,7 @@
          segments below carry no visual content of their own any more; they
          stay only for their data-sc-w weights (spacer sizing) and
          data-sc-waypoint labels (copy windows, nav dots, dark-scrim legs). -->
-    <img class="sc-journey" src="assets/sendero/journey.svg?v=17" alt="La cordillera, de la cresta al valle, la ladera, el cruce del sendero y la ventana encendida de noche" decoding="async">
+    <img class="sc-journey" src="assets/sendero/journey.svg?v=18" alt="La cordillera, de la cresta al valle, la ladera, el cruce del sendero y la ventana encendida de noche" decoding="async">
 
     <div data-sc-segment data-sc-w="1.5" data-sc-linger="0.3" data-sc-waypoint="Cresta"></div>
     <div data-sc-segment data-sc-w="2.0" data-sc-linger="0.2" data-sc-waypoint="Valle"></div>
@@ -154,7 +154,8 @@
         <input type="text" name="company" class="contact-form-compact__hp" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="contact-form-compact__row contact-form-compact__row--end">
           <p class="contact-form-compact__error" id="contactFormError" hidden data-i18n="form_error">Completá tu nombre, email y mensaje.</p>
-          <button type="submit" class="copy__cta">
+          <p class="contact-form-compact__success" id="contactFormSuccess" hidden data-i18n="form_success">¡Listo! Te respondemos pronto.</p>
+          <button type="submit" class="copy__cta" id="contactFormSubmit">
             <span data-i18n="form_submit">Enviar</span>
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
@@ -167,31 +168,50 @@
   <div data-sc-spacer aria-hidden="true"></div>
 </main>
 
-<script src="js/scrollcraft.js?v=17"></script>
-<script src="js/sendero.js?v=17"></script>
-<script src="js/i18n-sendero.js?v=17"></script>
+<script src="js/scrollcraft.js?v=18"></script>
+<script src="js/sendero.js?v=18"></script>
+<script src="js/i18n-sendero.js?v=18"></script>
 <script>
   ScrollCraft.mount(document.body);
 
-  // Mailto stand-in until a custom domain + Cloudflare Email Routing exist
-  // (same pattern as duo-sonus/src/index.js) — opens the visitor's own mail
-  // app with the message pre-filled, rather than posting anywhere.
+  // Real send via the Worker's own /api/contact route (src/index.js),
+  // Cloudflare Email Routing on tierra.dk underneath — same pattern as
+  // duo-sonus/src/index.js.
   (function () {
     var form = document.getElementById('contactForm');
     if (!form) return;
     var errorEl = document.getElementById('contactFormError');
+    var successEl = document.getElementById('contactFormSuccess');
+    var submitBtn = document.getElementById('contactFormSubmit');
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var name = form.name.value.trim();
       var email = form.email.value.trim();
       var message = form.message.value.trim();
       if (form.company.value.trim()) return;
+      if (successEl) successEl.hidden = true;
       if (!name || !email || !message) { if (errorEl) errorEl.hidden = false; return; }
       if (errorEl) errorEl.hidden = true;
-      var subject = 'Nuevo mensaje desde Tierra — ' + name;
-      var body = 'Nombre: ' + name + '\nEmail: ' + email + '\n\n' + message;
-      window.location.href = 'mailto:francojmansilla@gmail.com' +
-        '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      if (submitBtn) submitBtn.disabled = true;
+      fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ name: name, email: email, message: message, company: form.company.value }),
+      })
+        .then(function (res) { return res.json().then(function (data) { return { ok: res.ok && data.ok, data: data }; }); })
+        .then(function (result) {
+          if (submitBtn) submitBtn.disabled = false;
+          if (result.ok) {
+            form.reset();
+            if (successEl) successEl.hidden = false;
+          } else if (errorEl) {
+            errorEl.hidden = false;
+          }
+        })
+        .catch(function () {
+          if (submitBtn) submitBtn.disabled = false;
+          if (errorEl) errorEl.hidden = false;
+        });
     });
   })();
 </script>

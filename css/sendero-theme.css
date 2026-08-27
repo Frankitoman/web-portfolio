@@ -453,6 +453,38 @@ body { background: var(--sc-canvas); }
   .copy__eyebrow { font-size: .84rem; }
   .copy__lead { font-size: 1.18rem; line-height: 1.5; }
   .copy__fact { font-size: 1rem; }
+
+  /* Real phone Safari keeps a persistent bottom toolbar that JS innerHeight
+     doesn't know about — content anchored to `bottom` can end up partly
+     behind it even though it measures as fully on-screen. Extra clearance
+     plus a tighter form gives real headroom against that, not just the
+     bare minimum this page's own math says it needs. */
+  .sc-copy--trail.copy--night {
+    bottom: calc(clamp(3rem, 12vh, 9rem) + 3rem);
+  }
+  .contact-form-compact { margin-top: .8rem; gap: .4rem; }
+  .contact-footnote { margin-top: .6rem; }
+}
+
+/* Phone landscape: innerHeight can drop under ~400px, short enough that the
+   fixed topbar (never affected by scroll) and the bottom-anchored contact
+   card can collide — the topbar sitting on top of the Nombre/Email fields.
+   Shrinking the topbar back down and trimming the card's own vertical
+   footprint keeps both clear of each other. */
+@media (max-height: 480px) and (max-width: 900px) {
+  .topbar { padding: .5rem clamp(1rem, 3vw, 1.6rem); }
+  .topbar__brand { font-size: .8rem; padding: .4rem .75rem; gap: .5rem; }
+  .topbar__brand svg { width: 22px; height: 22px; }
+  .lang-switch { padding: .35rem .55rem; }
+
+  .sc-copy--trail.copy--night {
+    bottom: calc(clamp(1.5rem, 6vh, 4rem) + 1rem);
+  }
+  .copy--night .copy__title { font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: .5rem; }
+  .copy--night .copy__eyebrow { margin-bottom: .4rem; }
+  .contact-form-compact { margin-top: .5rem; gap: .3rem; }
+  .contact-form-compact textarea { min-height: 2.2rem; }
+  .copy__lead.mobile-only { margin-bottom: .3rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

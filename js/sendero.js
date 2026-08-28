@@ -28,6 +28,44 @@
   var litPath = document.querySelector('.sendero__lit');
   if (!mode || !segEls.length || !litPath) return;
 
+  // The engine sizes [data-sc-spacer] (the element whose height IS the whole
+  // page's scroll track) once, using innerHeight at that moment — and on
+  // mobile its own resize listener deliberately skips re-sizing it for a
+  // toolbar-only height change (correctly: re-laying-out the whole track
+  // under a scrolling thumb is its own kind of jump). But Safari's address
+  // bar starts EXPANDED and only collapses once the visitor scrolls, so
+  // that first measurement is the SMALL viewport — the spacer ends up
+  // frozen short, `pr` (scrollY/vh, using the now-larger live vh) never
+  // reaches 1 even at max scroll, and the last act(s) never fully reveal.
+  // 100lvh sidesteps the timing problem entirely: it's the large-viewport
+  // value (as if the toolbar were always hidden) available immediately,
+  // with no need to wait for or trigger a real collapse. Only ever GROWS
+  // the spacer, never shrinks it, so this can't itself introduce a jump.
+  var spacerEl = mode.querySelector('[data-sc-spacer]') || mode.querySelector('.sc-world__spacer');
+  // Measured once per layout() pass (not per frame — creating/measuring/
+  // removing a probe element on every scroll tick would cost real time),
+  // then reused everywhere pr math needs a vh: tick(), the dot click
+  // handler, and sizeJourney()/growSpacer() below. Keeping every one of
+  // those on the same number is what makes the spacer's real scroll length
+  // and pr's own denominator agree at every point, not just after the
+  // toolbar happens to have collapsed.
+  var cachedLargeVh = window.innerHeight || 1;
+  function measureLargeVh() {
+    var probe = document.createElement('div');
+    probe.style.cssText = 'position:fixed;top:0;left:0;height:100lvh;width:0;visibility:hidden;pointer-events:none;';
+    document.body.appendChild(probe);
+    var h = probe.getBoundingClientRect().height;
+    document.body.removeChild(probe);
+    cachedLargeVh = h > 0 ? h : (window.innerHeight || 1);
+    return cachedLargeVh;
+  }
+  function growSpacer() {
+    if (!spacerEl) return;
+    var neededH = Math.round((total + 1) * cachedLargeVh);
+    var currentH = spacerEl.getBoundingClientRect().height;
+    if (neededH > currentH + 1) spacerEl.style.height = neededH + 'px';
+  }
+
   var weights = segEls.map(function (el) { return parseFloat(el.getAttribute('data-sc-w')) || 1; });
   var bounds = []; // c_i, start of each leg in vh-units
   var acc = 0;
@@ -73,8 +111,10 @@
   var journeyImg = document.querySelector('.sc-journey');
   var journeyPanRange = 0;
   function sizeJourney() {
+    // Refreshes cachedLargeVh for this whole layout() pass, sizeJourney
+    // through growSpacer, before either one reads it.
+    var vh = measureLargeVh();
     if (!journeyImg) return;
-    var vh = window.innerHeight || 1;
     var imgH = (total + 1) * vh;
     journeyImg.style.height = imgH + 'px';
     journeyPanRange = Math.max(0, imgH - vh);
@@ -83,7 +123,7 @@
   // The real settling sequence: called directly, not through a synthetic
   // 'resize' dispatch, so it never gets confused with the toolbar-toggle
   // noise the native listener below has to filter out.
-  function layout() { sizeJourney(); placeDots(); requestTick(); }
+  function layout() { sizeJourney(); growSpacer(); placeDots(); requestTick(); }
   addEventListener('DOMContentLoaded', layout);
   addEventListener('load', layout);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
@@ -105,8 +145,7 @@
   function tick() {
     raf = null;
     var top = mode.getBoundingClientRect().top + window.scrollY;
-    var vh = window.innerHeight || 1;
-    var t = Math.max(0, (window.scrollY - top) / vh);
+    var t = Math.max(0, (window.scrollY - top) / cachedLargeVh);
     var pr = Math.min(1, t / Math.max(total, 0.001));
 
     if (!reduce) {
@@ -139,9 +178,8 @@
   dots.forEach(function (d, i) {
     d.addEventListener('click', function () {
       var top = mode.getBoundingClientRect().top + window.scrollY;
-      var vh = window.innerHeight || 1;
       var targetT = bounds[i] + Math.min(0.15, weights[i] * 0.2);
-      window.scrollTo({ top: top + targetT * vh, behavior: reduce ? 'auto' : 'smooth' });
+      window.scrollTo({ top: top + targetT * cachedLargeVh, behavior: reduce ? 'auto' : 'smooth' });
     });
   });
 

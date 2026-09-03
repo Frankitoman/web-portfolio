@@ -39,6 +39,9 @@
        assumed equal to the crop position. See the mobile media query. */
     --win-x: 63%; --win-y: 66%;
     --glow-x: var(--win-x); --glow-y: var(--win-y);
+    /* la casa encendida: fuerza de la lumbre y del parpadeo, elegidos en el
+       boceto (boceto-humo.html) sobre la foto real. */
+    --cabin-glow: 0.55; --cabin-flick: 1;
   }
   @media (max-width: 860px) {
     :root {
@@ -399,8 +402,94 @@
       transparent 70%);
     opacity: calc(0.12 + (var(--sc-p, 0) * 0.32) + (var(--heat, 0) * 0.56));
     filter: blur(1px);
+    animation: cabinFlickerA 4.7s ease-in-out infinite;
   }
   .cierre__window-hotspot { position: absolute; left: var(--glow-x); top: var(--glow-y); width: 1px; height: 1px; pointer-events: none; }
+
+  /* ------------------------------------------------ la casa, respirando --
+     Dos cosas encima de la foto: la lumbre de adentro y el humo.
+
+     LUMBRE. Tres capas con periodos que no son multiplos entre si
+     (4.7 / 7.9 / 11.3 s). Sumadas, el parpadeo no repite un patron que el
+     ojo pueda reconocer: se lee como fuego y no como un bucle. La capa
+     base es la que ya existia y conserva su formula de scroll + puntero;
+     estas dos solo agregan el caracter de llama, y entran con --sc-p para
+     que la casa se encienda a medida que uno llega, no antes.
+     --cabin-glow 0.55 y --cabin-flick 1: elegidos por Franco en el boceto. */
+  .cierre__ember {
+    position: absolute; inset: 0; pointer-events: none; z-index: 1;
+    mix-blend-mode: screen;
+    opacity: calc(var(--sc-p, 0) * var(--cabin-glow));
+  }
+  .cierre__ember--b {
+    background: radial-gradient(16rem 16rem at var(--glow-x) var(--glow-y),
+      rgba(255,190,130,.34) 0%, rgba(230,150,90,.12) 50%, rgba(200,120,60,0) 74%);
+    animation: cabinFlickerB 7.9s ease-in-out infinite;
+  }
+  .cierre__ember--c {
+    background: radial-gradient(7rem 8rem at var(--glow-x) var(--glow-y),
+      rgba(255,225,180,.30) 0%, rgba(255,200,140,.10) 55%, rgba(255,180,110,0) 78%);
+    animation: cabinFlickerC 11.3s ease-in-out infinite;
+  }
+  @keyframes cabinFlickerA {
+    0%,100% { filter: blur(1px) brightness(1); }
+    50%     { filter: blur(1px) brightness(calc(1 + var(--cabin-flick) * .30)); }
+  }
+  @keyframes cabinFlickerB {
+    0%,100% { filter: brightness(calc(1 - var(--cabin-flick) * .22)); }
+    37%     { filter: brightness(calc(1 + var(--cabin-flick) * .48)); }
+    68%     { filter: brightness(calc(1 - var(--cabin-flick) * .10)); }
+  }
+  @keyframes cabinFlickerC {
+    0%,100% { filter: brightness(1); }
+    23%     { filter: brightness(calc(1 + var(--cabin-flick) * .70)); }
+    51%     { filter: brightness(calc(1 - var(--cabin-flick) * .16)); }
+    79%     { filter: brightness(calc(1 + var(--cabin-flick) * .34)); }
+  }
+
+  /* HUMO. Volutas desenfocadas que suben desde la boca de la chimenea, cada
+     una con su propio retardo negativo: al llegar, el chorro ya esta formado
+     en vez de arrancar vacio, y como los retardos estan escalonados nunca
+     hay un instante sin humo. Por eso el bucle no tiene costura, que es
+     justo lo que un video de 5 s no podia dar.
+
+     Las medidas NO van en vw: la foto esta recortada con object-fit cover,
+     asi que su ancho renderizado no es el del viewport. --smoke-u y
+     --smoke-v son el 1% del ancho y del alto REALES de la foto ya
+     recortada, calculados en JS, de modo que el humo escala con la casa y
+     no con la ventana del navegador. */
+  .cierre__smoke {
+    position: absolute; left: var(--smoke-x, 62%); top: var(--smoke-y, 40%);
+    width: 0; height: 0; pointer-events: none; z-index: 1;
+  }
+  .cierre__puff {
+    position: absolute; left: 0; top: 0;
+    width: var(--size); height: var(--size);
+    margin-left: calc(var(--size) / -2); margin-top: calc(var(--size) / -2);
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 55%,
+      rgba(214,222,230,.85) 0%, rgba(190,200,212,.45) 42%, rgba(170,182,196,0) 72%);
+    filter: blur(var(--soften));
+    opacity: 0;
+    animation: cabinRise var(--dur) linear infinite var(--delay);
+    will-change: transform, opacity;
+  }
+  @keyframes cabinRise {
+    0%   { transform: translate(0,0) scale(.30); opacity: 0; }
+    9%   { opacity: var(--peak); }
+    45%  { opacity: calc(var(--peak) * .62); }
+    100% { transform: translate(var(--drift), calc(var(--rise) * -1)) scale(2.1); opacity: 0; }
+  }
+  /* Fuera de pantalla no se dibuja: el desenfoque es lo mas caro de la
+     pagina y no tiene sentido gastarlo donde nadie lo ve. */
+  .cierre:not(.is-near) .cierre__puff,
+  .cierre:not(.is-near) .cierre__ember,
+  .cierre:not(.is-near) .cierre__glow { animation-play-state: paused; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cierre__glow, .cierre__ember, .cierre__puff { animation: none !important; }
+    .cierre__puff { opacity: 0 !important; }
+  }
   /* Was a 2-column grid with the form filling the whole right half, which
      sat directly on top of the lit window (the payoff of the whole page).
      Rebuilt as a single left-anchored column: headline, lede, then a
@@ -950,8 +1039,11 @@
        page ends. -->
   <section id="contacto" data-sendero-zone="4" data-sc-act="pin" data-sc-span="3.4" data-sc-drift="#0a0e13">
     <div data-sc-stage class="cierre">
-      <img class="cierre__bg" src="assets/04-ventana.webp" width="1920" height="1066" alt="Cabaña de piedra en la montaña con una ventana encendida al atardecer." data-i18n-alt="alt_ventana">
+      <img class="cierre__bg" src="assets/04-ventana-limpia.webp" width="1920" height="1066" alt="Cabaña de piedra en la montaña con una ventana encendida al atardecer." data-i18n-alt="alt_ventana">
       <div class="cierre__glow" aria-hidden="true"></div>
+      <div class="cierre__ember cierre__ember--b" aria-hidden="true"></div>
+      <div class="cierre__ember cierre__ember--c" aria-hidden="true"></div>
+      <div class="cierre__smoke" aria-hidden="true"></div>
       <span class="cierre__window-hotspot" aria-hidden="true"></span>
       <div class="sc-scrim sc-scrim--lead" aria-hidden="true"></div>
 
@@ -1116,6 +1208,84 @@
      crop at any viewport size. --sc-p (the contacto act's own engine
      progress) already drives the scroll half of the glow in pure CSS via
      calc(), see .cierre__glow above; this only adds the pointer half. */
+  /* ------------------------------------------------ la casa, respirando --
+     La foto se muestra con object-fit: cover, asi que su ancho y alto
+     renderizados no son los del viewport y la chimenea cae en un punto
+     distinto en cada pantalla. En vez de fijar coordenadas por breakpoint
+     (que es lo que ya se desincronizo dos veces en este archivo: las zonas
+     del sendero y el destino del boton), se calcula el recorte de verdad y
+     se deduce donde quedo la boca de la chimenea. Asi es correcto por
+     construccion en cualquier tamano, hoy y despues de cualquier cambio. */
+  var CHIMNEY_FX = 0.6198;   /* medido sobre la foto: x 1190 / 1920 */
+  var CHIMNEY_FY = 0.4005;   /* y 427 / 1066, la boca de la chimenea */
+  var SMOKE = { count: 10, peak: 0.37, size: 3.2, rise: 40, dur: 9, drift: 5.5, soften: 1.2 };
+
+  var cierre = document.querySelector('.cierre');
+  var bg = cierre && cierre.querySelector('.cierre__bg');
+  var smokeHost = cierre && cierre.querySelector('.cierre__smoke');
+
+  if (cierre && bg && smokeHost) {
+    /* mismo azar estable que en el boceto: cada voluta recibe siempre los
+       mismos numeros, asi la columna no cambia de forma al recargar. */
+    var noise = function (seed) { var x = Math.sin(seed * 9973.7) * 43758.5453; return x - Math.floor(x); };
+
+    var placeSmoke = function () {
+      var r = bg.getBoundingClientRect();
+      var nw = bg.naturalWidth || 1920, nh = bg.naturalHeight || 1066;
+      if (!r.width || !r.height) return;
+
+      /* geometria de object-fit: cover */
+      var scale = Math.max(r.width / nw, r.height / nh);
+      var rw = nw * scale, rh = nh * scale;
+      var cs = getComputedStyle(cierre);
+      var px = parseFloat(cs.getPropertyValue('--win-x')) || 50;
+      var py = parseFloat(cs.getPropertyValue('--win-y')) || 50;
+      /* object-position reparte el sobrante segun ese porcentaje */
+      var left = (r.width - rw) * (px / 100);
+      var top  = (r.height - rh) * (py / 100);
+
+      cierre.style.setProperty('--smoke-x', (left + CHIMNEY_FX * rw).toFixed(1) + 'px');
+      cierre.style.setProperty('--smoke-y', (top + CHIMNEY_FY * rh).toFixed(1) + 'px');
+      /* 1% del ancho y alto REALES de la foto ya recortada: el humo escala
+         con la casa, no con el navegador. */
+      cierre.style.setProperty('--smoke-u', (rw / 100).toFixed(3) + 'px');
+      cierre.style.setProperty('--smoke-v', (rh / 100).toFixed(3) + 'px');
+    };
+
+    var buildSmoke = function () {
+      smokeHost.textContent = '';
+      var u = 'var(--smoke-u)', v = 'var(--smoke-v)';
+      for (var i = 0; i < SMOKE.count; i++) {
+        var r1 = noise(i + 1), r2 = noise(i + 41), r3 = noise(i + 97);
+        var dur = SMOKE.dur * (0.78 + r1 * 0.5);
+        var p = document.createElement('div');
+        p.className = 'cierre__puff';
+        p.style.setProperty('--size',   'calc(' + u + ' * ' + (SMOKE.size   * (0.7 + r2 * 0.7)).toFixed(2) + ')');
+        p.style.setProperty('--rise',   'calc(' + v + ' * ' + (SMOKE.rise   * (0.85 + r3 * 0.3)).toFixed(2) + ')');
+        p.style.setProperty('--drift',  'calc(' + u + ' * ' + (SMOKE.drift  * (0.35 + r1 * 1.3)).toFixed(2) + ')');
+        p.style.setProperty('--soften', 'calc(' + u + ' * ' + (SMOKE.soften * (0.8 + r3 * 0.5)).toFixed(2) + ')');
+        p.style.setProperty('--peak',   (SMOKE.peak * (0.75 + r2 * 0.5)).toFixed(3));
+        p.style.setProperty('--dur',    dur.toFixed(2) + 's');
+        p.style.setProperty('--delay',  (-(dur / SMOKE.count) * i).toFixed(2) + 's');
+        smokeHost.appendChild(p);
+      }
+    };
+
+    buildSmoke();
+    if (bg.complete) placeSmoke(); else bg.addEventListener('load', placeSmoke);
+    addEventListener('resize', placeSmoke, { passive: true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeSmoke);
+
+    /* solo anima cuando la casa esta cerca de pantalla */
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { cierre.classList.toggle('is-near', en.isIntersecting); });
+      }, { rootMargin: '200px' }).observe(cierre.closest('section') || cierre);
+    } else {
+      cierre.classList.add('is-near');
+    }
+  }
+
   var stage = document.querySelector('.cierre');
   var hotspot = document.querySelector('.cierre__window-hotspot');
   if (stage && hotspot && fineHover.matches && !reduce) {

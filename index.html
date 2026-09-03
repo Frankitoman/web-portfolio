@@ -1,219 +1,1368 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Tierra — El sendero</title>
-<meta name="description" content="Un hogar digital para tu negocio. Tierra, estudio de diseño web en Copenhague.">
+<title>Tierra · un hogar digital para tu negocio</title>
+<meta name="description" content="Diseño a medida y desarrollo digital para tu negocio, desde Copenhague. Tierra construye el hogar digital que tu negocio merece.">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400&family=Instrument+Serif:ital@0;1&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="scrollcraft.css">
+<style>
+  :root {
+    /* the whole rebrand: six colours and three faces, drawn from the logo mark
+       and the print business-card stock. */
+    --sc-canvas:      #101820;
+    --sc-surface:     #1C232B;
+    --sc-ink:         #F4F1EA;
+    --sc-ink-soft:    #A9AEB4;
+    --sc-accent:      #E08A54;
+    --sc-accent-ink:  #1C1006;
+    --sc-font-display: "Newsreader", "Iowan Old Style", "Georgia", serif;
+    --sc-font-text:    "Space Mono", ui-monospace, "SFMono-Regular", monospace;
+    --sc-font-mono:    "Space Mono", ui-monospace, monospace;
+    --sc-font-accent:  "Instrument Serif", "Newsreader", serif;
+    --sc-measure: 54ch;
+    /* --win-x/--win-y: object-position for the cierre__bg photo (which part
+       of the landscape frame gets cropped into view). --glow-x/--glow-y: the
+       literal on-screen percentage the glow gradient and pointer-hotspot use.
+       On any viewport wide enough that object-fit:cover has slack in both
+       directions the two coincide closely, so they default to the same
+       value. On a narrow portrait viewport, cover is height-bound against
+       this landscape photo (zero vertical crop slack — verified live: the
+       window's screen Y does not move no matter what --win-y is set to), so
+       the mobile override below sets --glow-x/--glow-y independently,
+       computed from where the window ACTUALLY renders on screen at that
+       breakpoint (measured via a pixel scan of the composited frame), not
+       assumed equal to the crop position. See the mobile media query. */
+    --win-x: 63%; --win-y: 66%;
+    --glow-x: var(--win-x); --glow-y: var(--win-y);
+  }
+  @media (max-width: 860px) {
+    :root {
+      --win-x: 55%; --win-y: 46%;
+      --glow-x: 81%; --glow-y: 70%;
+    }
+  }
 
-<link rel="stylesheet" href="css/scrollcraft.css?v=20">
-<link rel="stylesheet" href="css/sendero-theme.css?v=20">
+  body { font-size: 0.98rem; }
+  em, i { font-family: var(--sc-font-accent); font-style: italic; font-weight: 400; }
+  .sc-display em { font-style: italic; }
+
+  /* ---------------------------------------------------------- skip link -- */
+  .skip { position: fixed; z-index: 200; left: var(--sc-4); top: -3rem; background: var(--sc-accent);
+    color: var(--sc-accent-ink); padding: 0.6rem 1rem; border-radius: var(--sc-r-sm);
+    font-family: var(--sc-font-mono); font-size: var(--sc-t-sm); transition: top 160ms var(--sc-ease-out); }
+  .skip:focus { top: var(--sc-4); }
+
+  /* ------------------------------------------------------------ nav bar -- */
+  .site-bar {
+    position: fixed; inset: 0 0 auto 0; z-index: var(--sc-z-chrome);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--sc-4);
+    padding: clamp(0.9rem, 2vw, 1.3rem) var(--sc-gutter);
+    background: linear-gradient(to bottom, color-mix(in oklab, var(--sc-canvas) 78%, transparent), transparent);
+    pointer-events: none;
+  }
+  .site-bar > * { pointer-events: auto; }
+  .mark { display: inline-flex; align-items: center; gap: 0.55rem; color: var(--sc-ink); text-decoration: none; }
+  .mark__svg { width: 22px; height: 20px; flex: none; }
+  .mark__word { font-family: var(--sc-font-mono); font-weight: 700; font-size: 0.92rem; letter-spacing: 0.16em; }
+  .locale { display: flex; gap: 0.3rem; font-family: var(--sc-font-mono); font-size: 0.7rem; letter-spacing: 0.06em; }
+  .locale button {
+    background: none; border: 1px solid var(--sc-hairline); color: var(--sc-ink-soft);
+    padding: 0.3rem 0.55rem; border-radius: var(--sc-r-sm); cursor: pointer;
+    transition: color 160ms var(--sc-ease-out), border-color 160ms var(--sc-ease-out), transform 120ms var(--sc-ease-out);
+  }
+  .locale button:hover { color: var(--sc-ink); border-color: var(--sc-hairline-strong); }
+  .locale button:active { transform: scale(0.94); }
+  .locale button[aria-current="true"] { color: var(--sc-accent-ink); background: var(--sc-accent); border-color: var(--sc-accent); }
+  @media (max-width: 640px) { .locale { display: none; } }
+
+  .btn {
+    font-family: var(--sc-font-mono); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em;
+    padding: 0.7rem 1.15rem; border-radius: var(--sc-r-pill); border: 1px solid transparent;
+    cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.5rem;
+    transition: transform 160ms var(--sc-ease-out), box-shadow 200ms var(--sc-ease-out), background 200ms var(--sc-ease-out), border-color 200ms var(--sc-ease-out);
+  }
+  .btn--primary { background: var(--sc-accent); color: var(--sc-accent-ink); box-shadow: var(--sc-e1); }
+  .btn--primary:hover { box-shadow: var(--sc-e2); transform: translateY(-1px); }
+  .btn--primary:active { transform: translateY(0) scale(0.97); box-shadow: var(--sc-e1); }
+  .btn--primary:focus-visible { outline: 2px solid var(--sc-ink); outline-offset: 3px; }
+  .btn--ghost { background: transparent; color: var(--sc-ink); border-color: var(--sc-hairline-strong); }
+  .btn--ghost:hover { border-color: var(--sc-ink); background: color-mix(in oklab, var(--sc-ink) 8%, transparent); }
+  .btn--ghost:active { transform: scale(0.97); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* -------------------------------------------------------------- hero -- */
+  .hero-copy p:first-child { margin-top: 0; }
+  .hero-h1 { max-width: 20rem; font-size: clamp(2.4rem, 1.9rem + 3.8vw, 4.8rem); }
+  @media (min-width: 700px) { .hero-h1 { max-width: 28rem; } }
+  .hero-sub { margin-top: var(--sc-5); max-width: 30rem; font-size: var(--sc-t-lg); color: var(--sc-ink); }
+  /* The hero photograph reserves a huge pale-gold sky for the headline, but
+     white type over a near-white sky is a contrast trap the generic
+     .sc-scrim--band does not cover (it fades out at 58% up from the
+     bottom; this headline's top line sits higher than that). A dedicated,
+     taller scrim instead of the kit default. */
+  /* Pre-launch contrast pass: the h1 measured 4.21:1 at 1440x900 against the
+     brightest frame of the scrub (p95 of the composited background inside the
+     h1's own box, glyphs hidden). It passes as large display type at 3:1 but
+     this is going live, so it is nudged clear of the 4.5:1 normal-text bar.
+     ONLY the 44%-64% band moved (68->79, 42->56, 18->24) — that is exactly
+     the height the headline occupies on a wide viewport. The 0% and 24% stops
+     are untouched because the lede down there already measures 13:1 and
+     darkening it would only flatten the foreground of the photograph, and the
+     82%-98% stops stay light so the dawn sky the whole shot is about still
+     reads. The type colour, size and weight are unchanged. */
+  .hero-scrim {
+    background: linear-gradient(to top,
+      color-mix(in oklab, var(--sc-canvas) 94%, transparent) 0%,
+      color-mix(in oklab, var(--sc-canvas) 86%, transparent) 24%,
+      color-mix(in oklab, var(--sc-canvas) 79%, transparent) 44%,
+      color-mix(in oklab, var(--sc-canvas) 56%, transparent) 64%,
+      color-mix(in oklab, var(--sc-canvas) 24%, transparent) 82%,
+      transparent 98%);
+  }
+  /* ------------------------------------------------- boundary feathering --
+     Every full-bleed frame on this page dissolves into the drift-linked
+     --sc-canvas colour at its own edges instead of stopping on a hard line,
+     so no section boundary reads as a cut. Re-audited this round after the
+     planes restructure moved two boundaries.
+     The bug this round's audit found: the old rule keyed the video half off
+     `[data-sc-act="scrub"] video[data-sc-scrub]`, which matched ONLY the hero.
+     Trabajos' and planes' clips both live inside `pin` acts, so the planes
+     video was reaching its edges completely unfeathered while its own poster
+     underneath it was feathered — meaning the boundary softened correctly
+     until the clip loaded and then snapped to a hard cut. Keyed off the
+     element instead of the act now, so any scrub clip anywhere is covered.
+     --feather-* are the two profiles: HEAD is for a frame whose top edge
+     is the page's own first paint (nothing above it to blend into), EDGE is
+     for a frame with live content on both sides. */
+  :root {
+    --feather-head: linear-gradient(to bottom, black 0%, black 88%, transparent 100%);
+    --feather-edge: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
+  }
+  .sc-stage__poster, video[data-sc-scrub] {
+    mask-image: var(--feather-head);
+    -webkit-mask-image: var(--feather-head);
+  }
+  /* planes-pin: the boundary above it changed this round (it now meets the
+     quien pin directly, since .planes-lead is gone) and the one below it is
+     the planes-note flow band. Both sides need the two-ended profile, and
+     the clip needs it as much as the poster. */
+  .planes__bg img, .planes__bg video {
+    mask-image: var(--feather-edge);
+    -webkit-mask-image: var(--feather-edge);
+  }
+
+  /* ---------------------------------------------------------- trabajos -- */
+  /* .trabajos IS the pinned stage now. Same warning as .quien and .cierre
+     below: declare NO `position` and NO `height` here — .sc-stage (added by
+     the engine) already owns both, and redeclaring either at equal
+     specificity from a stylesheet that loads after scrollcraft.css silently
+     wins and un-pins the act. `padding-block` is gone for the same family of
+     reasons: a stage is a fixed 100svh box, and section padding inside it
+     eats the budget the copy needs to stay uncropped. Centring is done with
+     flex instead, which is what guarantees the copy block sits in the middle
+     of the viewport for the whole hold rather than being laid out from a top
+     edge and running off the bottom. */
+  .trabajos { display: flex; align-items: center; justify-content: flex-start; isolation: isolate; background: var(--sc-canvas); }
+  /* inset:0 now, not a 100vh strip anchored to a much taller flow section:
+     the stage IS exactly one viewport, so the two are the same box and the
+     old over-zoom risk is gone. */
+  .trabajos__bg { position: absolute; inset: 0; z-index: 0; }
+  /* Depth-of-field scrub, same idea as the hero: a poster underneath, a real
+     video on top that fades in once its first frame has painted (the
+     engine's own .sc-has-clip / video[data-sc-scrub] opacity rule, reused
+     here even though this act is "flow" not "scrub" — see the JS notes on
+     the trabajos act below for why the flow act's own progress formula maps
+     onto the clip correctly with no bespoke math needed). Both layers share
+     the same absolute box and the same feathered mask so the swap is
+     invisible. */
+  .trabajos__bg img, .trabajos__bg video {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    /* feathered on both edges: hero above, quien below. Same shared profile
+       as every other full-bleed frame so the boundaries match each other. */
+    mask-image: var(--feather-edge);
+    -webkit-mask-image: var(--feather-edge);
+  }
+  .trabajos__scrim {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      linear-gradient(105deg,
+        color-mix(in oklab, var(--sc-canvas) 90%, transparent) 0%,
+        color-mix(in oklab, var(--sc-canvas) 76%, transparent) 34%,
+        color-mix(in oklab, var(--sc-canvas) 42%, transparent) 64%,
+        color-mix(in oklab, var(--sc-canvas) 18%, transparent) 100%),
+      linear-gradient(to bottom,
+        color-mix(in oklab, var(--sc-canvas) 55%, transparent) 0%,
+        color-mix(in oklab, var(--sc-canvas) 15%, transparent) 22%,
+        color-mix(in oklab, var(--sc-canvas) 15%, transparent) 78%,
+        color-mix(in oklab, var(--sc-canvas) 55%, transparent) 100%);
+  }
+  /* Left-anchored, not centred: a centred column collides with the
+     centred ES/EN/DA switcher in the fixed header as the heading scrolls
+     up underneath it. */
+  .trabajos__wrap { position: relative; z-index: 2; max-width: 34rem; margin-inline: 0; flex: none; }
+  .trabajos__col h2 { max-width: 18ch; }
+  .trabajos__col > p.sc-body { margin-top: var(--sc-4); }
+  .trabajos__list { list-style: none; margin: var(--sc-7) 0 0; padding: 0; display: flex; flex-direction: column; }
+  /* The pinned viewport is a hard 100svh budget with no scroll to fall back
+     on, and a short landscape phone (or a 390x844 with the browser chrome
+     showing) is the tightest case. Tighten the block there so the heading,
+     the subhead and all four names — "The Wandering Die" included, the row
+     that got cropped in the original tall-scroll version — stay inside the
+     frame for the whole hold. */
+  @media (max-height: 780px), (max-width: 860px) {
+    .trabajos__list { margin-top: var(--sc-5); }
+    .trabajos__link { padding-block: 0.75rem; }
+  }
+  .trabajos__row { border-top: 1px solid var(--sc-hairline); }
+  .trabajos__row:last-child { border-bottom: 1px solid var(--sc-hairline); }
+  .trabajos__row:nth-child(1) { transition-delay: 0ms; }
+  .trabajos__row:nth-child(2) { transition-delay: 80ms; }
+  .trabajos__row:nth-child(3) { transition-delay: 160ms; }
+  .trabajos__row:nth-child(4) { transition-delay: 240ms; }
+  .trabajos__link {
+    all: unset; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between;
+    gap: var(--sc-4); width: 100%; padding: 1.05rem 0.1rem; cursor: pointer; border-radius: var(--sc-r-sm);
+  }
+  .trabajos__wipe {
+    display: block; font-family: var(--sc-font-accent); font-style: italic; font-weight: 400;
+    font-size: clamp(1.5rem, 1.1rem + 2.2vw, 2.6rem); line-height: 1.15; padding-bottom: 0.1em;
+    color: var(--sc-ink); transition: color 200ms var(--sc-ease-out);
+  }
+  .trabajos__arrow {
+    flex: none; width: 20px; height: 20px; color: var(--sc-accent); opacity: 0; translate: -8px 0;
+    transition: opacity 200ms var(--sc-ease-out), translate 200ms var(--sc-ease-out);
+  }
+  .trabajos__link:hover .trabajos__wipe, .trabajos__link:focus-visible .trabajos__wipe { color: var(--sc-accent); }
+  .trabajos__link:hover .trabajos__arrow, .trabajos__link:focus-visible .trabajos__arrow { opacity: 1; translate: 0 0; }
+  .trabajos__link:active .trabajos__wipe { opacity: 0.8; }
+  .trabajos__link:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 4px; }
+
+  /* -------------------------------------------------------------- quien -- */
+  /* NOTE: no `position` and no `height` here, on purpose. .sc-stage (added by
+     the engine JS) already sets position:sticky and height:100svh; redeclaring
+     either at equal specificity in a stylesheet that loads after
+     scrollcraft.css silently wins. A redeclared height is the sneakier of the
+     two: height:100% resolves against the PARENT section (which is 260vh+
+     tall), stretching the stage to match it and leaving sticky no travel
+     range to hold within, so it just scrolls in lockstep instead of pinning.
+     See taste.md / verify.md's warning on the position case; this build hit
+     the height variant of the same trap. */
+  .quien { display: flex; align-items: center; justify-content: center; background: var(--sc-canvas); }
+  .quien__bg {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 40%;
+    mask-image: var(--feather-edge);
+    -webkit-mask-image: var(--feather-edge);
+  }
+  /* A dusk photograph has no single dark region a centred column can sit
+     in, so the copy gets its own scrim (a sibling, per taste.md) sized to
+     the text column rather than the generic vignette. */
+  .quien__scrim {
+    position: absolute; inset: 0; pointer-events: none; z-index: 2;
+    background: radial-gradient(46rem 30rem at 50% 52%,
+      color-mix(in oklab, var(--sc-canvas) 82%, transparent) 0%,
+      color-mix(in oklab, var(--sc-canvas) 60%, transparent) 46%,
+      color-mix(in oklab, var(--sc-canvas) 20%, transparent) 74%,
+      transparent 100%);
+  }
+  .quien__copy { position: relative; z-index: 3; max-width: min(42rem, 82vw); text-align: center; padding-inline: var(--sc-gutter); }
+  .quien__line { margin: 0; font-family: var(--sc-font-display); font-weight: 500; line-height: 1.22; }
+  .quien__line + .quien__line { margin-top: var(--sc-6); }
+  .quien__line--serif { font-size: clamp(1.7rem, 1.2rem + 2.6vw, 3.1rem); letter-spacing: var(--sc-track-snug); }
+  .quien__line--serif em { color: var(--sc-accent); }
+  .quien__line--body { font-family: var(--sc-font-text); font-size: var(--sc-t-base); color: var(--sc-ink); opacity: 0.82; max-width: 34ch; margin-inline: auto; }
+  .quien__line--mark { font-family: var(--sc-font-mono); font-size: var(--sc-t-sm); letter-spacing: 0.14em; text-transform: uppercase; color: var(--sc-ink); }
+
+  /* ------------------------------------------------------------- planes -- */
+  /* History: was a horizontal PAN act (cards slid sideways and clipped —
+     Plan A's foot cut off, Plan B's copy never fully arrived). Rewritten to
+     a normal flow section to fix that. This round adds a brief PINNED hold
+     back, comparable in feel to the hero's dwell, so the pricing beat gets
+     its own settled moment — but scoped ONLY to the two cards, not the
+     whole section: .planes-lead (heading/sub) and .planes-note (the "not
+     sure?" line) stay normal flow immediately before/after the hold. That
+     keeps the pin's one-viewport budget covering just what must never crop
+     (price, tagline, all 3 bullets, both cards), which is the one thing this
+     fix is not allowed to regress. */
+  .planes-note { position: relative; padding-block: var(--sc-section); background: var(--sc-canvas); }
+  .planes__note-wrap { max-width: 40rem; margin-inline: auto; text-align: center; }
+  /* The lead now sits INSIDE the pinned stage, above the cards, as part of
+     one composition. Bottom margin only, so the flex-centred cards-wrap
+     stays optically centred as a whole block. */
+  .planes__lead { position: relative; text-align: center; max-width: 40rem; margin: 0 auto clamp(1.25rem, 3.4vh, 2.75rem); }
+  /* The lead used to sit on plain canvas in its own flow section. Now that it
+     is inside the pinned stage it lands on the brightest part of the dawn
+     frame, where --sc-ink-soft grey on a pale sky failed to read. A scrim
+     sized to the text block (per taste.md — never a full-frame darkening
+     layer, which would flatten the photograph everywhere to fix one region),
+     plus the subhead promoted from --sc-ink-soft to --sc-ink. */
+  .planes__lead::before {
+    content: ""; position: absolute; z-index: -1; pointer-events: none;
+    left: 50%; top: 50%; translate: -50% -50%; width: 170%; height: 320%;
+    /* Radii must land INSIDE the box on both axes or the gradient is still
+       partly opaque when it hits the element edge and the scrim reads as a
+       visible rectangle (it did at 58%/50% — the 58% radius resolved to
+       557px inside a 960px-wide box whose half-width is only 480px). */
+    background: radial-gradient(38% 40% at 50% 50%,
+      color-mix(in oklab, var(--sc-canvas) 84%, transparent) 0%,
+      color-mix(in oklab, var(--sc-canvas) 60%, transparent) 44%,
+      color-mix(in oklab, var(--sc-canvas) 20%, transparent) 74%,
+      transparent 100%);
+  }
+  .planes__lead p.sc-body { margin: var(--sc-4) auto 0; color: var(--sc-ink); }
+  .planes-note .sc-body { font-size: var(--sc-t-base); color: var(--sc-ink-soft); }
+
+  .planes-stage { display: flex; align-items: center; justify-content: center; background: var(--sc-canvas); }
+  .planes__bg-scrim {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: linear-gradient(to bottom,
+      color-mix(in oklab, var(--sc-canvas) 66%, transparent) 0%,
+      color-mix(in oklab, var(--sc-canvas) 32%, transparent) 30%,
+      color-mix(in oklab, var(--sc-canvas) 32%, transparent) 78%,
+      color-mix(in oklab, var(--sc-canvas) 70%, transparent) 100%);
+  }
+  .planes__cards-wrap {
+    position: relative; z-index: 2; width: 100%; max-width: 62rem;
+    padding-inline: var(--sc-gutter);
+  }
+  .planes__cards {
+    width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2.4vw, 2.25rem);
+    text-align: left;
+  }
+  .plan {
+    background: #EFEAE0; --sc-ink: #1C232B; --sc-ink-soft: #55503F; color: var(--sc-ink);
+    border-radius: var(--sc-r-lg); padding: clamp(1.5rem, 3vw, 2.5rem); display: flex; flex-direction: column;
+    box-shadow: 0 1px 2px rgba(20,15,5,0.14), 0 24px 48px -20px rgba(20,15,5,0.32);
+  }
+  .plan__eyebrow { font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); letter-spacing: 0.14em; text-transform: uppercase; color: #B96A3A; margin: 0; }
+  .plan__price { font-family: var(--sc-font-display); font-weight: 500; font-size: clamp(1.6rem, 1.3rem + 1.4vw, 2.6rem); margin: var(--sc-3) 0 0; letter-spacing: var(--sc-track-tight); }
+  .plan__price span { font-family: var(--sc-font-text); font-size: var(--sc-t-sm); font-weight: 400; color: var(--sc-ink-soft); margin-left: 0.35em; }
+  .plan__desc { font-family: var(--sc-font-accent); font-style: italic; font-size: var(--sc-t-lg); margin: var(--sc-5) 0 0; max-width: 22ch; }
+  .plan__list { list-style: none; margin: var(--sc-6) 0 0; padding: 0; border-top: 1px solid color-mix(in oklab, var(--sc-ink) 16%, transparent); }
+  .plan__list li { padding: 0.55rem 0; font-family: var(--sc-font-mono); font-size: var(--sc-t-sm); color: var(--sc-ink-soft); border-bottom: 1px solid color-mix(in oklab, var(--sc-ink) 10%, transparent); }
+  .planes__cards .plan:nth-child(2) { transition-delay: 100ms; }
+
+  /* Below 720px two full cards side by side get too narrow for the price
+     line to sit comfortably; stacked (still both fully static, still both
+     fully visible) is the documented fallback for this exact pin. Compact
+     the card internals too, since a pinned mobile viewport is a hard 100svh
+     budget with no scroll to fall back on if two stacked cards run long —
+     and this round the heading and subhead moved INSIDE that same budget.
+     THIS BLOCK MUST STAY AFTER THE .plan RULES ABOVE. It used to sit before
+     them, and since every selector here ties on specificity with its base
+     rule, the later base rule silently won and all five declarations were
+     dead: measured at 390x844, .plan padding was still 24px (not 1.1rem),
+     .plan__desc margin-top 24px (not 12), .plan__list margin-top 32px (not
+     16) and li padding 8.8px (not 6.4) — 110px of compaction that was
+     written but never applied, which is exactly what made the composition
+     overflow an 844px screen once the heading joined it. */
+  @media (max-width: 720px) {
+    .planes__cards { grid-template-columns: 1fr; gap: 0.6rem; }
+    .planes__lead { margin-bottom: clamp(0.85rem, 2vh, 1.35rem); }
+    .planes__lead p.sc-body { margin-top: var(--sc-3); font-size: var(--sc-t-sm); }
+    .plan { padding: 1.1rem 1.35rem; }
+    .plan__desc { margin-top: var(--sc-3); font-size: var(--sc-t-base); }
+    .plan__list { margin-top: var(--sc-4); }
+    .plan__list li { padding: 0.35rem 0; }
+    /* The stage centres its content in 100svh, but the fixed site-bar owns
+       the top ~72px of that box — measured live, the centred heading landed
+       at y=51 and collided with the "Contanos tu idea" CTA. Pad the top of
+       the composition so the centring happens in the space actually left
+       over below the bar. Paired with the extra compaction above so the
+       block still clears the bottom edge on a 390x844 screen. */
+    .planes__cards-wrap { padding-block: 3.5rem 0.5rem; }
+  }
+
+  /* ------------------------------------------------------------- cierre -- */
+  /* Same note as .quien above: no `position` and no `height` here, .sc-stage
+     already owns both. */
+  .cierre { background: var(--sc-canvas); }
+  .cierre__bg {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: var(--win-x) var(--win-y);
+    /* Top edge only: this is the last frame on the page and it must RESOLVE
+       and hold, not fade out into nothing at its foot. Deepened from 10% to
+       match the shared --feather-edge lead-in so the planes-note -> contacto
+       boundary reads the same as every other one. */
+    mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 100%);
+  }
+  .cierre__glow {
+    position: absolute; inset: 0; pointer-events: none; z-index: 1;
+    background: radial-gradient(34rem 34rem at var(--glow-x) var(--glow-y),
+      color-mix(in oklab, var(--sc-accent) 60%, transparent) 0%,
+      color-mix(in oklab, var(--sc-accent) 18%, transparent) 38%,
+      transparent 70%);
+    opacity: calc(0.12 + (var(--sc-p, 0) * 0.32) + (var(--heat, 0) * 0.56));
+    filter: blur(1px);
+  }
+  .cierre__window-hotspot { position: absolute; left: var(--glow-x); top: var(--glow-y); width: 1px; height: 1px; pointer-events: none; }
+  /* Was a 2-column grid with the form filling the whole right half, which
+     sat directly on top of the lit window (the payoff of the whole page).
+     Rebuilt as a single left-anchored column: headline, lede, then a
+     compact form card, all hugging the left/upper part of the frame so the
+     window stays clear and legible in its own lower-right region. */
+  .cierre__inner {
+    /* Sized to the space actually available to the LEFT of the lit window,
+       not to a round number. The window's hotspot sits at --glow-x (63% of
+       the stage width on desktop), so the usable left region is 63vw minus a
+       safety margin; 52vw leaves ~11vw (~140px at 1280, ~158px at 1440) of
+       clear air between the form's right edge and the window before the
+       window's own photographed body even begins. The rem cap keeps it from
+       running to an unreadable measure on a very wide monitor.
+       Grew this round from 33rem: now min(46rem, 52vw). */
+    position: relative; z-index: 3; height: 100%; max-width: min(46rem, 52vw);
+    display: flex; flex-direction: column; justify-content: center;
+    gap: clamp(1.5rem, 3vw, 2.25rem);
+    padding-inline: var(--sc-gutter); padding-block: clamp(5rem, 10vh, 8rem) clamp(4rem, 8vh, 6rem);
+  }
+  .cierre__intro h2 { font-size: clamp(1.8rem, 1.4rem + 2vw, 2.7rem); max-width: 14ch; }
+  .cierre__intro .sc-lede { margin-top: var(--sc-4); color: var(--sc-ink-soft); }
+  .cierre__form {
+    background: color-mix(in oklab, var(--sc-surface) 92%, transparent);
+    border: 1px solid var(--sc-hairline-strong); border-radius: var(--sc-r-lg);
+    padding: clamp(1.25rem, 2vw, 1.75rem); backdrop-filter: blur(6px);
+    box-shadow: var(--sc-e2); display: flex; flex-direction: column; gap: var(--sc-3);
+    /* Fills the column it is in (which is itself capped against the window),
+       rather than being independently capped smaller than its own container.
+       Grew this round from 30rem. */
+    max-width: 100%;
+  }
+  .cierre__form .field input, .cierre__form .field textarea { font-size: 0.98rem; padding: 0.85rem 1rem; }
+  .cierre__form textarea { min-height: 6.5rem; }
+  /* Below 860px the photo is height-bound under object-fit:cover (verified
+     live: object-position-y has ~zero effect on a landscape photo cropped
+     into a portrait viewport, so the window's on-screen Y cannot be moved by
+     CSS alone at this breakpoint). The window is confirmed live to land in
+     the lower-right of the frame, so the intro column stays full width (the
+     heading still reads best wide) but the form card itself is capped and
+     stays left-anchored, leaving a clear strip on the right where the window
+     sits — same left/window-stays-clear logic as desktop, just narrower
+     because the window's photographed size take a bigger share of a 390px
+     frame than a 1400px one. */
+  /* Mobile: the form's WIDTH here is capped by physics, not by taste. A pixel
+     scan of the composited 390x844 frame puts the lit pane's left edge at
+     x=283 and the cabin's own left edge at essentially the same place, and
+     the window cannot be moved out of the way: --win-y does nothing at this
+     breakpoint (cover is height-bound against this landscape photo, verified
+     live in an earlier round), and lowering --win-x to push the pane further
+     right would start clipping it off the 390px frame — it already ends at
+     x=368. So ~280px is the whole left region that exists.
+     60vw = 234px leaves a 29px gap to the pane, wider than the page's own
+     20px gutter. It is only a little wider than the old 14rem/224px cap
+     because there is nowhere else to go; the form gains its real size here
+     from the taller fields and larger type above, not from width. */
+  @media (max-width: 860px) {
+    .cierre__inner { max-width: none; }
+    .cierre__form { max-width: min(17.5rem, 60vw); }
+    .cierre__form textarea { min-height: 4.5rem; }
+  }
+  .field { display: flex; flex-direction: column; gap: 0.4rem; }
+  .field label { font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--sc-ink-soft); }
+  .field input, .field textarea {
+    background: color-mix(in oklab, var(--sc-canvas) 70%, transparent); border: 1px solid var(--sc-hairline-strong);
+    border-radius: var(--sc-r-sm); color: var(--sc-ink); padding: 0.7rem 0.85rem; font-family: var(--sc-font-text); font-size: 0.92rem;
+    transition: border-color 160ms var(--sc-ease-out), background 160ms var(--sc-ease-out);
+    resize: vertical;
+  }
+  .field input:hover, .field textarea:hover { border-color: color-mix(in oklab, var(--sc-ink) 40%, transparent); }
+  .field input:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 2px; border-color: var(--sc-accent); }
+  .field input:user-invalid, .field textarea:user-invalid { border-color: #C4573F; }
+  .cierre__form.was-checked .field input:invalid, .cierre__form.was-checked .field textarea:invalid { border-color: #C4573F; }
+  /* Honeypot: never shown, never focusable, never announced. Bots that fill
+     every field trip it; the Worker silently accepts and discards those. */
+  .field--trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .cierre__form .btn--primary { align-self: flex-start; margin-top: var(--sc-2); }
+  .cierre__form .btn--primary svg { width: 14px; height: 14px; transition: transform 200ms var(--sc-ease-out); }
+  .cierre__form.is-sent .btn--primary svg { transform: translateX(3px); }
+  .cierre__status { margin: 0; font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); color: var(--sc-ink-soft); min-height: 1.2em; }
+  .cierre__status.is-ok { color: var(--sc-accent); }
+  .foot {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
+    display: flex; justify-content: space-between; gap: var(--sc-4); flex-wrap: wrap;
+    padding: var(--sc-5) var(--sc-gutter);
+    font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); color: var(--sc-ink-soft); letter-spacing: 0.04em;
+  }
+  .foot a { color: var(--sc-ink-soft); }
+
+  /* ------------------------------------------------------- el sendero --
+     the signature move: a fixed vertical elevation-profile rail, drawn from
+     real page scroll fraction, bespoke JS below (not an engine device). */
+  .sendero {
+    position: fixed; right: clamp(0.9rem, 2.2vw, 2.5rem); top: 50%; translate: 0 -50%;
+    width: 46px; height: min(58vh, 620px);
+    z-index: 45; pointer-events: none;
+  }
+  .sendero__svg { width: 100%; height: 100%; overflow: visible; display: block; }
+  .sendero__path-bg { fill: none; stroke: color-mix(in oklab, var(--sc-ink) 20%, transparent); stroke-width: 1.6; }
+  .sendero__path { fill: none; stroke: var(--sc-accent); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+    filter: drop-shadow(0 0 5px color-mix(in oklab, var(--sc-accent) 55%, transparent)); }
+  .sendero__dot { fill: var(--sc-canvas); stroke: var(--sc-accent); stroke-width: 2.4; }
+  /* Zone markers: plain dots, not visible terrain words (the human found the
+     rendered labels distracting next to the rail). The terrain word survives
+     for assistive tech only, as visually-hidden text inside each dot's
+     button-less marker, so a screen reader still gets "cresta / valle /
+     ladera / cruce del sendero / la ventana encendida" context. */
+  .sendero__labels { position: absolute; inset: 0; }
+  /* left/top are written by JS from the SVG path itself (getPointAtLength at
+     each zone's real scroll fraction) — see placeZoneDots() below. The 50%/50%
+     here is only a pre-JS fallback so nothing renders in the corner if the
+     script is blocked; it is overwritten on first frame. Sizes doubled this
+     round (7 -> 12 normal, 11 -> 18 active) at the human's request. */
+  .sendero__label {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--sc-ink-soft); opacity: 0.5;
+    transition: opacity 320ms var(--sc-ease-out), transform 320ms var(--sc-ease-out), background 320ms var(--sc-ease-out), width 320ms var(--sc-ease-out), height 320ms var(--sc-ease-out);
+  }
+  .sendero__label.is-active { opacity: 1; background: var(--sc-accent); width: 18px; height: 18px;
+    box-shadow: 0 0 0 6px color-mix(in oklab, var(--sc-accent) 24%, transparent); }
+  /* Terminal marker: journey's end, at getPointAtLength(len) — fraction 1.0,
+     the literal last point of the path, not a sixth waypoint on a scroll
+     fraction. Read as a DESTINATION rather than a station: a hollow ring
+     while the walk is still in progress (an outline on the map, somewhere you
+     have not got to yet), which fills solid with the accent and gains a lamp
+     halo the moment the reader actually reaches the foot of the page. The
+     zone dots never do either of those things, so the two treatments cannot
+     be confused. Sized above the active waypoint (20px vs 18px) so it also
+     reads as the largest thing on the rail once lit. */
+  .sendero__label--end {
+    width: 16px; height: 16px;
+    background: transparent;
+    border: 2px solid var(--sc-ink-soft);
+    opacity: 0.55;
+    transition: opacity 420ms var(--sc-ease-out), background 420ms var(--sc-ease-out),
+      border-color 420ms var(--sc-ease-out), box-shadow 420ms var(--sc-ease-out),
+      width 420ms var(--sc-ease-out), height 420ms var(--sc-ease-out);
+  }
+  .sendero__label--end.is-arrived {
+    opacity: 1; width: 20px; height: 20px;
+    background: var(--sc-accent); border-color: var(--sc-accent);
+    box-shadow:
+      0 0 0 5px color-mix(in oklab, var(--sc-accent) 22%, transparent),
+      0 0 16px 2px color-mix(in oklab, var(--sc-accent) 60%, transparent);
+  }
+  @media (prefers-reduced-motion: reduce) { .sendero__label--end { transition-duration: 160ms; } }
+  .sendero__label-sr {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+  @media (max-width: 900px) { .sendero { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .sendero__label { transition-duration: 160ms; } }
+
+  /* ========================================================= phone tier ==
+     <=560px. The brief here is SUBTRACTION, not compression. On a phone the
+     page should present one idea at a time: the desktop composition puts a
+     headline, a subhead, two cards and a photograph in the eye at once, and
+     at 360px wide that is four things fighting for the same 200 square
+     centimetres. So the type scale steps down one notch, card chrome
+     flattens (a 48px drop shadow and a 20px corner are wide-viewport
+     gestures that just read as noise this small), and every pinned
+     composition is rebalanced so its hard 100svh budget has real slack
+     rather than being filled to the last pixel.
+
+     THIS BLOCK IS LAST IN THE FILE ON PURPOSE. Most selectors here tie on
+     specificity with their base rules, and this stylesheet has already been
+     bitten once by a media query sitting ABOVE the rules it meant to
+     override (see the long note on the .plan @media 720px block, where five
+     declarations were silently dead). Last wins. Keep it last, and add new
+     phone rules inside here rather than anywhere above. */
+  @media (max-width: 560px) {
+    /* -- hero. Two voices, not two shouts: the sub drops from --sc-t-lg to
+          --sc-t-base so it supports the headline instead of competing with
+          it, and the h1's min shrinks so a long Danish or Spanish line wraps
+          to three lines rather than four. */
+    .hero-h1 { font-size: clamp(2.15rem, 1.55rem + 4.2vw, 3.1rem); max-width: 16ch; }
+    .hero-sub { font-size: var(--sc-t-base); margin-top: var(--sc-4); max-width: 24rem; }
+
+    /* -- trabajos. On a phone the four names ARE the section, so they get the
+          room the wide layout spends on the photograph: bigger row padding
+          (which also carries the tap target well past 44px) and a heading
+          measure that keeps it to two lines. */
+    .trabajos__col h2 { max-width: 13ch; }
+    .trabajos__col > p.sc-body { font-size: var(--sc-t-sm); }
+    .trabajos__wipe { font-size: 1.42rem; }
+    .trabajos__link { padding-block: 0.95rem; }
+    .trabajos__list { margin-top: var(--sc-5); }
+
+    /* -- quien. Three centred lines; tightened so they still read as one
+          held block rather than three separate arrivals. */
+    .quien__line--serif { font-size: clamp(1.5rem, 1.1rem + 2.6vw, 2.1rem); }
+    .quien__line--body { font-size: var(--sc-t-sm); }
+    .quien__line + .quien__line { margin-top: var(--sc-5); }
+
+    /* -- planes. The tightest budget on the page: heading + subhead + two
+          COMPLETE cards inside one pinned viewport with no scroll to fall
+          back on. Everything below is what buys that slack at 375x667, and
+          the constraint it must never break is that price, tagline and all
+          three bullets of BOTH cards stay fully in frame. Simpler card, not
+          a cropped one. */
+    .planes__lead h2 { font-size: clamp(1.45rem, 1.1rem + 2.4vw, 2rem); }
+    .plan {
+      padding: 0.85rem 1rem;
+      border-radius: var(--sc-r-md);
+      box-shadow: 0 1px 2px rgba(20,15,5,0.16), 0 10px 20px -14px rgba(20,15,5,0.30);
+    }
+    .plan__price { font-size: 1.4rem; margin-top: var(--sc-1); }
+    .plan__desc { font-size: var(--sc-t-sm); margin-top: var(--sc-2); max-width: none; }
+    .plan__list { margin-top: var(--sc-3); }
+    .plan__list li { padding: 0.3rem 0; font-size: var(--sc-t-xs); }
+    .planes__cards { gap: 0.55rem; }
+    .planes__cards-wrap { padding-block: 3.2rem 0.6rem; }
+
+    /* -- the note after planes. One sentence does not need a full desktop
+          section band around it; it needs enough silence to land and then
+          the next frame. */
+    .planes-note { padding-block: clamp(3rem, 13vh, 5.5rem); }
+
+    /* -- contacto. Bigger touch surfaces inside a smaller card. */
+    .cierre__form { padding: 1rem; gap: var(--sc-2); }
+    .cierre__form .field input, .cierre__form .field textarea { padding: 0.8rem 0.9rem; }
+    .cierre__intro h2 { font-size: clamp(1.6rem, 1.25rem + 2.4vw, 2.2rem); }
+    .cierre__intro .sc-lede { font-size: var(--sc-t-base); }
+    .foot { font-size: var(--sc-t-xs); padding-block: var(--sc-4); }
+  }
+
+  /* Short phones — iPhone SE at 667px is the tight case, and any phone whose
+     browser chrome is showing eats another ~90px on top of that. Keyed on
+     HEIGHT because the pinned acts are height-budgeted, not width-budgeted:
+     a 375x812 phone has room the same 375px-wide SE does not. This is the
+     last ~40px of compaction and it is deliberately the only place the page
+     gets genuinely tight. */
+  @media (max-height: 700px) and (max-width: 560px) {
+    .planes__lead { margin-bottom: 0.7rem; }
+    .planes__lead p.sc-body { margin-top: var(--sc-1); }
+    .planes__cards-wrap { padding-block: 2.9rem 0.4rem; }
+    .plan { padding: 0.7rem 0.95rem; }
+    .plan__price { font-size: 1.28rem; }
+    .plan__desc { margin-top: var(--sc-1); }
+    .plan__list { margin-top: var(--sc-2); }
+    .plan__list li { padding: 0.24rem 0; }
+    .trabajos__list { margin-top: var(--sc-4); }
+    .trabajos__link { padding-block: 0.8rem; }
+
+    /* contacto on a short phone. Measured at 375x667 before this block: the
+       intro+form composition ran 566.3px tall inside a 523px content box, so
+       flex centring pushed it 21.6px PAST the padding on both ends — the h2's
+       first line landed at y=58.4, underneath the fixed site-bar (bottom
+       73.9) and clipping the "Fortæl os din idé" CTA at x=172..258, while the
+       form's foot reached y=624.7 against a footer starting at 615.4. Both
+       are overflow symptoms of one cause, so the fix is to give the
+       composition back ~65px rather than to nudge either end.
+       The textarea is where most of it comes from: rows="3" renders 103.8px,
+       which is a desktop-sized message box on a screen this short. It stays
+       resize:vertical, so anyone typing more than a line still gets it. */
+    .cierre__inner { gap: var(--sc-4); padding-block: 5rem 3rem; }
+    .cierre__form { gap: 0.4rem; padding: 0.85rem; }
+    .cierre__form textarea { min-height: 3.8rem; height: 3.8rem; }
+    .foot { padding-block: var(--sc-3); }
+  }
+
+  /* Touch targets for the two inline text links. Both measured under the
+     44px minimum on every phone width (.mark 99x23.8, the footer mailto
+     110x19.6) and neither can simply be made taller: .mark lives in the
+     fixed bar and the footer link sits in an absolutely-positioned band
+     whose height is load-bearing — at 375x667 the form clears the footer by
+     only 21.9px, so growing that link to 44px would push the footer up into
+     the form and reintroduce the overlap this round just fixed.
+     A transparent ::after that overhangs the link instead gives the finger a
+     44px box while the LAYOUT box stays exactly the size it is. Verified by
+     hit-testing document.elementFromPoint at the corners of the intended
+     target, not by reading the element's own rect (which still reports the
+     small number, by design). */
+  .mark, .foot a { position: relative; }
+  .mark::after, .foot a::after {
+    content: ""; position: absolute; left: 0; right: 0;
+    top: 50%; height: 44px; translate: 0 -50%;
+  }
+
+  /* Short viewports that are NOT phones — landscape iPad (1024x768) above all,
+     and any laptop around 800px tall. Deliberately disjoint from the phone
+     tier above (min-width 561 vs its max-width 560) so the two never fight
+     over the same declaration.
+     What this fixes, measured at 1024x768 with real bounding boxes: the
+     contacto composition ran 657px tall inside a 624px content box, so flex
+     centring pushed the form's foot to y=720.6 while the footer band starts
+     at y=698.8 — a 21.8px overlap, with the form card sitting directly on top
+     of the "Tierra · CVR 46717740" line (both are left-anchored at the same
+     51px gutter, so it was text-on-text, not just box-on-box). Portrait
+     tablets have the height to spare and are untouched. */
+  @media (max-height: 850px) and (min-width: 561px) {
+    /* The extra bottom padding is not cosmetic: .cierre__inner centres its
+       content in (height - padding-top - padding-bottom), so growing the
+       BOTTOM padding is what lifts the composition clear of the footer band,
+       while the top padding stays put keeping it clear of the fixed bar.
+       Tuned to land ~38px above the footer and ~20px below the bar at
+       1024x768 rather than the 5.6px near-miss the first pass produced. */
+    /* Top padding is a FLAT 6.5rem here, not the usual clamp. The clamp
+       resolves to its 5rem floor on a 768px-tall viewport (10vh = 76.8px),
+       which puts the padding box top at 80px — above the site-bar's own
+       bottom edge at 86px. So the heading was landing inside the bar's
+       gradient band no matter how the content was centred. 104px clears it
+       with room, and the 4.5rem foot keeps the composition lifted off the
+       footer at the same time. */
+    .cierre__inner { gap: var(--sc-5); padding-block: 6.5rem 4.5rem; }
+    .cierre__intro .sc-lede { margin-top: var(--sc-3); }
+    .cierre__form { gap: var(--sc-2); }
+    .cierre__form .field input, .cierre__form .field textarea { padding: 0.62rem 0.9rem; }
+    .cierre__form textarea { min-height: 3.4rem; height: 3.4rem; }
+    .foot { padding-block: var(--sc-4); }
+  }
+</style>
 </head>
 <body>
 
+<a class="skip" href="#top" data-i18n="skip">Saltar al contenido</a>
 <span data-sc-progress></span>
 <div class="sc-grain" aria-hidden="true"></div>
 
-<a class="skip-link" href="#contacto-cta" data-i18n="skip_link">Ir al contacto</a>
-
-<header class="topbar">
-  <a href="/" class="topbar__brand">
-    <svg width="22" height="22" viewBox="0 0 100 100" aria-hidden="true">
-      <polygon points="42,8 2,88 42,88" fill="#b7c2cc"/>
-      <polygon points="42,8 42,88 66,88" fill="#8b97a3"/>
-      <polygon points="74,32 50,88 74,88" fill="#cfd7de"/>
-      <polygon points="74,32 74,88 98,88" fill="#1c232b"/>
-      <polygon points="42,8 32,28 48,28" fill="#d9713c"/>
-    </svg>
-    <span>Tierra</span>
-  </a>
-
-  <div class="lang-switch" role="group" aria-label="Idioma / Language / Sprog">
-    <svg class="lang-switch__peak" width="15" height="15" viewBox="0 0 100 100" aria-hidden="true">
-      <polygon points="50,12 12,88 88,88" fill="#8b97a3"/>
-      <polygon points="50,12 40,46 60,46" fill="#d9713c"/>
-    </svg>
-    <button type="button" class="lang-switch__btn" data-lang="es" aria-pressed="true">ES</button>
-    <span class="lang-switch__sep" aria-hidden="true"></span>
-    <button type="button" class="lang-switch__btn" data-lang="en" aria-pressed="false">EN</button>
-    <span class="lang-switch__sep" aria-hidden="true"></span>
-    <button type="button" class="lang-switch__btn" data-lang="da" aria-pressed="false">DA</button>
+<!-- El Sendero: rebuilt to read DESCENDING, matching the photography (a
+     dawn ridge at the hero, down to a lit valley cabin at contacto). The
+     path's first point (M) sits at the TOP of the fixed rail box; as the
+     reader scrolls down the page, stroke-dashoffset draws the line further
+     toward the BOTTOM of the box and the dot rides down with it — the rail
+     now visually descends as you scroll, not climbs. Geometry simplified to
+     a single clean descent (one gentle switchback) rather than the old
+     zigzag, per the terrain vocabulary from tierra.dk's own hero SVG alt
+     text: la cordillera, de la cresta al valle, la ladera, el cruce del
+     sendero y la ventana encendida de noche. -->
+<aside class="sendero" aria-label="Progreso del sendero" data-i18n-aria="sendero_aria">
+  <svg class="sendero__svg" viewBox="0 0 100 1000" preserveAspectRatio="none" aria-hidden="true">
+    <path class="sendero__path-bg" d="M50,40 L32,260 L55,470 L35,680 L50,940" />
+    <path class="sendero__path" d="M50,40 L32,260 L55,470 L35,680 L50,940" />
+    <circle class="sendero__dot" cx="50" cy="40" r="4.2" />
+  </svg>
+  <!-- Zone dots, not visible words: the terrain vocabulary still reaches
+       assistive tech via an sr-only span inside each dot (data-i18n applies
+       there), it just no longer renders as on-screen text next to the rail.
+       NO hand-placed top:% here any more. The old estimates put three of the
+       five dots off the trail line (measured 8.2px, 6.9px and 2.3px away from
+       the nearest point on the path at 1440x900), because they were all pinned
+       to left:50% while the path switchbacks between x=32 and x=55. Both
+       coordinates are now derived by JS from path.getPointAtLength() at the
+       zone's own scroll fraction — the same call the moving progress dot uses —
+       so a dot cannot be off the line by construction, and it stays correct if
+       the path geometry or the section heights change. -->
+  <div class="sendero__labels">
+    <span class="sendero__label" data-sendero-i="0"><span class="sendero__label-sr" data-i18n="sendero_0">cresta</span></span>
+    <span class="sendero__label" data-sendero-i="1"><span class="sendero__label-sr" data-i18n="sendero_1">valle</span></span>
+    <span class="sendero__label" data-sendero-i="2"><span class="sendero__label-sr" data-i18n="sendero_2">ladera</span></span>
+    <span class="sendero__label" data-sendero-i="3"><span class="sendero__label-sr" data-i18n="sendero_3">cruce del sendero</span></span>
+    <span class="sendero__label" data-sendero-i="4"><span class="sendero__label-sr" data-i18n="sendero_4">la ventana encendida</span></span>
+    <!-- Terminal marker. NOT a sixth zone: it carries no data-sendero-zone
+         counterpart and no data-sendero-i, and the JS treats it separately —
+         it is placed at getPointAtLength(len), the path's literal end point,
+         and lights on arrival at the foot of the page rather than on entering
+         a section. Kept inside .sendero__labels so it inherits the same
+         absolute-positioning context and the same sr-only label pattern. -->
+    <span class="sendero__label sendero__label--end" data-sendero-end><span class="sendero__label-sr" data-i18n="sendero_end">el hogar</span></span>
   </div>
+</aside>
+
+<header class="site-bar">
+  <a class="mark" href="#top">
+    <svg class="mark__svg" viewBox="0 0 32 28" aria-hidden="true">
+      <path d="M11 2 L21 26 H1 Z" fill="#8C96A0"/>
+      <path d="M11 2 L15.4 12 H6.6 Z" fill="#D97742"/>
+      <path d="M20 8 L31 26 H16 Z" fill="#1C232B"/>
+    </svg>
+    <span class="mark__word">TIERRA</span>
+  </a>
+  <nav class="locale" aria-label="Idioma" data-i18n-aria="locale_aria">
+    <button type="button" aria-current="true" data-locale="es">ES</button>
+    <button type="button" aria-current="false" data-locale="en">EN</button>
+    <button type="button" aria-current="false" data-locale="da">DA</button>
+  </nav>
+  <a class="btn btn--primary" href="#contacto" id="nav-cta" data-i18n="nav_cta">Contanos tu idea</a>
 </header>
 
-<!-- ============ EL SENDERO — waypoint map / signature move ============ -->
-<nav class="sendero" aria-label="El sendero">
-  <svg class="sendero__path" viewBox="0 0 60 220" preserveAspectRatio="none" aria-hidden="true">
-    <path class="sendero__track" d="M 30 8 C 12 42, 46 60, 20 96 C 4 122, 42 140, 26 168 C 14 188, 40 198, 30 212"/>
-    <path class="sendero__lit" d="M 30 8 C 12 42, 46 60, 20 96 C 4 122, 42 140, 26 168 C 14 188, 40 198, 30 212"/>
-  </svg>
-  <button type="button" class="sendero__dot" data-leg="0" aria-current="true"><span data-i18n="leg_cresta">Cresta</span></button>
-  <button type="button" class="sendero__dot" data-leg="1"><span data-i18n="leg_valle">Valle</span></button>
-  <button type="button" class="sendero__dot" data-leg="2"><span data-i18n="leg_ladera">Ladera</span></button>
-  <button type="button" class="sendero__dot" data-leg="3"><span data-i18n="leg_bifurcacion">Bifurcación</span></button>
-  <button type="button" class="sendero__dot" data-leg="4"><span data-i18n="leg_ventana">Ventana</span></button>
-</nav>
+<main id="top">
 
-<main data-sc-mode="worldflight" data-sc-seam="0.08" data-sc-lerp="0.12">
-
-  <div data-sc-world>
-
-    <!-- One continuous illustration, panned by sendero.js as a single camera
-         move down the mountain — not a crossfade between five images. The
-         segments below carry no visual content of their own any more; they
-         stay only for their data-sc-w weights (spacer sizing) and
-         data-sc-waypoint labels (copy windows, nav dots, dark-scrim legs). -->
-    <img class="sc-journey" src="assets/sendero/journey.svg?v=20" alt="La cordillera, de la cresta al valle, la ladera, el cruce del sendero y la ventana encendida de noche" decoding="async">
-
-    <div data-sc-segment data-sc-w="1.5" data-sc-linger="0.3" data-sc-waypoint="Cresta"></div>
-    <div data-sc-segment data-sc-w="2.0" data-sc-linger="0.2" data-sc-waypoint="Valle"></div>
-    <div data-sc-segment data-sc-w="2.2" data-sc-linger="0.42" data-sc-waypoint="Ladera"></div>
-    <div data-sc-segment data-sc-w="2.2" data-sc-linger="0.15" data-sc-waypoint="Bifurcación"></div>
-    <div data-sc-segment data-sc-w="1.7" data-sc-linger="0.3" data-sc-waypoint="Ventana"></div>
-
-  </div>
-
-  <div data-sc-world-copy>
-    <div class="sc-world__scrim sc-scrim sc-scrim--band" aria-hidden="true"></div>
-    <div class="sc-scrim-dark sc-scrim-dark--peak" aria-hidden="true"></div>
-    <div class="sc-scrim-dark sc-scrim-dark--band" aria-hidden="true"></div>
-    <div class="sc-scrim-dark sc-scrim-dark--corner" aria-hidden="true"></div>
-
-    <!-- 1 · Cresta — quietud, sostenida -->
-    <div class="sc-copy sc-copy--lead copy--dawn" data-sc-copy data-sc-window="hero">
-      <h1 class="copy__title" data-i18n="hero_title">
-        <span class="mix-plain">Todo negocio merece</span><br>
-        <span class="mix-accent">un hogar digital.</span>
-      </h1>
-      <p class="copy__lead hide-mobile" data-i18n="hero_lead">Diseño a medida y desarrollo digital: la imagen de tu negocio hecha realidad.</p>
+  <!-- 1 · RECOGNITION — scrub. Photoreal alpine dawn, camera drifts under the
+       hand, headline greets on load. Trail line starts at its highest point: cresta. -->
+  <section data-sendero-zone="0" data-sc-act="scrub" data-sc-span="2.4" data-sc-dwell="0.34" data-sc-drift="#0e141b">
+    <div data-sc-stage>
+      <img class="sc-stage__poster" src="assets/01-hero-poster.webp" width="1946" height="1080" alt="">
+      <video data-sc-scrub data-sc-src="assets/01-hero.mp4" data-sc-src-mobile="assets/01-hero-m.mp4" muted playsinline></video>
+      <div class="sc-scrim hero-scrim" aria-hidden="true"></div>
+      <div class="sc-copy sc-copy--lead hero-copy" data-sc-cue="0 0.72 0">
+        <h1 class="sc-display sc-display--xl hero-h1" data-sc-kinetic="lines" data-i18n="hero_h1">Todo negocio merece <em>un hogar digital</em>.</h1>
+        <p class="sc-body hero-sub" data-i18n="hero_sub">Diseño a medida y desarrollo digital: la imagen de tu negocio hecha realidad.</p>
+      </div>
     </div>
+  </section>
 
-    <!-- 2 · Valle — reconocimiento -->
-    <div class="sc-copy sc-copy--trail copy--day" data-sc-copy data-sc-window="0.182 0.318">
-      <p class="copy__eyebrow" data-i18n="valle_eyebrow">Trabajos</p>
-      <h2 class="copy__title copy__title--md" data-i18n="valle_title"><span class="mix-plain">Negocios con su nuevo</span><br><span class="mix-accent">Hogar</span></h2>
-      <p class="copy__lead hide-mobile" data-i18n="valle_lead">Cada uno con su propia identidad, pensada desde cero para representar lo que ya construyeron.</p>
-      <ul class="copy__linklist">
-        <li><a href="https://anoranza-bakery.francojmansilla.workers.dev/" target="_blank" rel="noopener">Añoranza</a></li>
-        <li><a href="https://duosonus.dk/" target="_blank" rel="noopener">Duo Sonus</a></li>
-        <li><a href="https://froken.francojmansilla.workers.dev/" target="_blank" rel="noopener">FRØKEN</a></li>
-        <li><a href="https://wandering-die.francojmansilla.workers.dev/" target="_blank" rel="noopener">The Wandering Die</a></li>
-      </ul>
+  <!-- 2 · PROOF — PINNED hold. Trail line: valle.
+       History and this round's change: this was a normal-flow section, which
+       fixed an older bug where a tall scroll-driven act CROPPED "The Wandering
+       Die". The flow version scrubbed the background nicely but carried the
+       copy up and off the screen far too fast to read, so the depth-of-field
+       move was never actually appreciated. It is now a pin, which is the only
+       arrangement where the copy is genuinely motionless while the clip runs:
+       the stage is sticky at 100svh and the video's own clip time (a.vp in the
+       engine) advances across the stage's whole visible life.
+       WHY THIS CANNOT REINTRODUCE THE CROP: the pin's budget is exactly one
+       viewport and the stage is a centred flex box, so the copy block is
+       vertically centred in 100svh rather than being laid out from a top edge
+       and running off the bottom. All four names are inside that one block,
+       measured to fit at both 1440x900 and 390x844 (see the verification
+       numbers in the report).
+       NO staggered reveal during the hold, by decision: every row carries a
+       plain data-sc-in (IntersectionObserver, fires ONCE on entry, purely
+       time-based 0/80/160/240ms delays) rather than a scroll-keyed
+       data-sc-cue. So the four names animate in together as the section
+       arrives, are all fully on screen before the pin settles, and then do
+       not move again for the entire hold. -->
+  <section class="trabajos-sec" data-sendero-zone="1" data-sc-act="pin" data-sc-span="2.6" data-sc-dwell="0.3" data-sc-drift="#141c24">
+    <div data-sc-stage class="trabajos">
+    <!-- Same depth-of-field scrub the hero uses. Now that the act is pinned,
+         the engine maps clip time across the stage's ENTIRE visible life (one
+         viewport of entry slide, the pinned travel, one viewport of exit) via
+         a.vp, not just the pinned travel — so the background keeps moving for
+         the whole time the section is on screen, including throughout the
+         hold, which is the entire point of this change. -->
+    <div class="trabajos__bg" aria-hidden="true">
+      <img class="sc-stage__poster" src="assets/05-trabajos-bg.webp" width="2736" height="1520" alt="" loading="lazy">
+      <video data-sc-scrub data-sc-src="assets/05-trabajos.mp4" data-sc-src-mobile="assets/05-trabajos-m.mp4" muted playsinline></video>
+      <div class="trabajos__scrim"></div>
     </div>
-
-    <!-- 3 · Ladera — EL PICO -->
-    <div class="sc-copy sc-copy--center copy--peak" data-sc-copy data-sc-window="0.375 0.578">
-      <p class="copy__eyebrow" data-i18n="ladera_eyebrow">Quién está del otro lado</p>
-      <h2 class="copy__title copy__title--lg" data-i18n="ladera_title">
-        <span class="mix-plain">Construimos cada sitio</span><br>
-        <span class="mix-accent">como si fuera el nuestro.</span>
-      </h2>
-      <p class="copy__lead hide-mobile" data-i18n="ladera_lead1">Somos Tierra, asentados en Copenhague. Nos dedicamos a que pequeños negocios tengan, por fin, una identidad propia en internet.</p>
-      <p class="copy__lead hide-mobile hide-tablet" data-i18n="ladera_lead2">Sin intermediarios ni procesos de agencia: cada decisión, chica o grande, la tomamos junto a vos.</p>
-      <p class="copy__lead mobile-only" data-i18n="ladera_lead_mobile">Somos Tierra, desde Copenhague.</p>
+    <div class="sc-wrap trabajos__wrap">
+      <div class="trabajos__col">
+        <h2 class="sc-display sc-display--lg" data-sc-in data-i18n="trabajos_h2">Evidencia, no promesas.</h2>
+        <p class="sc-body" data-sc-in data-i18n="trabajos_sub">Cuatro negocios que ya encontraron su sendero.</p>
+        <ul class="trabajos__list">
+          <li class="trabajos__row" data-sc-in>
+            <button type="button" class="trabajos__link" data-i18n-aria="trabajos_cta" aria-label="Ver el proyecto Añoranza">
+              <span class="trabajos__wipe">Añoranza</span>
+              <svg class="trabajos__arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </li>
+          <li class="trabajos__row" data-sc-in>
+            <button type="button" class="trabajos__link" data-i18n-aria="trabajos_cta" aria-label="Ver el proyecto Duo Sonus">
+              <span class="trabajos__wipe">Duo Sonus</span>
+              <svg class="trabajos__arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </li>
+          <li class="trabajos__row" data-sc-in>
+            <button type="button" class="trabajos__link" data-i18n-aria="trabajos_cta" aria-label="Ver el proyecto FRØKEN">
+              <span class="trabajos__wipe">FRØKEN</span>
+              <svg class="trabajos__arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </li>
+          <li class="trabajos__row" data-sc-in>
+            <button type="button" class="trabajos__link" data-i18n-aria="trabajos_cta" aria-label="Ver el proyecto The Wandering Die">
+              <span class="trabajos__wipe">The Wandering Die</span>
+              <svg class="trabajos__arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
-
-    <!-- 4 · Bifurcación — dos caminos, uno a cada lado del sendero -->
-    <div class="sc-copy sc-copy--lead copy--dusk plan-card" data-sc-copy data-sc-window="0.609 0.807">
-      <p class="plan-card__name" data-i18n="plan_a_name">Plan A</p>
-      <p class="plan-card__price"><span data-i18n="plan_a_price">700 kr.</span> <span class="plan-card__unit" data-i18n="plan_a_unit">/ mes</span></p>
-      <p class="copy__lead hide-mobile" data-i18n="plan_a_lead">Nosotros diseñamos, publicamos y mantenemos tu sitio: vos solo avisás qué cambiar. Incluye hosting, actualizaciones y ajustes todo el tiempo que lo uses.</p>
-      <p class="copy__lead mobile-only" data-i18n="plan_a_lead_mobile">Nosotros mantenemos todo. Vos solo avisás qué cambiar.</p>
-      <p class="copy__fact hide-mobile" data-i18n="plan_a_fact">Ideal si querés arrancar rápido y no pensar en lo técnico nunca más.</p>
     </div>
-    <div class="sc-copy sc-copy--trail copy--dusk plan-card plan-card--b" data-sc-copy data-sc-window="0.609 0.807">
-      <p class="plan-card__name" data-i18n="plan_b_name">Plan B</p>
-      <p class="plan-card__price"><span data-i18n="plan_b_price">20.000 kr.</span> <span class="plan-card__unit" data-i18n="plan_b_unit">pago único</span></p>
-      <p class="copy__lead hide-mobile" data-i18n="plan_b_lead">Te entregamos el sitio terminado, con el código y el dominio a tu nombre. De ahí en más es enteramente tuyo: lo hosteás donde quieras.</p>
-      <p class="copy__lead mobile-only" data-i18n="plan_b_lead_mobile">El sitio queda tuyo. Sin mensualidad.</p>
-      <p class="copy__fact hide-mobile" data-i18n="plan_b_fact">Ideal si preferís pagar una vez y no depender de nadie después.</p>
+  </section>
+
+  <!-- 3 · SUBSTANCE — pin. Copy assembles over a held slope still. All three
+       lines now share one cue window so they arrive as a single unified
+       block instead of trickling in one at a time. Trail line: ladera. -->
+  <section class="quien-sec" data-sendero-zone="2" data-sc-act="pin" data-sc-span="2.6" data-sc-drift="#1c232b">
+    <div data-sc-stage class="quien">
+      <img class="quien__bg" src="assets/03-ladera.webp" width="1920" height="1066" alt="">
+      <div class="quien__scrim" aria-hidden="true"></div>
+      <div class="quien__copy">
+        <p class="quien__line quien__line--serif" data-sc-cue="0.12 0.85" data-i18n="quien_l1">Construimos cada sitio<br>como si fuera <em>el nuestro</em>.</p>
+        <p class="quien__line quien__line--body" data-sc-cue="0.12 0.85" data-i18n="quien_l2">Sin plantillas genéricas. Sin atajos. Un estudio de una sola persona, no una fábrica de sitios.</p>
+        <p class="quien__line quien__line--mark" data-sc-cue="0.12 0.85" data-i18n="quien_l3">Somos Tierra, desde Copenhague.</p>
+      </div>
     </div>
+  </section>
 
-    <!-- 5 · Ventana — alivio, resuelve -->
-    <div class="sc-copy sc-copy--trail copy--night" data-sc-copy data-sc-window="finale">
-      <p class="copy__eyebrow" data-i18n="ventana_eyebrow">Contacto</p>
-      <h2 class="copy__title copy__title--md" data-i18n="ventana_title">
-        <span class="mix-plain">Démosle a tu negocio</span><br>
-        <span class="mix-accent">su propio hogar.</span>
-      </h2>
-      <p class="copy__lead hide-mobile" data-i18n="ventana_lead">Contanos de qué se trata tu negocio y qué te gustaría lograr. Creemos tu hogar juntos.</p>
-      <p class="copy__lead mobile-only" data-i18n="ventana_lead_mobile">Contanos tu idea.</p>
-
-      <form id="contactForm" class="contact-form-compact" novalidate>
-        <span id="contacto-cta" tabindex="-1"></span>
-        <div class="contact-form-compact__row">
-          <input type="text" name="name" autocomplete="name" data-i18n-placeholder="form_name" placeholder="Nombre" required>
-          <input type="email" name="email" autocomplete="email" data-i18n-placeholder="form_email" placeholder="Email" required>
+  <!-- 4 · RANGE — one PIN hold, then a flow note. Trail line: cruce del
+       sendero — a fork fits a two-plan choice.
+       This round: the "Elegí tu sendero." heading and its subhead used to be
+       their own flow section ABOVE this pin, so they scrolled away before the
+       cards arrived and read as a different moment. They now live INSIDE the
+       pinned stage, so heading + subhead + both cards are one composition,
+       pinned and fully visible together, while only the background scrubs.
+       The separate .planes-lead section is gone entirely (its selector was
+       also one of the sendero rail's zone keys — the rail now keys off the
+       data-sendero-zone marker below instead, so removing a section cannot
+       desynchronise it again).
+       The cards stay COMPLETELY static during the hold: no data-sc-tilt, no
+       data-sc-cue, no per-card scroll keying. The only thing on them is
+       data-sc-in, which fires once on entry and never again. -->
+  <section class="planes-pin" data-sendero-zone="3" data-sc-act="pin" data-sc-span="2.6" data-sc-dwell="0.34" data-sc-drift="#131a21">
+    <div data-sc-stage class="planes-stage">
+      <div class="planes__bg" aria-hidden="true">
+        <img class="sc-stage__poster" src="assets/06-planes-bg.webp" width="2736" height="1520" alt="" loading="lazy">
+        <video data-sc-scrub data-sc-src="assets/06-planes.mp4" data-sc-src-mobile="assets/06-planes-m.mp4" muted playsinline></video>
+      </div>
+      <div class="planes__bg-scrim" aria-hidden="true"></div>
+      <div class="planes__cards-wrap">
+        <div class="planes__lead" data-sc-in>
+          <h2 class="sc-display sc-display--md" data-i18n="planes_h2">Elegí tu sendero.</h2>
+          <p class="sc-body" data-i18n="planes_sub">Dos formas honestas de tener tu sitio. Vos decidís cuál te queda mejor.</p>
         </div>
-        <textarea name="message" rows="2" data-i18n-placeholder="form_message" placeholder="Mensaje" required></textarea>
-        <input type="text" name="company" class="contact-form-compact__hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <div class="contact-form-compact__row contact-form-compact__row--end">
-          <p class="contact-form-compact__error" id="contactFormError" hidden data-i18n="form_error">Completá tu nombre, email y mensaje.</p>
-          <p class="contact-form-compact__success" id="contactFormSuccess" hidden data-i18n="form_success">¡Listo! Te respondemos pronto.</p>
-          <button type="submit" class="copy__cta" id="contactFormSubmit">
-            <span data-i18n="form_submit">Enviar</span>
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="planes__cards">
+          <article class="plan" data-sc-in>
+            <p class="plan__eyebrow">Plan A</p>
+            <p class="plan__price"><span data-i18n="planA_price_num">700</span><span data-i18n="planA_price_unit">kr./mes</span></p>
+            <p class="plan__desc" data-i18n="planA_desc">Nosotros mantenemos todo. Vos solo avisás qué cambiar.</p>
+            <ul class="plan__list">
+              <li data-i18n="planA_li1">Cambios incluidos cada mes</li>
+              <li data-i18n="planA_li2">Hosting y dominio cubiertos</li>
+              <li data-i18n="planA_li3">Soporte directo con Franco</li>
+            </ul>
+          </article>
+          <article class="plan" data-sc-in>
+            <p class="plan__eyebrow">Plan B</p>
+            <p class="plan__price"><span data-i18n="planB_price_num">20.000</span><span data-i18n="planB_price_unit">kr. pago único</span></p>
+            <p class="plan__desc" data-i18n="planB_desc">El sitio queda tuyo. Sin mensualidad.</p>
+            <ul class="plan__list">
+              <li data-i18n="planB_li1">Código y diseño te pertenecen</li>
+              <li data-i18n="planB_li2">Sin ataduras a futuro</li>
+              <li data-i18n="planB_li3">Soporte opcional si lo necesitás</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="planes-note" data-sc-act="flow" data-sc-drift="#131a21">
+    <div class="sc-wrap planes__note-wrap">
+      <div class="planes__note sc-stack" data-sc-in>
+        <p class="sc-body" data-i18n="planes_note">¿No estás seguro cuál? Contanos tu caso y lo vemos juntos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · COMMITMENT — pin + pointer. THE PEAK. Largest span on the page.
+       Trail line's final push lands exactly here: la ventana encendida. The
+       lit window glows from scroll arrival (--sc-p, pure CSS calc) AND live
+       pointer proximity (--heat, bespoke JS below) at once. Was a 2-col
+       grid with the form covering the window; now a single left-anchored
+       column so the window stays clear in its own lower-right region.
+       Footer inside the stage, one-value cues so nothing fades before the
+       page ends. -->
+  <section id="contacto" data-sendero-zone="4" data-sc-act="pin" data-sc-span="3.4" data-sc-drift="#0a0e13">
+    <div data-sc-stage class="cierre">
+      <img class="cierre__bg" src="assets/04-ventana.webp" width="1920" height="1066" alt="Cabaña de piedra en la montaña con una ventana encendida al atardecer." data-i18n-alt="alt_ventana">
+      <div class="cierre__glow" aria-hidden="true"></div>
+      <span class="cierre__window-hotspot" aria-hidden="true"></span>
+      <div class="sc-scrim sc-scrim--lead" aria-hidden="true"></div>
+
+      <div class="cierre__inner">
+        <div class="cierre__intro">
+          <h2 class="sc-display sc-display--lg" data-sc-cue="0.08" data-sc-kinetic="lines" data-i18n="contacto_h2">Démosle a tu negocio su propio hogar.</h2>
+          <p class="sc-lede" data-sc-cue="0.11" data-i18n="contacto_lede">Contanos tu idea.</p>
+        </div>
+
+        <form class="cierre__form" data-sc-cue="0.16" novalidate>
+          <div class="field">
+            <label for="f-nombre" data-i18n="field_nombre">Nombre</label>
+            <input id="f-nombre" name="nombre" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="f-email" data-i18n="field_email">Email</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="f-msg" data-i18n="field_mensaje">Mensaje</label>
+            <textarea id="f-msg" name="mensaje" rows="3" required></textarea>
+          </div>
+          <div class="field field--trap" aria-hidden="true">
+            <label for="f-company" tabindex="-1">Company</label>
+            <input id="f-company" name="company" type="text" tabindex="-1" autocomplete="off">
+          </div>
+          <button class="btn btn--primary" type="submit" data-sc-magnet="0.18">
+            <span class="btn__label" data-i18n="btn_enviar">ENVIAR</span>
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-        </div>
-      </form>
-      <p class="contact-footnote">Tierra · CVR 46717740</p>
-    </div>
-  </div>
+          <p class="cierre__status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
 
-  <div data-sc-spacer aria-hidden="true"></div>
+      <footer class="foot">
+        <span data-i18n="footer_cvr">Tierra · CVR 46717740</span>
+        <a href="mailto:hola@tierra.dk">hola@tierra.dk</a>
+      </footer>
+    </div>
+  </section>
+
 </main>
 
-<script src="js/scrollcraft.js?v=20"></script>
-<script src="js/sendero.js?v=20"></script>
-<script src="js/i18n-sendero.js?v=20"></script>
+<script src="scrollcraft.js"></script>
+<script>ScrollCraft.mount(document.body);</script>
 <script>
-  ScrollCraft.mount(document.body);
+(function () {
+  'use strict';
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fineHover = matchMedia('(hover: hover) and (pointer: fine)');
 
-  // Real send via the Worker's own /api/contact route (src/index.js),
-  // Cloudflare Email Routing on tierra.dk underneath — same pattern as
-  // duo-sonus/src/index.js.
-  (function () {
-    var form = document.getElementById('contactForm');
-    if (!form) return;
-    var errorEl = document.getElementById('contactFormError');
-    var successEl = document.getElementById('contactFormSuccess');
-    var submitBtn = document.getElementById('contactFormSubmit');
+  /* ------------------------------------------------------- el sendero --
+     Bespoke, page-level, reads real document scroll fraction directly (not
+     an act's --sc-p). Draws the contour path via stroke-dashoffset, rides a
+     dot along it with native SVG getPointAtLength, and lights the terrain
+     label whose zone the reader is currently passing through. */
+  var rail = document.querySelector('.sendero');
+  if (rail) {
+    var path = rail.querySelector('.sendero__path');
+    var dot = rail.querySelector('.sendero__dot');
+    // Waypoint dots only. The terminal marker is deliberately excluded from
+    // this list: it is not keyed to a zone, it is keyed to the end of the
+    // path, so it must not take part in the zone-index activation loop below
+    // (which would otherwise never light it, since there is no zone 5).
+    var labels = Array.prototype.slice.call(rail.querySelectorAll('.sendero__label:not([data-sendero-end])'));
+    var endLabel = rail.querySelector('[data-sendero-end]');
+    var len = path.getTotalLength();
+    path.style.strokeDasharray = String(len);
+
+    // Zone boundaries as fractions of total page scroll, matching this
+    // build's five FEELING beats (hero / trabajos / quien / planes /
+    // contacto).
+    //
+    // ROBUSTNESS: this used to index `#top > section` positionally and broke
+    // every time an act's section count changed (it broke once when planes
+    // split into three sections, and this round planes went back to two while
+    // trabajos gained a pinned wrapper). It is now keyed off an EXPLICIT
+    // marker attribute, `data-sendero-zone="0..4"`, written on the section
+    // that owns each beat. Sections can be added, removed, split or merged
+    // freely; only moving the marker changes the zones. The zone count is read
+    // from the markers found in the DOM, not assumed to be five, and the array
+    // is rebuilt (not patched) on every recompute so a stale entry cannot
+    // survive a layout change.
+    var zoneEls = Array.prototype.slice.call(document.querySelectorAll('[data-sendero-zone]'))
+      .sort(function (a, b) {
+        return (+a.getAttribute('data-sendero-zone')) - (+b.getAttribute('data-sendero-zone'));
+      });
+    var zones = [];
+    function computeZones() {
+      var doc = document.documentElement;
+      var max = Math.max(doc.scrollHeight - innerHeight, 1);
+      var sy = scrollY || pageYOffset;
+      zones = zoneEls.map(function (el) {
+        return Math.min(1, Math.max(0, (el.getBoundingClientRect().top + sy) / max));
+      });
+    }
+
+    // Place each zone dot ON the trail line, derived from the path itself.
+    // Same call the moving progress dot uses: getPointAtLength(len * f) at
+    // that zone's real scroll fraction f. Because the SVG is
+    // preserveAspectRatio="none" on a 100x1000 viewBox, the point is converted
+    // to a percentage of the box on each axis independently — which is exactly
+    // how the browser stretches the path — so the dot lands on the drawn
+    // stroke at any rail size. No hand-placed coordinates anywhere.
+    var vb = rail.querySelector('.sendero__svg').viewBox.baseVal;
+    function placeZoneDots() {
+      for (var i = 0; i < labels.length; i++) {
+        var f = i < zones.length ? zones[i] : 1;
+        var q = path.getPointAtLength(len * f);
+        labels[i].style.left = (q.x / vb.width * 100).toFixed(3) + '%';
+        labels[i].style.top = (q.y / vb.height * 100).toFixed(3) + '%';
+      }
+      // Terminal marker: the path's own final point. Same getPointAtLength
+      // technique as every other dot, at fraction 1.0 exactly, so it sits on
+      // the end of the drawn stroke by construction and follows the geometry
+      // if the path is ever redrawn.
+      if (endLabel) {
+        var e = path.getPointAtLength(len);
+        endLabel.style.left = (e.x / vb.width * 100).toFixed(3) + '%';
+        endLabel.style.top = (e.y / vb.height * 100).toFixed(3) + '%';
+      }
+    }
+
+    var raf = null;
+    function updateSendero() {
+      raf = null;
+      var doc = document.documentElement;
+      var max = Math.max(doc.scrollHeight - innerHeight, 1);
+      var p = Math.min(Math.max((scrollY || pageYOffset) / max, 0), 1);
+      path.style.strokeDashoffset = String(len * (1 - p));
+      var pt = path.getPointAtLength(len * p);
+      dot.setAttribute('cx', pt.x.toFixed(2));
+      dot.setAttribute('cy', pt.y.toFixed(2));
+      var zone = 0;
+      for (var i = 0; i < zones.length; i++) { if (p >= zones[i]) zone = i; }
+      for (var j = 0; j < labels.length; j++) labels[j].classList.toggle('is-active', j === zone);
+      // Arrival. Not "entered the last section" (zone 4 already says that),
+      // but "reached the bottom of the page" — the walk is over. The 0.5px
+      // tolerance is against sub-pixel scroll rounding and browser rubber-band
+      // clamping, which can leave p at 0.9994 at a genuine hard bottom.
+      if (endLabel) {
+        var atBottom = (max - (scrollY || pageYOffset)) <= 1.5;
+        endLabel.classList.toggle('is-arrived', atBottom);
+      }
+    }
+    function relayoutSendero() { computeZones(); placeZoneDots(); updateSendero(); }
+    relayoutSendero();
+    addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(updateSendero); }, { passive: true });
+    addEventListener('resize', relayoutSendero, { passive: true });
+    // Web fonts finishing can reflow the normal-flow acts after this script
+    // already ran once, same as the engine's own re-layout. So can a scrub
+    // clip swapping in for its poster, which is why this also re-runs on load.
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayoutSendero);
+    addEventListener('load', relayoutSendero);
+  }
+
+  /* ------------------------------------------------------- lit window --
+     The other half of the signature move. --heat (0..1) is live pointer
+     distance to the window's real on-screen position, read off a 1px
+     hotspot placed with the SAME --win-x/--win-y custom properties the
+     background image and the glow gradient use, so it tracks the actual
+     crop at any viewport size. --sc-p (the contacto act's own engine
+     progress) already drives the scroll half of the glow in pure CSS via
+     calc(), see .cierre__glow above; this only adds the pointer half. */
+  var stage = document.querySelector('.cierre');
+  var hotspot = document.querySelector('.cierre__window-hotspot');
+  if (stage && hotspot && fineHover.matches && !reduce) {
+    var targetHeat = 0, heat = 0;
+    addEventListener('pointermove', function (e) {
+      var r = hotspot.getBoundingClientRect();
+      var dx = e.clientX - r.left, dy = e.clientY - r.top;
+      var dist = Math.sqrt(dx * dx + dy * dy);
+      targetHeat = Math.max(0, 1 - dist / 460);
+    }, { passive: true });
+    addEventListener('pointerleave', function () { targetHeat = 0; }, { passive: true });
+    (function tick() {
+      heat += (targetHeat - heat) * 0.1;
+      stage.style.setProperty('--heat', heat.toFixed(3));
+      requestAnimationFrame(tick);
+    })();
+  }
+
+  /* -------------------------------------------------------------- i18n --
+     Real ES/EN/DA switching: a small dictionary plus data-i18n / data-i18n-
+     attr / data-i18n-aria hooks. ES is the loaded state; EN and DA are
+     faithful, natural translations (not machine-literal), authored for this
+     build since no official EN/DA copy exists yet. Values may contain
+     inline markup (<em>, <br>) so they are applied via innerHTML — every
+     string here is authored by this build, never user input. */
+  var I18N = {
+    es: {
+      skip: 'Saltar al contenido', locale_aria: 'Idioma', nav_cta: 'Contanos tu idea',
+      sendero_aria: 'Progreso del sendero',
+      sendero_0: 'cresta', sendero_1: 'valle', sendero_2: 'ladera', sendero_3: 'cruce del sendero', sendero_4: 'la ventana encendida',
+      sendero_end: 'el hogar, fin del sendero',
+      hero_h1: 'Todo negocio merece <em>un hogar digital</em>.',
+      hero_sub: 'Diseño a medida y desarrollo digital: la imagen de tu negocio hecha realidad.',
+      trabajos_h2: 'Evidencia, no promesas.', trabajos_sub: 'Cuatro negocios que ya encontraron su sendero.',
+      trabajos_cta: 'Ver el proyecto (próximamente)',
+      quien_l1: 'Construimos cada sitio<br>como si fuera <em>el nuestro</em>.',
+      quien_l2: 'Sin plantillas genéricas. Sin atajos. Un estudio de una sola persona, no una fábrica de sitios.',
+      quien_l3: 'Somos Tierra, desde Copenhague.',
+      planes_h2: 'Elegí tu sendero.', planes_sub: 'Dos formas honestas de tener tu sitio. Vos decidís cuál te queda mejor.',
+      planA_price_num: '700', planA_price_unit: 'kr./mes',
+      planA_desc: 'Nosotros mantenemos todo. Vos solo avisás qué cambiar.',
+      planA_li1: 'Cambios incluidos cada mes', planA_li2: 'Hosting y dominio cubiertos', planA_li3: 'Soporte directo con Franco',
+      planB_price_num: '20.000', planB_price_unit: 'kr. pago único',
+      planB_desc: 'El sitio queda tuyo. Sin mensualidad.',
+      planB_li1: 'Código y diseño te pertenecen', planB_li2: 'Sin ataduras a futuro', planB_li3: 'Soporte opcional si lo necesitás',
+      planes_note: '¿No estás seguro cuál? Contanos tu caso y lo vemos juntos.',
+      contacto_h2: 'Démosle a tu negocio su propio hogar.', contacto_lede: 'Contanos tu idea.',
+      field_nombre: 'Nombre', field_email: 'Email', field_mensaje: 'Mensaje',
+      btn_enviar: 'ENVIAR', btn_enviando: 'Enviando…', btn_listo: 'Listo',
+      status_error: 'Falta completar algún campo.', status_ok: 'Gracias. Te escribimos pronto.',
+      status_fail: 'No pudimos enviar el mensaje. Probá de nuevo o escribinos a hola@tierra.dk.',
+      footer_cvr: 'Tierra · CVR 46717740', alt_ventana: 'Cabaña de piedra en la montaña con una ventana encendida al atardecer.',
+      title: 'Tierra · un hogar digital para tu negocio',
+      meta_desc: 'Diseño a medida y desarrollo digital para tu negocio, desde Copenhague. Tierra construye el hogar digital que tu negocio merece.'
+    },
+    en: {
+      skip: 'Skip to content', locale_aria: 'Language', nav_cta: 'Tell us your idea',
+      sendero_aria: 'Trail progress',
+      sendero_0: 'crest', sendero_1: 'valley', sendero_2: 'hillside', sendero_3: 'trail crossing', sendero_4: 'the lit window',
+      sendero_end: 'home, journey’s end',
+      hero_h1: 'Every business deserves <em>a digital home</em>.',
+      hero_sub: 'Custom design and digital development: your business, brought to life.',
+      trabajos_h2: 'Evidence, not promises.', trabajos_sub: 'Four businesses that have already found their path.',
+      trabajos_cta: 'View the project (coming soon)',
+      quien_l1: 'We build every site<br>as if it were <em>our own</em>.',
+      quien_l2: 'No generic templates. No shortcuts. A one-person studio, not a site factory.',
+      quien_l3: 'We are Tierra, from Copenhagen.',
+      planes_h2: 'Choose your path.', planes_sub: 'Two honest ways to get your site. You decide which suits you best.',
+      planA_price_num: '700', planA_price_unit: 'kr/month',
+      planA_desc: 'We maintain everything. You just tell us what to change.',
+      planA_li1: 'Changes included every month', planA_li2: 'Hosting and domain covered', planA_li3: 'Direct support from Franco',
+      planB_price_num: '20,000', planB_price_unit: 'kr one-time',
+      planB_desc: 'The site is yours to keep. No monthly fee.',
+      planB_li1: 'Code and design belong to you', planB_li2: 'No strings attached', planB_li3: 'Optional support if you need it',
+      planes_note: 'Not sure which? Tell us your situation and we’ll work it out together.',
+      contacto_h2: 'Let’s give your business a home of its own.', contacto_lede: 'Tell us your idea.',
+      field_nombre: 'Name', field_email: 'Email', field_mensaje: 'Message',
+      btn_enviar: 'SEND', btn_enviando: 'Sending…', btn_listo: 'Sent',
+      status_error: 'Please fill in all fields.', status_ok: 'Thank you. We’ll be in touch soon.',
+      status_fail: 'We couldn’t send your message. Please try again, or write to hola@tierra.dk.',
+      footer_cvr: 'Tierra · CVR 46717740', alt_ventana: 'Stone cabin in the mountains with a window lit at dusk.',
+      title: 'Tierra · a digital home for your business',
+      meta_desc: 'Custom design and digital development for your business, from Copenhagen. Tierra builds the digital home your business deserves.'
+    },
+    da: {
+      skip: 'Spring til indhold', locale_aria: 'Sprog', nav_cta: 'Fortæl os din idé',
+      sendero_aria: 'Fremskridt på stien',
+      sendero_0: 'kammen', sendero_1: 'dalen', sendero_2: 'skråningen', sendero_3: 'hvor stierne mødes', sendero_4: 'det oplyste vindue',
+      sendero_end: 'hjemmet, stiens ende',
+      hero_h1: 'Enhver virksomhed fortjener <em>et digitalt hjem</em>.',
+      hero_sub: 'Skræddersyet design og digital udvikling: din virksomheds udtryk, blevet til virkelighed.',
+      trabajos_h2: 'Beviser, ikke løfter.', trabajos_sub: 'Fire virksomheder, der allerede har fundet deres vej.',
+      trabajos_cta: 'Se projektet (kommer snart)',
+      quien_l1: 'Vi bygger hver hjemmeside<br>som var den <em>vores egen</em>.',
+      quien_l2: 'Ingen generiske skabeloner. Ingen genveje. Et enmandsstudie, ikke en hjemmesidefabrik.',
+      quien_l3: 'Vi er Tierra, fra København.',
+      planes_h2: 'Vælg din vej.', planes_sub: 'To ærlige måder at få din hjemmeside på. Du bestemmer, hvad der passer dig bedst.',
+      planA_price_num: '700', planA_price_unit: 'kr./md.',
+      planA_desc: 'Vi vedligeholder det hele. Du siger bare til, hvad der skal ændres.',
+      planA_li1: 'Ændringer inkluderet hver måned', planA_li2: 'Hosting og domæne dækket', planA_li3: 'Direkte support fra Franco',
+      planB_price_num: '20.000', planB_price_unit: 'kr. engangsbeløb',
+      planB_desc: 'Hjemmesiden er din for altid. Intet abonnement.',
+      planB_li1: 'Kode og design tilhører dig', planB_li2: 'Ingen bindinger fremover', planB_li3: 'Valgfri support, hvis du får brug for det',
+      planes_note: 'Ikke sikker på hvilken? Fortæl os om dine behov, så finder vi ud af det sammen.',
+      contacto_h2: 'Lad os give din virksomhed sit eget hjem.', contacto_lede: 'Fortæl os din idé.',
+      field_nombre: 'Navn', field_email: 'E-mail', field_mensaje: 'Besked',
+      btn_enviar: 'SEND', btn_enviando: 'Sender…', btn_listo: 'Sendt',
+      status_error: 'Udfyld venligst alle felter.', status_ok: 'Tak. Vi vender tilbage hurtigst muligt.',
+      status_fail: 'Vi kunne ikke sende din besked. Prøv igen, eller skriv til hola@tierra.dk.',
+      footer_cvr: 'Tierra · CVR 46717740', alt_ventana: 'Stenhytte i bjergene med et oplyst vindue ved skumring.',
+      title: 'Tierra · et digitalt hjem til din virksomhed',
+      meta_desc: 'Skræddersyet design og digital udvikling til din virksomhed, fra København. Tierra bygger det digitale hjem, din virksomhed fortjener.'
+    }
+  };
+  var currentLang = 'es';
+  var metaDescEl = document.querySelector('meta[name="description"]');
+
+  function applyI18n(lang) {
+    var dict = I18N[lang] || I18N.es;
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.title = dict.title;
+    if (metaDescEl) metaDescEl.setAttribute('content', dict.meta_desc);
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n]'), function (el) {
+      var key = el.getAttribute('data-i18n');
+      if (dict[key] != null) el.innerHTML = dict[key];
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n-alt]'), function (el) {
+      var key = el.getAttribute('data-i18n-alt');
+      if (dict[key] != null) el.setAttribute('alt', dict[key]);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n-aria]'), function (el) {
+      var key = el.getAttribute('data-i18n-aria');
+      if (dict[key] == null) return;
+      if (el.tagName === 'NAV') el.setAttribute('aria-label', dict[key]);
+      else el.setAttribute('aria-label', dict[key]);
+    });
+  }
+  /* ------------------------------------------------ language on arrival --
+     The switcher is hidden on phones, where most of the traffic is, so a
+     Danish visitor would otherwise land on Spanish with no way out. Pick
+     the opening language from the browser instead: Danish for da-*,
+     English for en-*, Spanish for everyone else (the founder's own voice,
+     and the right default for the rest of the world). A manual choice
+     still wins wherever the switcher is visible. */
+  function preferredLang() {
+    var tags = navigator.languages && navigator.languages.length
+      ? navigator.languages
+      : [navigator.language || 'es'];
+    for (var i = 0; i < tags.length; i++) {
+      var base = String(tags[i]).toLowerCase().split('-')[0];
+      if (base === 'da') return 'da';
+      if (base === 'en') return 'en';
+      if (base === 'es') return 'es';
+    }
+    return 'es';
+  }
+
+  /* ---------------------------------------------------- locale switcher --
+     Real ES/EN/DA switching, wired via applyI18n above. */
+  var localeBtns = Array.prototype.slice.call(document.querySelectorAll('.locale button'));
+  localeBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      localeBtns.forEach(function (o) { o.setAttribute('aria-current', String(o === b)); });
+      applyI18n(b.getAttribute('data-locale'));
+    });
+  });
+
+  var initialLang = preferredLang();
+  applyI18n(initialLang);
+  localeBtns.forEach(function (b) {
+    b.setAttribute('aria-current', String(b.getAttribute('data-locale') === initialLang));
+  });
+
+  /* -------------------------------------------------- nav CTA scroll fix --
+     "Contanos tu idea" used to jump to the contacto SECTION's top, which is
+     the very start of its pinned scroll range — well before the form has
+     finished revealing (its cue starts at p=0.16, fully in by ~p=0.34).
+     Compute the section's real pinned travel and land partway through it
+     instead, past the point the form is fully settled. */
+  var navCta = document.getElementById('nav-cta');
+  var contactoSection = document.getElementById('contacto');
+  if (navCta && contactoSection) {
+    navCta.addEventListener('click', function (e) {
+      e.preventDefault();
+      var top = contactoSection.getBoundingClientRect().top + (scrollY || pageYOffset);
+      var vh = innerHeight;
+      var travel = Math.max(contactoSection.offsetHeight - vh, 0);
+      var target = top + travel * 0.42; // past the form's reveal plateau, comfortably settled
+      scrollTo({ top: target, behavior: reduce ? 'auto' : 'smooth' });
+    });
+  }
+
+  /* ---------------------------------------------------------- the form --
+     No backend on a local preview build. Real validation states and a
+     genuine submit micro-interaction stand in for it. Status/label text is
+     localized through the same I18N dictionary as the rest of the page. */
+  var form = document.querySelector('.cierre__form');
+  if (form) {
+    var status = form.querySelector('.cierre__status');
+    var submitBtn = form.querySelector('.btn--primary');
+    var label = submitBtn.querySelector('.btn__label');
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var name = form.name.value.trim();
-      var email = form.email.value.trim();
-      var message = form.message.value.trim();
-      if (form.company.value.trim()) return;
-      if (successEl) successEl.hidden = true;
-      if (!name || !email || !message) { if (errorEl) errorEl.hidden = false; return; }
-      if (errorEl) errorEl.hidden = true;
-      if (submitBtn) submitBtn.disabled = true;
+      form.classList.add('was-checked');
+      var dict = I18N[currentLang] || I18N.es;
+      if (!form.checkValidity()) {
+        status.textContent = dict.status_error;
+        status.classList.remove('is-ok');
+        return;
+      }
+      submitBtn.disabled = true;
+      label.textContent = dict.btn_enviando;
+      status.textContent = '';
+      status.classList.remove('is-ok');
+
       fetch('/api/contact', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ name: name, email: email, message: message, company: form.company.value }),
-      })
-        .then(function (res) { return res.json().then(function (data) { return { ok: res.ok && data.ok, data: data }; }); })
-        .then(function (result) {
-          if (submitBtn) submitBtn.disabled = false;
-          if (result.ok) {
-            form.reset();
-            if (successEl) successEl.hidden = false;
-          } else if (errorEl) {
-            errorEl.hidden = false;
-          }
+        body: JSON.stringify({
+          name: form.elements.nombre.value,
+          email: form.elements.email.value,
+          message: form.elements.mensaje.value,
+          company: form.elements.company.value
         })
-        .catch(function () {
-          if (submitBtn) submitBtn.disabled = false;
-          if (errorEl) errorEl.hidden = false;
-        });
+      }).then(function (res) {
+        return res.json().catch(function () { return { ok: res.ok }; });
+      }).then(function (body) {
+        if (!body || !body.ok) throw new Error('send failed');
+        label.textContent = dict.btn_listo;
+        form.classList.add('is-sent');
+        status.textContent = dict.status_ok;
+        status.classList.add('is-ok');
+        form.reset();
+        form.classList.remove('was-checked');
+      }).catch(function () {
+        // Network or server failure: say so plainly and let them retry,
+        // never a false "thanks, we'll be in touch" for a message that
+        // never arrived.
+        submitBtn.disabled = false;
+        label.textContent = dict.btn_enviar;
+        status.textContent = dict.status_fail;
+        status.classList.remove('is-ok');
+      });
     });
-  })();
+  }
+})();
 </script>
 </body>
 </html>

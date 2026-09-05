@@ -66,8 +66,25 @@
     display: flex; align-items: center; justify-content: space-between;
     gap: var(--sc-4);
     padding: clamp(0.9rem, 2vw, 1.3rem) var(--sc-gutter);
-    background: linear-gradient(to bottom, color-mix(in oklab, var(--sc-canvas) 78%, transparent), transparent);
+    background: linear-gradient(to bottom,
+      color-mix(in oklab, var(--sc-canvas) 92%, transparent) 0%,
+      color-mix(in oklab, var(--sc-canvas) 74%, transparent) 55%,
+      transparent 100%);
     pointer-events: none;
+  }
+  /* Los titulares son grandes y pasan por DETRAS de esta barra al scrollear.
+     Con el degradado solo, un titular de 70px cruzando se leia encima del
+     logo y de los botones: eso es lo que se veia como "los textos se
+     solapan", y se nota mas en iPad porque ahi la tipografia es
+     proporcionalmente mayor. Un desenfoque de fondo separa las dos capas.
+     Va en un pseudo-elemento con mascara para que el desenfoque se
+     desvanezca junto con el degradado y no deje un corte recto abajo. */
+  .site-bar::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    backdrop-filter: blur(14px) saturate(105%);
+    -webkit-backdrop-filter: blur(14px) saturate(105%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 52%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 52%, transparent 100%);
   }
   .site-bar > * { pointer-events: auto; }
   .mark { display: inline-flex; align-items: center; gap: 0.55rem; color: var(--sc-ink); text-decoration: none; }
@@ -101,7 +118,14 @@
 
   /* -------------------------------------------------------------- hero -- */
   .hero-copy p:first-child { margin-top: 0; }
-  .hero-h1 { max-width: 20rem; font-size: clamp(2.4rem, 1.9rem + 3.8vw, 4.8rem); }
+  /* ------------------------------------------- titulos en pantallas bajas --
+     Los tamanos escalaban SOLO con el ancho. Un iPad Pro apaisado es ancho
+     (1194px) y bajo (746px), asi que le tocaba un titular de 76px sobre muy
+     poca altura: se comia la pantalla y empujaba el resto contra los bordes.
+     El min() agrega un techo en vh, de modo que en pantallas bajas manda la
+     altura y en pantallas altas sigue mandando el ancho exactamente como
+     estaba. Ningun tamano vertical ni de escritorio cambia. */
+  .hero-h1 { max-width: 20rem; font-size: min(clamp(2.4rem, 1.9rem + 3.8vw, 4.8rem), 11vh); }
   @media (min-width: 700px) { .hero-h1 { max-width: 28rem; } }
   .hero-sub { margin-top: var(--sc-5); max-width: 30rem; font-size: var(--sc-t-lg); color: var(--sc-ink); }
   /* The hero photograph reserves a huge pale-gold sky for the headline, but
@@ -209,7 +233,7 @@
      centred ES/EN/DA switcher in the fixed header as the heading scrolls
      up underneath it. */
   .trabajos__wrap { position: relative; z-index: 2; max-width: 34rem; margin-inline: 0; flex: none; }
-  .trabajos__col h2 { max-width: 18ch; }
+  .trabajos__col h2 { max-width: 18ch; font-size: min(var(--sc-t-3xl), 10.5vh); }
   .trabajos__col > p.sc-body { margin-top: var(--sc-4); }
   .trabajos__list { list-style: none; margin: var(--sc-7) 0 0; padding: 0; display: flex; flex-direction: column; }
   /* The pinned viewport is a hard 100svh budget with no scroll to fall back
@@ -276,7 +300,7 @@
   .quien__copy { position: relative; z-index: 3; max-width: min(42rem, 82vw); text-align: center; padding-inline: var(--sc-gutter); }
   .quien__line { margin: 0; font-family: var(--sc-font-display); font-weight: 500; line-height: 1.22; }
   .quien__line + .quien__line { margin-top: var(--sc-6); }
-  .quien__line--serif { font-size: clamp(1.7rem, 1.2rem + 2.6vw, 3.1rem); letter-spacing: var(--sc-track-snug); }
+  .quien__line--serif { font-size: min(clamp(1.7rem, 1.2rem + 2.6vw, 3.1rem), 9vh); letter-spacing: var(--sc-track-snug); }
   .quien__line--serif em { color: var(--sc-accent); }
   .quien__line--body { font-family: var(--sc-font-text); font-size: var(--sc-t-base); color: var(--sc-ink); opacity: 0.82; max-width: 34ch; margin-inline: auto; }
   .quien__line--mark { font-family: var(--sc-font-mono); font-size: var(--sc-t-sm); letter-spacing: 0.14em; text-transform: uppercase; color: var(--sc-ink); }
@@ -321,6 +345,19 @@
   .planes-note .sc-body { font-size: var(--sc-t-base); color: var(--sc-ink-soft); }
 
   .planes-stage { display: flex; align-items: center; justify-content: center; background: var(--sc-canvas); }
+
+  /* ------------------------------------------- la franja de la barra fija --
+     Los escenarios centran su contenido con align-items: center sobre la
+     altura COMPLETA del viewport, sin descontar la barra superior, que es
+     fija y opaca. En pantallas altas sobra sitio y no se nota; en un iPad
+     apaisado (700-750px de alto) el centro sube tanto que el titulo de
+     Trabajos quedaba metido bajo la barra mientras uno deberia estar
+     leyendolo. Reservar la franja hace que el centrado ocurra en el espacio
+     realmente visible. Se limita a pantallas bajas para no mover ni un pixel
+     de las composiciones verticales y de escritorio que ya estaban medidas. */
+  @media (max-height: 860px) {
+    .trabajos, .quien, .planes-stage { padding-top: var(--bar-h, 87px); }
+  }
   .planes__bg-scrim {
     position: absolute; inset: 0; z-index: 1; pointer-events: none;
     background: linear-gradient(to bottom,
@@ -1216,6 +1253,23 @@
      del sendero y el destino del boton), se calcula el recorte de verdad y
      se deduce donde quedo la boca de la chimenea. Asi es correcto por
      construccion en cualquier tamano, hoy y despues de cualquier cambio. */
+  /* ------------------------------------------------------ alto de barra --
+     La barra superior es fija y opaca, y los escenarios centran su contenido
+     en la altura completa del viewport: en pantallas bajas (iPad apaisado,
+     sobre todo) ese centro queda tan arriba que el texto se mete debajo de
+     la barra. El CSS reserva esa franja, pero necesita saber cuanto mide, y
+     la barra cambia de alto con el ancho. Se mide en vivo en vez de fijar un
+     numero que se desincronice en el proximo cambio de tipografia. */
+  var barEl = document.querySelector('header');
+  if (barEl) {
+    var setBarH = function () {
+      document.documentElement.style.setProperty('--bar-h', Math.round(barEl.getBoundingClientRect().height) + 'px');
+    };
+    setBarH();
+    addEventListener('resize', setBarH, { passive: true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(setBarH);
+  }
+
   var CHIMNEY_FX = 0.6198;   /* medido sobre la foto: x 1190 / 1920 */
   var CHIMNEY_FY = 0.4005;   /* y 427 / 1066, la boca de la chimenea */
   var SMOKE = { count: 10, peak: 0.37, size: 3.2, rise: 40, dur: 9, drift: 5.5, soften: 1.2 };

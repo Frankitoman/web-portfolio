@@ -439,7 +439,6 @@
       transparent 70%);
     opacity: calc(0.12 + (var(--sc-p, 0) * 0.32) + (var(--heat, 0) * 0.56));
     filter: blur(1px);
-    animation: cabinFlickerA 4.7s ease-in-out infinite;
   }
   .cierre__window-hotspot { position: absolute; left: var(--glow-x); top: var(--glow-y); width: 1px; height: 1px; pointer-events: none; }
 
@@ -456,7 +455,10 @@
   .cierre__ember {
     position: absolute; inset: 0; pointer-events: none; z-index: 1;
     mix-blend-mode: screen;
-    opacity: calc(var(--sc-p, 0) * var(--cabin-glow));
+    /* --ember-base es la opacidad "de llegada" (entra con el scroll); los
+       keyframes la multiplican para latir sin tocar filtros. */
+    --ember-base: calc(var(--sc-p, 0) * var(--cabin-glow));
+    opacity: var(--ember-base);
   }
   .cierre__ember--b {
     background: radial-gradient(16rem 16rem at var(--glow-x) var(--glow-y),
@@ -468,20 +470,22 @@
       rgba(255,225,180,.30) 0%, rgba(255,200,140,.10) 55%, rgba(255,180,110,0) 78%);
     animation: cabinFlickerC 11.3s ease-in-out infinite;
   }
-  @keyframes cabinFlickerA {
-    0%,100% { filter: blur(1px) brightness(1); }
-    50%     { filter: blur(1px) brightness(calc(1 + var(--cabin-flick) * .30)); }
-  }
+  /* El parpadeo se hacia con filter: brightness() sobre capas que ocupan toda
+     la pantalla. Cada fotograma obligaba a rerasterizar la pantalla entera.
+     La misma lectura de llama se consigue variando la OPACIDAD de cada capa,
+     que el compositor resuelve sin volver a pintar nada. La capa base ya no
+     se anima: conserva su opacidad calculada por scroll y puntero, y son las
+     dos capas finas las que laten. */
   @keyframes cabinFlickerB {
-    0%,100% { filter: brightness(calc(1 - var(--cabin-flick) * .22)); }
-    37%     { filter: brightness(calc(1 + var(--cabin-flick) * .48)); }
-    68%     { filter: brightness(calc(1 - var(--cabin-flick) * .10)); }
+    0%,100% { opacity: calc(var(--ember-base) * (1 - var(--cabin-flick) * .30)); }
+    37%     { opacity: calc(var(--ember-base) * (1 + var(--cabin-flick) * .42)); }
+    68%     { opacity: calc(var(--ember-base) * (1 - var(--cabin-flick) * .14)); }
   }
   @keyframes cabinFlickerC {
-    0%,100% { filter: brightness(1); }
-    23%     { filter: brightness(calc(1 + var(--cabin-flick) * .70)); }
-    51%     { filter: brightness(calc(1 - var(--cabin-flick) * .16)); }
-    79%     { filter: brightness(calc(1 + var(--cabin-flick) * .34)); }
+    0%,100% { opacity: calc(var(--ember-base) * 1); }
+    23%     { opacity: calc(var(--ember-base) * (1 + var(--cabin-flick) * .55)); }
+    51%     { opacity: calc(var(--ember-base) * (1 - var(--cabin-flick) * .22)); }
+    79%     { opacity: calc(var(--ember-base) * (1 + var(--cabin-flick) * .28)); }
   }
 
   /* HUMO. Volutas desenfocadas que suben desde la boca de la chimenea, cada
@@ -498,15 +502,27 @@
   .cierre__smoke {
     position: absolute; left: var(--smoke-x, 62%); top: var(--smoke-y, 40%);
     width: 0; height: 0; pointer-events: none; z-index: 1;
+    /* UN desenfoque para las diez volutas, en vez de uno por voluta. Antes
+       cada una era su propia capa filtrada y ademas escalaba, asi que el
+       navegador rerasterizaba diez capas por fotograma. Filtrando el grupo se
+       rasteriza una sola vez, y de paso las volutas se funden entre si: el
+       humo se lee como una columna continua y no como circulos apilados. */
+    filter: blur(calc(var(--smoke-u, 3px) * 1.15));
   }
   .cierre__puff {
     position: absolute; left: 0; top: 0;
     width: var(--size); height: var(--size);
     margin-left: calc(var(--size) / -2); margin-top: calc(var(--size) / -2);
     border-radius: 50%;
+    /* El desenfoque se queda. Se probo cambiarlo por un degradado con caida
+       temprana para ahorrar rasterizado, y el humo paso a leerse como circulos
+       sueltos apilados: un degradado radial siempre tiene borde circular, y lo
+       que el blur suaviza es la FORMA, no solo el alfa. El ahorro real estaba
+       en otro lado (los videos), asi que aca prima la imagen.
+       Lo que si se acota es el alcance: las volutas solo existen mientras la
+       casa esta cerca de pantalla, ver .cierre:not(.is-near) mas abajo. */
     background: radial-gradient(circle at 50% 55%,
       rgba(214,222,230,.85) 0%, rgba(190,200,212,.45) 42%, rgba(170,182,196,0) 72%);
-    filter: blur(var(--soften));
     opacity: 0;
     animation: cabinRise var(--dur) linear infinite var(--delay);
     will-change: transform, opacity;
@@ -1240,28 +1256,48 @@
     }
 
     var raf = null;
+    /* scrollHeight e innerHeight son lecturas de layout. Pedirlas dentro del
+       bucle de scroll obliga al navegador a recalcular la geometria de la
+       pagina en CADA fotograma, justo cuando menos tiempo hay. No cambian al
+       scrollear, solo al redimensionar o al reacomodarse el contenido, asi
+       que se cachean y se refrescan en relayoutSendero(). */
+    var maxScroll = 1;
+    function measureScroll() {
+      maxScroll = Math.max(document.documentElement.scrollHeight - innerHeight, 1);
+    }
+    var lastZone = -1, lastArrived = null;
+
     function updateSendero() {
       raf = null;
-      var doc = document.documentElement;
-      var max = Math.max(doc.scrollHeight - innerHeight, 1);
-      var p = Math.min(Math.max((scrollY || pageYOffset) / max, 0), 1);
+      var y = scrollY || pageYOffset;
+      var p = Math.min(Math.max(y / maxScroll, 0), 1);
       path.style.strokeDashoffset = String(len * (1 - p));
       var pt = path.getPointAtLength(len * p);
       dot.setAttribute('cx', pt.x.toFixed(2));
       dot.setAttribute('cy', pt.y.toFixed(2));
       var zone = 0;
       for (var i = 0; i < zones.length; i++) { if (p >= zones[i]) zone = i; }
-      for (var j = 0; j < labels.length; j++) labels[j].classList.toggle('is-active', j === zone);
+      /* antes se reescribian las seis clases en cada fotograma aunque la zona
+         fuera la misma: seis invalidaciones de estilo por fotograma para nada.
+         Ahora solo se tocan cuando la zona cambia de verdad. */
+      if (zone !== lastZone) {
+        for (var j = 0; j < labels.length; j++) labels[j].classList.toggle('is-active', j === zone);
+        lastZone = zone;
+      }
+      var max = maxScroll;
       // Arrival. Not "entered the last section" (zone 4 already says that),
       // but "reached the bottom of the page" — the walk is over. The 0.5px
       // tolerance is against sub-pixel scroll rounding and browser rubber-band
       // clamping, which can leave p at 0.9994 at a genuine hard bottom.
       if (endLabel) {
-        var atBottom = (max - (scrollY || pageYOffset)) <= 1.5;
-        endLabel.classList.toggle('is-arrived', atBottom);
+        var atBottom = (max - y) <= 1.5;
+        if (atBottom !== lastArrived) {          // igual: solo escribir al cambiar
+          endLabel.classList.toggle('is-arrived', atBottom);
+          lastArrived = atBottom;
+        }
       }
     }
-    function relayoutSendero() { computeZones(); placeZoneDots(); updateSendero(); }
+    function relayoutSendero() { measureScroll(); computeZones(); placeZoneDots(); updateSendero(); }
     relayoutSendero();
     addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(updateSendero); }, { passive: true });
     addEventListener('resize', relayoutSendero, { passive: true });
@@ -1378,19 +1414,39 @@
   var stage = document.querySelector('.cierre');
   var hotspot = document.querySelector('.cierre__window-hotspot');
   if (stage && hotspot && fineHover.matches && !reduce) {
-    var targetHeat = 0, heat = 0;
+    /* Este bucle antes giraba SIEMPRE: un requestAnimationFrame por fotograma
+       durante toda la vida de la pagina, escribiendo --heat aunque la cabana
+       estuviera a diez pantallas de distancia y aunque nadie hubiera tocado el
+       mouse. Como --heat entra en la opacidad de una capa a pantalla completa,
+       cada escritura forzaba recalculo de estilo y repintado. Era el costo
+       fijo mas caro que tenia el scroll.
+       Ahora solo gira mientras hace falta: cuando el valor todavia se esta
+       moviendo hacia su destino. Al asentarse se detiene solo, y vuelve a
+       arrancar con el proximo movimiento del puntero. */
+    var targetHeat = 0, heat = 0, heatRaf = null;
+
+    var heatTick = function () {
+      heatRaf = null;
+      heat += (targetHeat - heat) * 0.1;
+      if (Math.abs(targetHeat - heat) < 0.002) heat = targetHeat;   // cerrar, no perseguir infinitamente
+      stage.style.setProperty('--heat', heat.toFixed(3));
+      if (heat !== targetHeat) heatRaf = requestAnimationFrame(heatTick);
+    };
+    var wakeHeat = function () {
+      if (heatRaf === null && heat !== targetHeat) heatRaf = requestAnimationFrame(heatTick);
+    };
+
     addEventListener('pointermove', function (e) {
+      /* si la casa no esta cerca de pantalla no hay nada que iluminar:
+         ni siquiera pagamos el getBoundingClientRect */
+      if (!stage.classList.contains('is-near')) return;
       var r = hotspot.getBoundingClientRect();
       var dx = e.clientX - r.left, dy = e.clientY - r.top;
       var dist = Math.sqrt(dx * dx + dy * dy);
       targetHeat = Math.max(0, 1 - dist / 460);
+      wakeHeat();
     }, { passive: true });
-    addEventListener('pointerleave', function () { targetHeat = 0; }, { passive: true });
-    (function tick() {
-      heat += (targetHeat - heat) * 0.1;
-      stage.style.setProperty('--heat', heat.toFixed(3));
-      requestAnimationFrame(tick);
-    })();
+    addEventListener('pointerleave', function () { targetHeat = 0; wakeHeat(); }, { passive: true });
   }
 
   /* -------------------------------------------------------------- i18n --

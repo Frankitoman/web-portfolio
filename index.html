@@ -614,6 +614,23 @@
     font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); color: var(--sc-ink-soft); letter-spacing: 0.04em;
   }
   .foot a { color: var(--sc-ink-soft); }
+  /* El correo y el Instagram viajan juntos a la derecha, para que el pie
+     siga siendo dos bloques y no tres sueltos. */
+  .foot__links { display: inline-flex; align-items: center; gap: var(--sc-4); flex-wrap: wrap; }
+  .foot__ig {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    text-decoration: none;
+    transition: color 200ms var(--sc-ease-out);
+  }
+  .foot__ig svg { width: 15px; height: 15px; flex: none; transition: transform 220ms var(--sc-ease-out); }
+  .foot__ig:hover, .foot__ig:focus-visible { color: var(--sc-accent); }
+  .foot__ig:hover svg { transform: scale(1.12) rotate(-4deg); }
+  .foot__ig:active svg { transform: scale(0.96); }
+  .foot__ig:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 4px; border-radius: 4px; }
+  @media (prefers-reduced-motion: reduce) {
+    .foot__ig svg { transition: none; }
+    .foot__ig:hover svg, .foot__ig:active svg { transform: none; }
+  }
 
   /* ------------------------------------------------------- el sendero --
      the signature move: a fixed vertical elevation-profile rail, drawn from
@@ -676,7 +693,7 @@
   /* Solo para lectores de pantalla: el nombre visible del proyecto es el
      nombre accesible del enlace, y esto agrega la advertencia de que abre
      en una pestana nueva sin taparlo. */
-  .trabajos__link-sr {
+  .sr-only {
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
   }
@@ -970,25 +987,25 @@
         <ul class="trabajos__list">
           <li class="trabajos__row" data-sc-in>
             <a class="trabajos__link" href="https://anoranza-bakery.francojmansilla.workers.dev" target="_blank" rel="noopener noreferrer">
-              <span class="trabajos__wipe">Añoranza</span><span class="trabajos__link-sr" data-i18n="trabajos_cta">Visitar el sitio (se abre en una pestaña nueva)</span>
+              <span class="trabajos__wipe">Añoranza</span><span class="sr-only" data-i18n="trabajos_cta">Visitar el sitio (se abre en una pestaña nueva)</span>
               <svg class="trabajos__arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
           </li>
           <li class="trabajos__row" data-sc-in>
             <a class="trabajos__link" href="https://duosonus.dk" target="_blank" rel="noopener noreferrer">
-              <span class="trabajos__wipe">Duo Sonus</span><span class="trabajos__link-sr" data-i18n="trabajos_cta">Visitar el sitio (se abre en una pestaña nueva)</span>
+              <span class="trabajos__wipe">Duo Sonus</span><span class="sr-only" data-i18n="trabajos_cta">Visitar el sitio (se abre en una pestaña nueva)</span>
               <svg class="trabajos__arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
           </li>
           <li class="trabajos__row" data-sc-in>
             <a class="trabajos__link" href="https://froken.francojmansilla.workers.dev" target="_blank" rel="noopener noreferrer">
-              <span class="trabajos__wipe">FRØKEN</span><span class="trabajos__link-sr" data-i18n="trabajos_cta">Visitar el sitio (se abre en una pestaña nueva)</span>
+              <span class="trabajos__wipe">FRØKEN</span><span class="sr-only" data-i18n="trabajos_cta">Visitar el sitio (se abre en una pestaña nueva)</span>
               <svg class="trabajos__arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
           </li>
           <li class="trabajos__row" data-sc-in>
             <a class="trabajos__link" href="https://wandering-die.francojmansilla.workers.dev" target="_blank" rel="noopener noreferrer">
-              <span class="trabajos__wipe">The Wandering Die</span><span class="trabajos__link-sr" data-i18n="trabajos_cta">Visitar el sitio (se abre en una pestaña nueva)</span>
+              <span class="trabajos__wipe">The Wandering Die</span><span class="sr-only" data-i18n="trabajos_cta">Visitar el sitio (se abre en una pestaña nueva)</span>
               <svg class="trabajos__arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
           </li>
@@ -1124,7 +1141,18 @@
 
       <footer class="foot">
         <span data-i18n="footer_cvr">Tierra · CVR 46717740</span>
-        <a href="mailto:hola@tierra.dk">hola@tierra.dk</a>
+        <span class="foot__links">
+          <a href="mailto:hola@tierra.dk">hola@tierra.dk</a>
+          <a class="foot__ig" href="https://www.instagram.com/tierra.dk/" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.7"/>
+              <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.7"/>
+              <circle cx="17.2" cy="6.8" r="1.15" fill="currentColor"/>
+            </svg>
+            <span aria-hidden="true">@tierra.dk</span>
+            <span class="sr-only" data-i18n="ig_label">Instagram de Tierra (se abre en una pestaña nueva)</span>
+          </a>
+        </span>
       </footer>
     </div>
   </section>
@@ -1399,6 +1427,7 @@
       status_error: 'Falta completar algún campo.', status_ok: 'Gracias. Te escribimos pronto.',
       status_fail: 'No pudimos enviar el mensaje. Probá de nuevo o escribinos a hola@tierra.dk.',
       footer_cvr: 'Tierra · CVR 46717740', alt_ventana: 'Cabaña de piedra en la montaña con una ventana encendida al atardecer.',
+      ig_label: 'Instagram de Tierra (se abre en una pestaña nueva)',
       title: 'Tierra · un hogar digital para tu negocio',
       meta_desc: 'Diseño a medida y desarrollo digital para tu negocio, desde Copenhague. Tierra construye el hogar digital que tu negocio merece.'
     },
@@ -1428,6 +1457,7 @@
       status_error: 'Please fill in all fields.', status_ok: 'Thank you. We’ll be in touch soon.',
       status_fail: 'We couldn’t send your message. Please try again, or write to hola@tierra.dk.',
       footer_cvr: 'Tierra · CVR 46717740', alt_ventana: 'Stone cabin in the mountains with a window lit at dusk.',
+      ig_label: 'Tierra on Instagram (opens in a new tab)',
       title: 'Tierra · a digital home for your business',
       meta_desc: 'Custom design and digital development for your business, from Copenhagen. Tierra builds the digital home your business deserves.'
     },
@@ -1457,6 +1487,7 @@
       status_error: 'Udfyld venligst alle felter.', status_ok: 'Tak. Vi vender tilbage hurtigst muligt.',
       status_fail: 'Vi kunne ikke sende din besked. Prøv igen, eller skriv til hola@tierra.dk.',
       footer_cvr: 'Tierra · CVR 46717740', alt_ventana: 'Stenhytte i bjergene med et oplyst vindue ved skumring.',
+      ig_label: 'Tierra på Instagram (åbner i en ny fane)',
       title: 'Tierra · et digitalt hjem til din virksomhed',
       meta_desc: 'Skræddersyet design og digital udvikling til din virksomhed, fra København. Tierra bygger det digitale hjem, din virksomhed fortjener.'
     }

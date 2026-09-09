@@ -725,36 +725,54 @@
     position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
     width: 12px; height: 12px; border-radius: 50%;
     background: var(--sc-ink-soft); opacity: 0.5;
+    /* Ahora es un boton de verdad: se pulsa con el mouse y se alcanza con Tab.
+       Se le saca la apariencia de boton y se le devuelve la de punto. */
+    padding: 0; border: 0; appearance: none; cursor: pointer; pointer-events: auto;
     transition: opacity 320ms var(--sc-ease-out), transform 320ms var(--sc-ease-out), background 320ms var(--sc-ease-out), width 320ms var(--sc-ease-out), height 320ms var(--sc-ease-out);
   }
   .sendero__label.is-active { opacity: 1; background: var(--sc-accent); width: 18px; height: 18px;
     box-shadow: 0 0 0 6px color-mix(in oklab, var(--sc-accent) 24%, transparent); }
-  /* Terminal marker: journey's end, at getPointAtLength(len) — fraction 1.0,
-     the literal last point of the path, not a sixth waypoint on a scroll
-     fraction. Read as a DESTINATION rather than a station: a hollow ring
-     while the walk is still in progress (an outline on the map, somewhere you
-     have not got to yet), which fills solid with the accent and gains a lamp
-     halo the moment the reader actually reaches the foot of the page. The
-     zone dots never do either of those things, so the two treatments cannot
-     be confused. Sized above the active waypoint (20px vs 18px) so it also
-     reads as the largest thing on the rail once lit. */
-  .sendero__label--end {
-    width: 16px; height: 16px;
-    background: transparent;
-    border: 2px solid var(--sc-ink-soft);
-    opacity: 0.55;
-    transition: opacity 420ms var(--sc-ease-out), background 420ms var(--sc-ease-out),
-      border-color 420ms var(--sc-ease-out), box-shadow 420ms var(--sc-ease-out),
-      width 420ms var(--sc-ease-out), height 420ms var(--sc-ease-out);
+  /* El punto en si mide 12px, muy por debajo del minimo de 44px para el dedo o
+     para un click apurado. Una capa transparente agranda la zona sensible sin
+     tocar el tamano dibujado, el mismo recurso que ya usan el logo y el pie. */
+  .sendero__label::after {
+    content: ""; position: absolute; left: 50%; top: 50%;
+    width: 44px; height: 44px; transform: translate(-50%, -50%); border-radius: 50%;
   }
-  .sendero__label--end.is-arrived {
-    opacity: 1; width: 20px; height: 20px;
-    background: var(--sc-accent); border-color: var(--sc-accent);
-    box-shadow:
-      0 0 0 5px color-mix(in oklab, var(--sc-accent) 22%, transparent),
-      0 0 16px 2px color-mix(in oklab, var(--sc-accent) 60%, transparent);
+  /* El crecimiento del punto va por box-shadow y no por transform: el globo es
+     hijo del boton, asi que un scale en el padre le escalaba tambien la letra
+     y la dejaba 1.25x mas grande que el resto de la pagina. El anillo consigue
+     el mismo "se agranda al tocarlo" sin deformar nada de lo que cuelga. */
+  .sendero__label:hover { opacity: 1; box-shadow: 0 0 0 5px color-mix(in oklab, var(--sc-ink-soft) 30%, transparent); }
+  .sendero__label:active { opacity: 0.7; }
+  .sendero__label.is-active:hover { box-shadow: 0 0 0 9px color-mix(in oklab, var(--sc-accent) 26%, transparent); }
+  .sendero__label:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 6px; }
+
+  /* El globo con el nombre de la seccion. Sale HACIA LA IZQUIERDA porque la
+     barra vive pegada al borde derecho: hacia arriba o abajo chocaria con los
+     puntos vecinos, y hacia la derecha se saldria de la pantalla. */
+  .sendero__tip {
+    position: absolute; right: calc(100% + 14px); top: 50%;
+    transform: translateY(-50%) translateX(6px);
+    padding: 0.34rem 0.6rem; border-radius: var(--sc-r-sm, 6px);
+    background: color-mix(in oklab, var(--sc-surface) 94%, transparent);
+    border: 1px solid var(--sc-hairline-strong);
+    color: var(--sc-ink); font-family: var(--sc-font-mono);
+    font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase;
+    white-space: nowrap; pointer-events: none;
+    opacity: 0; visibility: hidden;
+    transition: opacity 180ms var(--sc-ease-out), transform 180ms var(--sc-ease-out), visibility 180ms;
   }
-  @media (prefers-reduced-motion: reduce) { .sendero__label--end { transition-duration: 160ms; } }
+  .sendero__label:hover .sendero__tip,
+  .sendero__label:focus-visible .sendero__tip {
+    opacity: 1; visibility: visible; transform: translateY(-50%) translateX(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sendero__tip { transition: opacity 140ms linear, visibility 140ms; transform: translateY(-50%); }
+    .sendero__label:hover .sendero__tip, .sendero__label:focus-visible .sendero__tip { transform: translateY(-50%); }
+  }
+  @media (prefers-reduced-transparency: reduce) { .sendero__tip { background: var(--sc-surface); } }
+  @media (prefers-contrast: more) { .sendero__tip { background: var(--sc-surface); border-color: var(--sc-ink-soft); } }
   /* Solo para lectores de pantalla: el nombre visible del proyecto es el
      nombre accesible del enlace, y esto agrega la advertencia de que abre
      en una pestana nueva sin taparlo. */
@@ -963,18 +981,12 @@
        so a dot cannot be off the line by construction, and it stays correct if
        the path geometry or the section heights change. -->
   <div class="sendero__labels">
-    <span class="sendero__label" data-sendero-i="0"><span class="sendero__label-sr" data-i18n="sendero_0">cresta</span></span>
-    <span class="sendero__label" data-sendero-i="1"><span class="sendero__label-sr" data-i18n="sendero_1">valle</span></span>
-    <span class="sendero__label" data-sendero-i="2"><span class="sendero__label-sr" data-i18n="sendero_2">ladera</span></span>
-    <span class="sendero__label" data-sendero-i="3"><span class="sendero__label-sr" data-i18n="sendero_3">cruce del sendero</span></span>
-    <span class="sendero__label" data-sendero-i="4"><span class="sendero__label-sr" data-i18n="sendero_4">la ventana encendida</span></span>
-    <!-- Terminal marker. NOT a sixth zone: it carries no data-sendero-zone
-         counterpart and no data-sendero-i, and the JS treats it separately —
-         it is placed at getPointAtLength(len), the path's literal end point,
-         and lights on arrival at the foot of the page rather than on entering
-         a section. Kept inside .sendero__labels so it inherits the same
-         absolute-positioning context and the same sr-only label pattern. -->
-    <span class="sendero__label sendero__label--end" data-sendero-end><span class="sendero__label-sr" data-i18n="sendero_end">el hogar</span></span>
+    <button type="button" class="sendero__label" data-sendero-i="0" data-i18n-aria="sendero_0" aria-label="Ir a la seccion"><span class="sendero__tip" aria-hidden="true" data-i18n="sendero_0">Tierra</span></button>
+    <button type="button" class="sendero__label" data-sendero-i="1" data-i18n-aria="sendero_1" aria-label="Ir a la seccion"><span class="sendero__tip" aria-hidden="true" data-i18n="sendero_1">Tierra</span></button>
+    <button type="button" class="sendero__label" data-sendero-i="2" data-i18n-aria="sendero_2" aria-label="Ir a la seccion"><span class="sendero__tip" aria-hidden="true" data-i18n="sendero_2">Tierra</span></button>
+    <button type="button" class="sendero__label" data-sendero-i="3" data-i18n-aria="sendero_3" aria-label="Ir a la seccion"><span class="sendero__tip" aria-hidden="true" data-i18n="sendero_3">Tierra</span></button>
+    <button type="button" class="sendero__label" data-sendero-i="4" data-i18n-aria="sendero_4" aria-label="Ir a la seccion"><span class="sendero__tip" aria-hidden="true" data-i18n="sendero_4">Tierra</span></button>
+    </span>
   </div>
 </aside>
 
@@ -1245,8 +1257,7 @@
     // this list: it is not keyed to a zone, it is keyed to the end of the
     // path, so it must not take part in the zone-index activation loop below
     // (which would otherwise never light it, since there is no zone 5).
-    var labels = Array.prototype.slice.call(rail.querySelectorAll('.sendero__label:not([data-sendero-end])'));
-    var endLabel = rail.querySelector('[data-sendero-end]');
+    var labels = Array.prototype.slice.call(rail.querySelectorAll('.sendero__label'));
     var len = path.getTotalLength();
     path.style.strokeDasharray = String(len);
 
@@ -1293,15 +1304,6 @@
         labels[i].style.left = (q.x / vb.width * 100).toFixed(3) + '%';
         labels[i].style.top = (q.y / vb.height * 100).toFixed(3) + '%';
       }
-      // Terminal marker: the path's own final point. Same getPointAtLength
-      // technique as every other dot, at fraction 1.0 exactly, so it sits on
-      // the end of the drawn stroke by construction and follows the geometry
-      // if the path is ever redrawn.
-      if (endLabel) {
-        var e = path.getPointAtLength(len);
-        endLabel.style.left = (e.x / vb.width * 100).toFixed(3) + '%';
-        endLabel.style.top = (e.y / vb.height * 100).toFixed(3) + '%';
-      }
     }
 
     var raf = null;
@@ -1314,7 +1316,7 @@
     function measureScroll() {
       maxScroll = Math.max(document.documentElement.scrollHeight - innerHeight, 1);
     }
-    var lastZone = -1, lastArrived = null;
+    var lastZone = -1;
 
     function updateSendero() {
       raf = null;
@@ -1334,19 +1336,31 @@
         lastZone = zone;
       }
       var max = maxScroll;
-      // Arrival. Not "entered the last section" (zone 4 already says that),
-      // but "reached the bottom of the page" — the walk is over. The 0.5px
-      // tolerance is against sub-pixel scroll rounding and browser rubber-band
-      // clamping, which can leave p at 0.9994 at a genuine hard bottom.
-      if (endLabel) {
-        var atBottom = (max - y) <= 1.5;
-        if (atBottom !== lastArrived) {          // igual: solo escribir al cambiar
-          endLabel.classList.toggle('is-arrived', atBottom);
-          lastArrived = atBottom;
-        }
-      }
     }
     function relayoutSendero() { measureScroll(); computeZones(); placeZoneDots(); updateSendero(); }
+
+    /* ------------------------------------------- el sendero como atajo --
+       Recorrer la pagina entera esta bien la primera vez; a la tercera es
+       trabajo. Cada punto lleva a su seccion.
+       El destino NO es el borde superior de la seccion: las secciones fijadas
+       empiezan su recorrido mucho antes de que el contenido termine de
+       aparecer, asi que aterrizar en el borde deja al visitante mirando una
+       escena a medio armar. Se calcula el mismo punto asentado que usa el
+       boton "Contanos tu idea": adentro del recorrido fijado, pasada la
+       revelacion. Y se mide en el momento del click, no una vez al cargar,
+       porque las alturas cambian con el ancho de la ventana. */
+    zoneEls.forEach(function (sec, i) {
+      var dot = labels[i];
+      if (!dot) return;
+      dot.addEventListener('click', function () {
+        var top = sec.getBoundingClientRect().top + (scrollY || pageYOffset);
+        var travel = Math.max(sec.offsetHeight - innerHeight, 0);
+        /* la primera seccion es el comienzo de la pagina: ahi el destino es
+           el tope real, no un punto adentro del recorrido */
+        var target = i === 0 ? 0 : top + travel * 0.42;
+        scrollTo({ top: target, behavior: reduce ? 'auto' : 'smooth' });
+      });
+    });
     relayoutSendero();
     addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(updateSendero); }, { passive: true });
     addEventListener('resize', relayoutSendero, { passive: true });
@@ -1508,9 +1522,8 @@
   var I18N = {
     es: {
       skip: 'Saltar al contenido', locale_aria: 'Idioma', nav_cta: 'Contanos tu idea',
-      sendero_aria: 'Progreso del sendero',
-      sendero_0: 'cresta', sendero_1: 'valle', sendero_2: 'ladera', sendero_3: 'cruce del sendero', sendero_4: 'la ventana encendida',
-      sendero_end: 'el hogar, fin del sendero',
+      sendero_aria: 'Ir a una seccion',
+      sendero_0: 'Tierra', sendero_1: 'Proyectos', sendero_2: 'Historia', sendero_3: 'Planes', sendero_4: 'Contacto',
       hero_h1: 'Todo negocio merece <em>un hogar digital</em>.',
       hero_sub: 'Diseño a medida y desarrollo digital: la imagen de tu negocio hecha realidad.',
       trabajos_h2: 'Evidencia, no promesas.', trabajos_sub: 'Cuatro negocios que ya encontraron su sendero.',
@@ -1538,9 +1551,8 @@
     },
     en: {
       skip: 'Skip to content', locale_aria: 'Language', nav_cta: 'Tell us your idea',
-      sendero_aria: 'Trail progress',
-      sendero_0: 'crest', sendero_1: 'valley', sendero_2: 'hillside', sendero_3: 'trail crossing', sendero_4: 'the lit window',
-      sendero_end: 'home, journey’s end',
+      sendero_aria: 'Jump to a section',
+      sendero_0: 'Tierra', sendero_1: 'Projects', sendero_2: 'Story', sendero_3: 'Plans', sendero_4: 'Contact',
       hero_h1: 'Every business deserves <em>a digital home</em>.',
       hero_sub: 'Custom design and digital development: your business, brought to life.',
       trabajos_h2: 'Evidence, not promises.', trabajos_sub: 'Four businesses that have already found their path.',
@@ -1568,9 +1580,8 @@
     },
     da: {
       skip: 'Spring til indhold', locale_aria: 'Sprog', nav_cta: 'Fortæl os din idé',
-      sendero_aria: 'Fremskridt på stien',
-      sendero_0: 'kammen', sendero_1: 'dalen', sendero_2: 'skråningen', sendero_3: 'hvor stierne mødes', sendero_4: 'det oplyste vindue',
-      sendero_end: 'hjemmet, stiens ende',
+      sendero_aria: 'Hop til et afsnit',
+      sendero_0: 'Tierra', sendero_1: 'Projekter', sendero_2: 'Historie', sendero_3: 'Priser', sendero_4: 'Kontakt',
       hero_h1: 'Enhver virksomhed fortjener <em>et digitalt hjem</em>.',
       hero_sub: 'Skræddersyet design og digital udvikling: din virksomheds udtryk, blevet til virkelighed.',
       trabajos_h2: 'Beviser, ikke løfter.', trabajos_sub: 'Fire virksomheder, der allerede har fundet deres vej.',

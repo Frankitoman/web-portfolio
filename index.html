@@ -87,7 +87,19 @@
     -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 52%, transparent 100%);
   }
   .site-bar > * { pointer-events: auto; }
-  .mark { display: inline-flex; align-items: center; gap: 0.55rem; color: var(--sc-ink); text-decoration: none; }
+  .mark { display: inline-flex; align-items: center; gap: 0.55rem; color: var(--sc-ink); text-decoration: none;
+    transition: opacity 140ms var(--sc-ease-out), transform 140ms var(--sc-ease-out); }
+  /* La respuesta va en el APRETAR, no en el soltar. Si el acuse aparece
+     recien al hacer click, el elemento se siente muerto en el instante en que
+     el dedo lo toca, que es justo cuando el ojo esta buscando confirmacion. */
+  .mark:active { opacity: 0.72; transform: scale(0.97); }
+  .foot a { transition: opacity 140ms var(--sc-ease-out); }
+  .foot a:active { opacity: 0.6; }
+  .skip:active { opacity: 0.75; }
+  @media (prefers-reduced-motion: reduce) {
+    .mark, .foot a { transition: opacity 140ms linear; }
+    .mark:active { transform: none; }
+  }
   .mark__svg { width: 22px; height: 20px; flex: none; }
   .mark__word { font-family: var(--sc-font-mono); font-weight: 700; font-size: 0.92rem; letter-spacing: 0.16em; }
   .locale { display: flex; gap: 0.3rem; font-family: var(--sc-font-mono); font-size: 0.7rem; letter-spacing: 0.06em; }
@@ -646,6 +658,43 @@
   @media (prefers-reduced-motion: reduce) {
     .foot__ig svg { transition: none; }
     .foot__ig:hover svg, .foot__ig:active svg { transform: none; }
+  }
+
+  /* ------------------------------------------- transparencia y contraste --
+     La pagina apoya jerarquia en dos superficies translucidas: la barra
+     superior (que desenfoca lo que pasa por detras) y la tarjeta del
+     formulario. Para quien pide menos transparencia en su sistema, esas
+     capas son ruido: el desenfoque se va y las superficies se vuelven
+     solidas. Ya se respetaba "reducir movimiento"; estas dos preferencias
+     viven en el mismo lugar de los ajustes y se estaban ignorando. */
+  @media (prefers-reduced-transparency: reduce) {
+    .site-bar::before { backdrop-filter: none; -webkit-backdrop-filter: none; }
+    .site-bar {
+      background: linear-gradient(to bottom,
+        var(--sc-canvas) 0%, var(--sc-canvas) 72%,
+        color-mix(in oklab, var(--sc-canvas) 55%, transparent) 100%);
+    }
+    .cierre__form { background: var(--sc-surface); backdrop-filter: none; -webkit-backdrop-filter: none; }
+  }
+
+  /* Con contraste alto, los bordes dejan de ser sugerencias: fondo casi
+     solido y contorno definido, para que cada superficie tenga un limite
+     que se vea y no dependa de una diferencia sutil de luminancia. */
+  @media (prefers-contrast: more) {
+    .site-bar::before { backdrop-filter: none; -webkit-backdrop-filter: none; }
+    .site-bar {
+      background: var(--sc-canvas);
+      border-bottom: 1px solid var(--sc-ink-soft);
+    }
+    .cierre__form {
+      background: var(--sc-surface);
+      backdrop-filter: none; -webkit-backdrop-filter: none;
+      border-color: var(--sc-ink-soft);
+    }
+    .field input, .field textarea { border-color: var(--sc-ink-soft); }
+    .plan { border-color: var(--sc-ink); }
+    .btn--ghost, .locale button { border-color: var(--sc-ink-soft); }
+    .sc-scrim, .hero-scrim, .quien__scrim, .trabajos__scrim { opacity: 1; }
   }
 
   /* ------------------------------------------------------- el sendero --

@@ -264,6 +264,7 @@
   .trabajos__row:nth-child(2) { transition-delay: 80ms; }
   .trabajos__row:nth-child(3) { transition-delay: 160ms; }
   .trabajos__row:nth-child(4) { transition-delay: 240ms; }
+  .trabajos__row:nth-child(5) { transition-delay: 320ms; }
   .trabajos__link {
     all: unset; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between;
     gap: var(--sc-4); width: 100%; padding: 1.05rem 0.1rem; cursor: pointer; border-radius: var(--sc-r-sm);
@@ -281,6 +282,34 @@
   .trabajos__link:hover .trabajos__arrow, .trabajos__link:focus-visible .trabajos__arrow { opacity: 1; translate: 0 0; }
   .trabajos__link:active .trabajos__wipe { opacity: 0.8; }
   .trabajos__link:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 4px; }
+
+  /* Five names since Meeple Map joined. The pinned stage is exactly one
+     viewport, so the whole block has to fit under the fixed bar at every
+     height, not just the tall ones.
+     1. Centre in the space below the bar at all heights. The max-height:860px
+        rule further down only reserved the bar strip on short screens; with
+        five rows a 1440x900 heading already slid under the bar.
+     2. The compact row padding for short screens (the media query above the
+        base .trabajos__link rule) never applied: the base rule comes later
+        and wins. Restated here, after it, and extended to 940px tall.
+     3. On short screens the names and the heading scale with height.
+     The phone rules further down still come last, so the measured phone
+     compositions are untouched. */
+  .trabajos { padding-top: var(--bar-h, 87px); }
+  @media (max-height: 940px), (max-width: 860px) {   /* 940: 1536x864 clipped by 13px at full padding */
+    .trabajos__link { padding-block: 0.75rem; }
+  }
+  @media (max-height: 820px) {
+    .trabajos__wipe { font-size: clamp(1.4rem, 4.9vh, 2.6rem); }
+    .trabajos__col h2 { font-size: min(var(--sc-t-3xl), 9.4vh); }
+  }
+  /* Landscape phones (844x390): clipped by 14px even with four names. The
+     doubled class beats the phone rules further down without reordering them. */
+  @media (max-height: 480px) {
+    .trabajos .trabajos__link { padding-block: 0.25rem; }
+    .trabajos .trabajos__list { margin-top: var(--sc-2); }
+    .trabajos .trabajos__col > p.sc-body { margin-top: var(--sc-2); }
+  }
 
   /* -------------------------------------------------------------- quien -- */
   /* NOTE: no `position` and no `height` here, on purpose. .sc-stage (added by
@@ -1035,13 +1064,15 @@
        WHY THIS CANNOT REINTRODUCE THE CROP: the pin's budget is exactly one
        viewport and the stage is a centred flex box, so the copy block is
        vertically centred in 100svh rather than being laid out from a top edge
-       and running off the bottom. All four names are inside that one block,
-       measured to fit at both 1440x900 and 390x844 (see the verification
-       numbers in the report).
+       and running off the bottom. All five names are inside that one block.
+       Since Meeple Map made it five (2026-09-10) the fit is measured, heading
+       top below the bar and last row above the fold, at 1920x1080, 1536x864,
+       1440x900, 1366x768, 1280x720, 1024x768, 768x1024, 430x932, 390x844,
+       375x667, 360x640 and 844x390. See the "Five names" rules in <style>.
        NO staggered reveal during the hold, by decision: every row carries a
        plain data-sc-in (IntersectionObserver, fires ONCE on entry, purely
        time-based 0/80/160/240ms delays) rather than a scroll-keyed
-       data-sc-cue. So the four names animate in together as the section
+       data-sc-cue. So the five names animate in together as the section
        arrives, are all fully on screen before the pin settles, and then do
        not move again for the entire hold. -->
   <section class="trabajos-sec" data-sendero-zone="1" data-sc-act="pin" data-sc-span="2.6" data-sc-dwell="0.3" data-sc-drift="#141c24">
@@ -1060,7 +1091,7 @@
     <div class="sc-wrap trabajos__wrap">
       <div class="trabajos__col">
         <h2 class="sc-display sc-display--lg" data-sc-in data-i18n="trabajos_h2">Evidencia, no promesas.</h2>
-        <p class="sc-body" data-sc-in data-i18n="trabajos_sub">Cuatro negocios que ya encontraron su sendero.</p>
+        <p class="sc-body" data-sc-in data-i18n="trabajos_sub">Cinco negocios que ya encontraron su sendero.</p>
         <ul class="trabajos__list">
           <li class="trabajos__row" data-sc-in>
             <a class="trabajos__link" href="https://anoranza-bakery.francojmansilla.workers.dev" target="_blank" rel="noopener noreferrer">
@@ -1083,6 +1114,12 @@
           <li class="trabajos__row" data-sc-in>
             <a class="trabajos__link" href="https://wandering-die.francojmansilla.workers.dev" target="_blank" rel="noopener noreferrer">
               <span class="trabajos__wipe">The Wandering Die</span><span class="sr-only" data-i18n="trabajos_cta">Visitar el sitio (se abre en una pestaña nueva)</span>
+              <svg class="trabajos__arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </li>
+          <li class="trabajos__row" data-sc-in>
+            <a class="trabajos__link" href="https://meeple-map.francojmansilla.workers.dev" target="_blank" rel="noopener noreferrer">
+              <span class="trabajos__wipe">Meeple Map</span><span class="sr-only" data-i18n="trabajos_cta">Visitar el sitio (se abre en una pestaña nueva)</span>
               <svg class="trabajos__arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
           </li>
@@ -1526,7 +1563,7 @@
       sendero_0: 'Tierra', sendero_1: 'Proyectos', sendero_2: 'Historia', sendero_3: 'Planes', sendero_4: 'Contacto',
       hero_h1: 'Todo negocio merece <em>un hogar digital</em>.',
       hero_sub: 'Diseño a medida y desarrollo digital: la imagen de tu negocio hecha realidad.',
-      trabajos_h2: 'Evidencia, no promesas.', trabajos_sub: 'Cuatro negocios que ya encontraron su sendero.',
+      trabajos_h2: 'Evidencia, no promesas.', trabajos_sub: 'Cinco negocios que ya encontraron su sendero.',
       trabajos_cta: 'Visitar el sitio (se abre en una pestaña nueva)',
       quien_l1: 'Construimos cada sitio<br>como si fuera <em>el nuestro</em>.',
       quien_l2: 'Sin plantillas genéricas. Sin atajos. Un estudio de una sola persona, no una fábrica de sitios.',
@@ -1555,7 +1592,7 @@
       sendero_0: 'Tierra', sendero_1: 'Projects', sendero_2: 'Story', sendero_3: 'Plans', sendero_4: 'Contact',
       hero_h1: 'Every business deserves <em>a digital home</em>.',
       hero_sub: 'Custom design and digital development: your business, brought to life.',
-      trabajos_h2: 'Evidence, not promises.', trabajos_sub: 'Four businesses that have already found their path.',
+      trabajos_h2: 'Evidence, not promises.', trabajos_sub: 'Five businesses that have already found their path.',
       trabajos_cta: 'Visit the site (opens in a new tab)',
       quien_l1: 'We build every site<br>as if it were <em>our own</em>.',
       quien_l2: 'No generic templates. No shortcuts. A one-person studio, not a site factory.',
@@ -1584,7 +1621,7 @@
       sendero_0: 'Tierra', sendero_1: 'Projekter', sendero_2: 'Historie', sendero_3: 'Priser', sendero_4: 'Kontakt',
       hero_h1: 'Enhver virksomhed fortjener <em>et digitalt hjem</em>.',
       hero_sub: 'Skræddersyet design og digital udvikling: din virksomheds udtryk, blevet til virkelighed.',
-      trabajos_h2: 'Beviser, ikke løfter.', trabajos_sub: 'Fire virksomheder, der allerede har fundet deres vej.',
+      trabajos_h2: 'Beviser, ikke løfter.', trabajos_sub: 'Fem virksomheder, der allerede har fundet deres vej.',
       trabajos_cta: 'Besøg sitet (åbner i en ny fane)',
       quien_l1: 'Vi bygger hver hjemmeside<br>som var den <em>vores egen</em>.',
       quien_l2: 'Ingen generiske skabeloner. Ingen genveje. Et enmandsstudie, ikke en hjemmesidefabrik.',

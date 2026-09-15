@@ -1192,7 +1192,7 @@
             <ul class="plan__list">
               <li data-i18n="planB_li1">Código y diseño te pertenecen</li>
               <li data-i18n="planB_li2">Sin ataduras a futuro</li>
-              <li data-i18n="planB_li3">Soporte opcional si lo necesitás</li>
+              <li data-i18n="planB_li3">Lo publicás donde quieras</li>
             </ul>
           </article>
         </div>
@@ -1338,9 +1338,19 @@
     // how the browser stretches the path — so the dot lands on the drawn
     // stroke at any rail size. No hand-placed coordinates anywhere.
     var vb = rail.querySelector('.sendero__svg').viewBox.baseVal;
+    /* El trazo termina EN el punto de Contacto. Antes el recorrido del trazo
+       iba de 0 a 1 sobre todo el scroll, pero Contacto empieza bastante antes
+       del fondo (su escena fijada ocupa varias pantallas), asi que la linea
+       seguia bajando un tramo de mas despues del ultimo punto. Ahora el scroll
+       se reescala para que el ultimo punto sea el final del camino: la linea
+       llega a el cuando empieza Contacto y ahi se queda. */
+    function trailFrac(p) {
+      var end = zones.length ? zones[zones.length - 1] : 1;
+      return end > 0 ? Math.min(p / end, 1) : 1;
+    }
     function placeZoneDots() {
       for (var i = 0; i < labels.length; i++) {
-        var f = i < zones.length ? zones[i] : 1;
+        var f = i < zones.length ? trailFrac(zones[i]) : 1;
         var q = path.getPointAtLength(len * f);
         labels[i].style.left = (q.x / vb.width * 100).toFixed(3) + '%';
         labels[i].style.top = (q.y / vb.height * 100).toFixed(3) + '%';
@@ -1363,8 +1373,9 @@
       raf = null;
       var y = scrollY || pageYOffset;
       var p = Math.min(Math.max(y / maxScroll, 0), 1);
-      path.style.strokeDashoffset = String(len * (1 - p));
-      var pt = path.getPointAtLength(len * p);
+      var t = trailFrac(p);
+      path.style.strokeDashoffset = String(len * (1 - t));
+      var pt = path.getPointAtLength(len * t);
       dot.setAttribute('cx', pt.x.toFixed(2));
       dot.setAttribute('cy', pt.y.toFixed(2));
       var zone = 0;
@@ -1376,7 +1387,6 @@
         for (var j = 0; j < labels.length; j++) labels[j].classList.toggle('is-active', j === zone);
         lastZone = zone;
       }
-      var max = maxScroll;
     }
     function relayoutSendero() { measureScroll(); computeZones(); placeZoneDots(); updateSendero(); }
 
@@ -1686,7 +1696,7 @@
       planA_li1: 'Cambios incluidos cada mes', planA_li2: 'Hosting y dominio cubiertos', planA_li3: 'Soporte directo con Tierra',
       planB_price_num: '20.000', planB_price_unit: 'kr. pago único',
       planB_desc: 'El sitio queda tuyo. Sin mensualidad.',
-      planB_li1: 'Código y diseño te pertenecen', planB_li2: 'Sin ataduras a futuro', planB_li3: 'Soporte opcional si lo necesitás',
+      planB_li1: 'Código y diseño te pertenecen', planB_li2: 'Sin ataduras a futuro', planB_li3: 'Lo publicás donde quieras',
       planes_note: '¿No estás seguro cuál? Contanos tu caso y lo vemos juntos.',
       contacto_h2: 'Démosle a tu negocio su propio hogar.', contacto_lede: 'Contanos tu idea.',
       field_nombre: 'Nombre', field_email: 'Email', field_mensaje: 'Mensaje',
@@ -1715,7 +1725,7 @@
       planA_li1: 'Changes included every month', planA_li2: 'Hosting and domain covered', planA_li3: 'Direct support from Tierra',
       planB_price_num: '20,000', planB_price_unit: 'kr one-time',
       planB_desc: 'The site is yours to keep. No monthly fee.',
-      planB_li1: 'Code and design belong to you', planB_li2: 'No strings attached', planB_li3: 'Optional support if you need it',
+      planB_li1: 'Code and design belong to you', planB_li2: 'No strings attached', planB_li3: 'Host it wherever you like',
       planes_note: 'Not sure which? Tell us your situation and we’ll work it out together.',
       contacto_h2: 'Let’s give your business a home of its own.', contacto_lede: 'Tell us your idea.',
       field_nombre: 'Name', field_email: 'Email', field_mensaje: 'Message',
@@ -1744,7 +1754,7 @@
       planA_li1: 'Ændringer inkluderet hver måned', planA_li2: 'Hosting og domæne dækket', planA_li3: 'Direkte support fra Tierra',
       planB_price_num: '20.000', planB_price_unit: 'kr. engangsbeløb',
       planB_desc: 'Hjemmesiden er din for altid. Intet abonnement.',
-      planB_li1: 'Kode og design tilhører dig', planB_li2: 'Ingen bindinger fremover', planB_li3: 'Valgfri support, hvis du får brug for det',
+      planB_li1: 'Kode og design tilhører dig', planB_li2: 'Ingen bindinger fremover', planB_li3: 'Du hoster det, hvor du vil',
       planes_note: 'Ikke sikker på hvilken? Fortæl os om dine behov, så finder vi ud af det sammen.',
       contacto_h2: 'Lad os give din virksomhed sit eget hjem.', contacto_lede: 'Fortæl os din idé.',
       field_nombre: 'Navn', field_email: 'E-mail', field_mensaje: 'Besked',

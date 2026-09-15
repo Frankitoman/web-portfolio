@@ -422,7 +422,11 @@
   }
   .plan__eyebrow { font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); letter-spacing: 0.14em; text-transform: uppercase; color: #B96A3A; margin: 0; }
   .plan__price { font-family: var(--sc-font-display); font-weight: 500; font-size: clamp(1.6rem, 1.3rem + 1.4vw, 2.6rem); margin: var(--sc-3) 0 0; letter-spacing: var(--sc-track-tight); }
-  .plan__price span { font-family: var(--sc-font-text); font-size: var(--sc-t-sm); font-weight: 400; color: var(--sc-ink-soft); margin-left: 0.35em; }
+  /* Solo la UNIDAD va chica y en mono. La regla decia `.plan__price span` a
+     secas: cuando las traducciones envolvieron tambien la cifra en su propio
+     <span>, la regla empezo a encogerla y "700" quedo a 15px, del mismo tamano
+     que "kr./mes", en vez de ser el numero grande de la tarjeta. */
+  .plan__price [data-i18n$="_price_unit"] { font-family: var(--sc-font-text); font-size: var(--sc-t-sm); font-weight: 400; color: var(--sc-ink-soft); margin-left: 0.35em; }
   .plan__desc { font-family: var(--sc-font-accent); font-style: italic; font-size: var(--sc-t-lg); margin: var(--sc-5) 0 0; max-width: 22ch; }
   .plan__list { list-style: none; margin: var(--sc-6) 0 0; padding: 0; border-top: 1px solid color-mix(in oklab, var(--sc-ink) 16%, transparent); }
   .plan__list li { padding: 0.55rem 0; font-family: var(--sc-font-mono); font-size: var(--sc-t-sm); color: var(--sc-ink-soft); border-bottom: 1px solid color-mix(in oklab, var(--sc-ink) 10%, transparent); }
@@ -1178,7 +1182,7 @@
             <ul class="plan__list">
               <li data-i18n="planA_li1">Cambios incluidos cada mes</li>
               <li data-i18n="planA_li2">Hosting y dominio cubiertos</li>
-              <li data-i18n="planA_li3">Soporte directo con Franco</li>
+              <li data-i18n="planA_li3">Soporte directo con Tierra</li>
             </ul>
           </article>
           <article class="plan" data-sc-in>
@@ -1441,6 +1445,85 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(setBarH);
   }
 
+  /* --------------------------------------------------- que todo entre --
+     Cada escena fijada tiene un presupuesto rigido: una pantalla de alto y
+     ningun scroll al que recurrir. La tipografia y los espacios crecen con el
+     ANCHO, asi que en monitores anchos pero bajos (una laptop 1366x768, o un
+     1920x1080 con Windows al 125-150%, que le deja a la pagina 580-730px
+     utiles tras la barra del navegador) el contenido pedia mas alto del que
+     habia: titulos debajo de la barra, "The Wandering Die" fuera de cuadro,
+     tarjetas cortadas, el formulario encima del pie.
+     Ya se habia intentado con escalones de media query por altura, y cada
+     escalon arreglaba el tamano que se midio y dejaba roto el de al lado.
+     Aca cada escena mide su propio contenido contra el alto REALMENTE libre
+     (debajo de la barra, arriba del pie, con margen) y, solo si no entra, se
+     achica con zoom. zoom recalcula el layout, asi que el centrado sigue siendo
+     exacto y la letra se vuelve a rasterizar nitida, cosa que un transform:
+     scale no hace. Si el contenido entra, no se toca nada.
+     Las medidas son relativas a la propia escena, asi que funcionan aunque la
+     escena no este fijada en pantalla en el momento de medir. */
+  var FIT_MARGIN = 16, FIT_FLOOR = 0.62;
+  var canZoom = typeof CSS !== 'undefined' && CSS.supports && CSS.supports('zoom', '0.5');
+  var FIT_GROUPS = [
+    ['.hero-copy'], ['.trabajos__wrap'], ['.quien__copy'], ['.planes__cards-wrap'],
+    ['.cierre__intro', '.cierre__form']            // comparten un mismo factor
+  ];
+
+  function fitStages() {
+    if (!canZoom || !barEl) return;
+    var barH = barEl.getBoundingClientRect().height;
+    var foot = document.querySelector('.foot');
+    var groups = FIT_GROUPS.map(function (sels) {
+      return sels.map(function (q) { return document.querySelector(q); }).filter(Boolean);
+    }).filter(function (g) { return g.length; });
+
+    // todo a tamano natural antes de medir
+    groups.forEach(function (g) { g.forEach(function (el) { el.style.zoom = ''; }); });
+
+    var report = [];
+    groups.forEach(function (g) {
+      var stage = g[0].closest('[data-sc-stage]');
+      if (!stage) return;
+      var z = 1;
+      for (var k = 0; k < 6; k++) {
+        var sr = stage.getBoundingClientRect();
+        var top = Infinity, bottom = -Infinity;
+        g.forEach(function (el) {
+          var r = el.getBoundingClientRect();
+          top = Math.min(top, r.top); bottom = Math.max(bottom, r.bottom);
+        });
+        top -= sr.top; bottom -= sr.top;
+        var topLimit = barH + FIT_MARGIN;
+        var bottomLimit = stage.clientHeight - FIT_MARGIN;
+        if (foot && stage.contains(foot)) bottomLimit = (foot.getBoundingClientRect().top - sr.top) - FIT_MARGIN;
+        if (top >= topLimit - 0.5 && bottom <= bottomLimit + 0.5) break;
+        var h = bottom - top, mid = (top + bottom) / 2;
+        // cuanto alto admite el contenido sin mover su centro: lo que limite
+        // primero, la barra por arriba o el borde/pie por abajo
+        var allowed = Math.min(h, 2 * (mid - topLimit), 2 * (bottomLimit - mid));
+        if (!(allowed > 0)) allowed = bottomLimit - topLimit;
+        var nz = Math.max(FIT_FLOOR, z * allowed / h);
+        if (Math.abs(nz - z) < 0.003) break;
+        z = nz;
+        g.forEach(function (el) { el.style.zoom = z.toFixed(3); });
+      }
+      report.push(g[0].className.split(' ')[0] + '=' + z.toFixed(3));
+    });
+    window.__tierraFit = report;
+  }
+
+  var fitRaf = null;
+  function scheduleFit() {
+    if (fitRaf !== null) return;
+    fitRaf = requestAnimationFrame(function () { fitRaf = null; fitStages(); });
+  }
+  addEventListener('resize', scheduleFit, { passive: true });
+  addEventListener('load', scheduleFit);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleFit);
+  // el titular del hero entra animado: se vuelve a medir cuando termina
+  setTimeout(scheduleFit, 1400);
+  fitStages();
+
   var CHIMNEY_FX = 0.6198;   /* medido sobre la foto: x 1190 / 1920 */
   var CHIMNEY_FY = 0.4005;   /* y 427 / 1066, la boca de la chimenea */
   var SMOKE = { count: 10, peak: 0.37, size: 3.2, rise: 40, dur: 9, drift: 5.5, soften: 1.2 };
@@ -1571,7 +1654,7 @@
       planes_h2: 'Elegí tu sendero.', planes_sub: 'Dos formas honestas de tener tu sitio. Vos decidís cuál te queda mejor.',
       planA_price_num: '700', planA_price_unit: 'kr./mes',
       planA_desc: 'Nosotros mantenemos todo. Vos solo avisás qué cambiar.',
-      planA_li1: 'Cambios incluidos cada mes', planA_li2: 'Hosting y dominio cubiertos', planA_li3: 'Soporte directo con Franco',
+      planA_li1: 'Cambios incluidos cada mes', planA_li2: 'Hosting y dominio cubiertos', planA_li3: 'Soporte directo con Tierra',
       planB_price_num: '20.000', planB_price_unit: 'kr. pago único',
       planB_desc: 'El sitio queda tuyo. Sin mensualidad.',
       planB_li1: 'Código y diseño te pertenecen', planB_li2: 'Sin ataduras a futuro', planB_li3: 'Soporte opcional si lo necesitás',
@@ -1600,7 +1683,7 @@
       planes_h2: 'Choose your path.', planes_sub: 'Two honest ways to get your site. You decide which suits you best.',
       planA_price_num: '700', planA_price_unit: 'kr/month',
       planA_desc: 'We maintain everything. You just tell us what to change.',
-      planA_li1: 'Changes included every month', planA_li2: 'Hosting and domain covered', planA_li3: 'Direct support from Franco',
+      planA_li1: 'Changes included every month', planA_li2: 'Hosting and domain covered', planA_li3: 'Direct support from Tierra',
       planB_price_num: '20,000', planB_price_unit: 'kr one-time',
       planB_desc: 'The site is yours to keep. No monthly fee.',
       planB_li1: 'Code and design belong to you', planB_li2: 'No strings attached', planB_li3: 'Optional support if you need it',
@@ -1629,7 +1712,7 @@
       planes_h2: 'Vælg din vej.', planes_sub: 'To ærlige måder at få din hjemmeside på. Du bestemmer, hvad der passer dig bedst.',
       planA_price_num: '700', planA_price_unit: 'kr./md.',
       planA_desc: 'Vi vedligeholder det hele. Du siger bare til, hvad der skal ændres.',
-      planA_li1: 'Ændringer inkluderet hver måned', planA_li2: 'Hosting og domæne dækket', planA_li3: 'Direkte support fra Franco',
+      planA_li1: 'Ændringer inkluderet hver måned', planA_li2: 'Hosting og domæne dækket', planA_li3: 'Direkte support fra Tierra',
       planB_price_num: '20.000', planB_price_unit: 'kr. engangsbeløb',
       planB_desc: 'Hjemmesiden er din for altid. Intet abonnement.',
       planB_li1: 'Kode og design tilhører dig', planB_li2: 'Ingen bindinger fremover', planB_li3: 'Valgfri support, hvis du får brug for det',
@@ -1695,12 +1778,13 @@
   localeBtns.forEach(function (b) {
     b.addEventListener('click', function () {
       localeBtns.forEach(function (o) { o.setAttribute('aria-current', String(o === b)); });
-      applyI18n(b.getAttribute('data-locale'));
+      applyI18n(b.getAttribute('data-locale')); scheduleFit();
     });
   });
 
   var initialLang = preferredLang();
   applyI18n(initialLang);
+  scheduleFit();
   localeBtns.forEach(function (b) {
     b.setAttribute('aria-current', String(b.getAttribute('data-locale') === initialLang));
   });

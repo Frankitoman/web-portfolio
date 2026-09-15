@@ -1524,6 +1524,35 @@
   setTimeout(scheduleFit, 1400);
   fitStages();
 
+  /* ---------------------------------------- revelar dentro de las pausas --
+     El motor revela cada [data-sc-in] cuando al menos un 1% del elemento cruza
+     una linea al 88% del alto de la ventana (rootMargin -12% abajo). En una
+     seccion normal eso pasa solo, porque el contenido sigue subiendo. En una
+     seccion FIJADA no: el escenario se queda quieto, y lo que cae en el 12%
+     inferior no cruza nunca esa linea mientras dura la pausa.
+     Con cinco proyectos, "Meeple Map" quedaba ahi en pantallas bajas (1280x800,
+     1366x768, 1920x1080 al 150%): transparente, invisible durante toda la
+     lectura, y recien aparecia cuando la seccion ya se estaba yendo.
+     Aca, cuando una seccion fijada llega a pantalla, se revela todo su
+     contenido de una vez. Los retardos escalonados del CSS siguen valiendo, asi
+     que la entrada se sigue viendo en cascada. El motor no se toca.
+     rootMargin en vez de threshold: dispara cuando el borde superior de la
+     seccion pasa el 60% de la ventana, sin depender de cuan alta sea la
+     seccion (un threshold sobre una seccion de 3.4 pantallas quizas nunca se
+     alcance). */
+  if ('IntersectionObserver' in window) {
+    var pinReveal = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        Array.prototype.forEach.call(en.target.querySelectorAll('[data-sc-in]:not(.sc-in)'), function (el) {
+          el.classList.add('sc-in');
+        });
+        pinReveal.unobserve(en.target);
+      });
+    }, { rootMargin: '0px 0px -40% 0px', threshold: 0 });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-sc-act="pin"]'), function (s) { pinReveal.observe(s); });
+  }
+
   var CHIMNEY_FX = 0.6198;   /* medido sobre la foto: x 1190 / 1920 */
   var CHIMNEY_FY = 0.4005;   /* y 427 / 1066, la boca de la chimenea */
   var SMOKE = { count: 10, peak: 0.37, size: 3.2, rise: 40, dur: 9, drift: 5.5, soften: 1.2 };

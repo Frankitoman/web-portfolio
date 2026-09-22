@@ -265,6 +265,7 @@
   .trabajos__row:nth-child(3) { transition-delay: 160ms; }
   .trabajos__row:nth-child(4) { transition-delay: 240ms; }
   .trabajos__row:nth-child(5) { transition-delay: 320ms; }
+  .trabajos__row:nth-child(6) { transition-delay: 400ms; }
   .trabajos__link {
     all: unset; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between;
     gap: var(--sc-4); width: 100%; padding: 1.05rem 0.1rem; cursor: pointer; border-radius: var(--sc-r-sm);
@@ -282,6 +283,14 @@
   .trabajos__link:hover .trabajos__arrow, .trabajos__link:focus-visible .trabajos__arrow { opacity: 1; translate: 0 0; }
   .trabajos__link:active .trabajos__wipe { opacity: 0.8; }
   .trabajos__link:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 4px; }
+  /* A name that is listed but not open yet: no link, no hover, a small tag. */
+  .trabajos__link--soon { cursor: default; justify-content: flex-start; }
+  .trabajos__link--soon:hover .trabajos__wipe { color: var(--sc-ink); }
+  .trabajos__name { display: flex; align-items: baseline; gap: 0.7em; min-width: 0; }
+  .trabajos__soon {
+    font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--sc-ink-soft); white-space: nowrap; line-height: 1;
+  }
 
   /* Five names since Meeple Map joined. The pinned stage is exactly one
      viewport, so the whole block has to fit under the fixed bar at every
@@ -299,14 +308,22 @@
   @media (max-height: 940px), (max-width: 860px) {   /* 940: 1536x864 clipped by 13px at full padding */
     .trabajos__link { padding-block: 0.75rem; }
   }
+  /* Six names since Runtrack joined (2026-09-22). With 0.75rem rows the block
+     overran by 50px at 1536x864, 22px at 1280x720 and 9px at 1440x900. Wide
+     screens only: tablets and portrait phones still fit with room to spare. */
+  @media (max-height: 940px) and (min-width: 861px) {
+    .trabajos__link { padding-block: 0.45rem; }
+  }
   @media (max-height: 820px) {
     .trabajos__wipe { font-size: clamp(1.4rem, 4.9vh, 2.6rem); }
     .trabajos__col h2 { font-size: min(var(--sc-t-3xl), 9.4vh); }
   }
-  /* Landscape phones (844x390): clipped by 14px even with four names. The
-     doubled class beats the phone rules further down without reordering them. */
+  /* Landscape phones (844x390): clipped by 14px even with four names, 11px
+     more with six. The doubled class beats the phone rules further down
+     without reordering them. */
   @media (max-height: 480px) {
-    .trabajos .trabajos__link { padding-block: 0.25rem; }
+    .trabajos .trabajos__link { padding-block: 0.12rem; }
+    .trabajos .trabajos__wipe { font-size: 1.2rem; }
     .trabajos .trabajos__list { margin-top: var(--sc-2); }
     .trabajos .trabajos__col > p.sc-body { margin-top: var(--sc-2); }
   }
@@ -1072,7 +1089,9 @@
        Since Meeple Map made it five (2026-09-10) the fit is measured, heading
        top below the bar and last row above the fold, at 1920x1080, 1536x864,
        1440x900, 1366x768, 1280x720, 1024x768, 768x1024, 430x932, 390x844,
-       375x667, 360x640 and 844x390. See the "Five names" rules in <style>.
+       375x667, 360x640 and 844x390. Runtrack made it six (2026-09-22), listed
+       but not linked yet; re-measured at the same twelve sizes. See the
+       "Five names" and "Six names" rules in <style>.
        NO staggered reveal during the hold, by decision: every row carries a
        plain data-sc-in (IntersectionObserver, fires ONCE on entry, purely
        time-based 0/80/160/240ms delays) rather than a scroll-keyed
@@ -1095,7 +1114,7 @@
     <div class="sc-wrap trabajos__wrap">
       <div class="trabajos__col">
         <h2 class="sc-display sc-display--lg" data-sc-in data-i18n="trabajos_h2">Evidencia, no promesas.</h2>
-        <p class="sc-body" data-sc-in data-i18n="trabajos_sub">Cinco negocios que ya encontraron su sendero.</p>
+        <p class="sc-body" data-sc-in data-i18n="trabajos_sub">Seis negocios que ya encontraron su sendero.</p>
         <ul class="trabajos__list">
           <li class="trabajos__row" data-sc-in>
             <a class="trabajos__link" href="https://anoranza-bakery.francojmansilla.workers.dev" target="_blank" rel="noopener noreferrer">
@@ -1126,6 +1145,14 @@
               <span class="trabajos__wipe">Meeple Map</span><span class="sr-only" data-i18n="trabajos_cta">Visitar el sitio (se abre en una pestaña nueva)</span>
               <svg class="trabajos__arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
+          </li>
+          <!-- Runtrack is listed but not linked until its redesign ships. Same
+               .trabajos__link box as the others so the measured row height and
+               the six-name fit stay identical; only the hover and cursor go. -->
+          <li class="trabajos__row" data-sc-in>
+            <span class="trabajos__link trabajos__link--soon">
+              <span class="trabajos__name"><span class="trabajos__wipe">Runtrack</span><small class="trabajos__soon" data-i18n="trabajos_soon">próximamente</small></span>
+            </span>
           </li>
         </ul>
       </div>
@@ -1685,8 +1712,8 @@
       sendero_0: 'Tierra', sendero_1: 'Proyectos', sendero_2: 'Historia', sendero_3: 'Planes', sendero_4: 'Contacto',
       hero_h1: 'Todo negocio merece <em>un hogar digital</em>.',
       hero_sub: 'Diseño a medida y desarrollo digital: la imagen de tu negocio hecha realidad.',
-      trabajos_h2: 'Evidencia, no promesas.', trabajos_sub: 'Cinco negocios que ya encontraron su sendero.',
-      trabajos_cta: 'Visitar el sitio (se abre en una pestaña nueva)',
+      trabajos_h2: 'Evidencia, no promesas.', trabajos_sub: 'Seis negocios que ya encontraron su sendero.',
+      trabajos_cta: 'Visitar el sitio (se abre en una pestaña nueva)', trabajos_soon: 'próximamente',
       quien_l1: 'Construimos cada sitio<br>como si fuera <em>el nuestro</em>.',
       quien_l2: 'Sin plantillas genéricas. Sin atajos. Un estudio de una sola persona, no una fábrica de sitios.',
       quien_l3: 'Somos Tierra, desde Copenhague.',
@@ -1714,8 +1741,8 @@
       sendero_0: 'Tierra', sendero_1: 'Projects', sendero_2: 'Story', sendero_3: 'Plans', sendero_4: 'Contact',
       hero_h1: 'Every business deserves <em>a digital home</em>.',
       hero_sub: 'Custom design and digital development: your business, brought to life.',
-      trabajos_h2: 'Evidence, not promises.', trabajos_sub: 'Five businesses that have already found their path.',
-      trabajos_cta: 'Visit the site (opens in a new tab)',
+      trabajos_h2: 'Evidence, not promises.', trabajos_sub: 'Six businesses that have already found their path.',
+      trabajos_cta: 'Visit the site (opens in a new tab)', trabajos_soon: 'coming soon',
       quien_l1: 'We build every site<br>as if it were <em>our own</em>.',
       quien_l2: 'No generic templates. No shortcuts. A one-person studio, not a site factory.',
       quien_l3: 'We are Tierra, from Copenhagen.',
@@ -1743,8 +1770,8 @@
       sendero_0: 'Tierra', sendero_1: 'Projekter', sendero_2: 'Historie', sendero_3: 'Priser', sendero_4: 'Kontakt',
       hero_h1: 'Enhver virksomhed fortjener <em>et digitalt hjem</em>.',
       hero_sub: 'Skræddersyet design og digital udvikling: din virksomheds udtryk, blevet til virkelighed.',
-      trabajos_h2: 'Beviser, ikke løfter.', trabajos_sub: 'Fem virksomheder, der allerede har fundet deres vej.',
-      trabajos_cta: 'Besøg sitet (åbner i en ny fane)',
+      trabajos_h2: 'Beviser, ikke løfter.', trabajos_sub: 'Seks virksomheder, der allerede har fundet deres vej.',
+      trabajos_cta: 'Besøg sitet (åbner i en ny fane)', trabajos_soon: 'kommer snart',
       quien_l1: 'Vi bygger hver hjemmeside<br>som var den <em>vores egen</em>.',
       quien_l2: 'Ingen generiske skabeloner. Ingen genveje. Et enmandsstudie, ikke en hjemmesidefabrik.',
       quien_l3: 'Vi er Tierra, fra København.',

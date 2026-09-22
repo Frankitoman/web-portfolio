@@ -283,14 +283,6 @@
   .trabajos__link:hover .trabajos__arrow, .trabajos__link:focus-visible .trabajos__arrow { opacity: 1; translate: 0 0; }
   .trabajos__link:active .trabajos__wipe { opacity: 0.8; }
   .trabajos__link:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 4px; }
-  /* A name that is listed but not open yet: no link, no hover, a small tag. */
-  .trabajos__link--soon { cursor: default; justify-content: flex-start; }
-  .trabajos__link--soon:hover .trabajos__wipe { color: var(--sc-ink); }
-  .trabajos__name { display: flex; align-items: baseline; gap: 0.7em; min-width: 0; }
-  .trabajos__soon {
-    font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--sc-ink-soft); white-space: nowrap; line-height: 1;
-  }
 
   /* Five names since Meeple Map joined. The pinned stage is exactly one
      viewport, so the whole block has to fit under the fixed bar at every
@@ -1089,9 +1081,9 @@
        Since Meeple Map made it five (2026-09-10) the fit is measured, heading
        top below the bar and last row above the fold, at 1920x1080, 1536x864,
        1440x900, 1366x768, 1280x720, 1024x768, 768x1024, 430x932, 390x844,
-       375x667, 360x640 and 844x390. Runtrack made it six (2026-09-22), listed
-       but not linked yet; re-measured at the same twelve sizes. See the
-       "Five names" and "Six names" rules in <style>.
+       375x667, 360x640 and 844x390. Runtrack made it six (2026-09-22),
+       re-measured at the same twelve sizes. See the "Five names" and "Six
+       names" rules in <style>.
        NO staggered reveal during the hold, by decision: every row carries a
        plain data-sc-in (IntersectionObserver, fires ONCE on entry, purely
        time-based 0/80/160/240ms delays) rather than a scroll-keyed
@@ -1146,13 +1138,11 @@
               <svg class="trabajos__arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
           </li>
-          <!-- Runtrack is listed but not linked until its redesign ships. Same
-               .trabajos__link box as the others so the measured row height and
-               the six-name fit stay identical; only the hover and cursor go. -->
           <li class="trabajos__row" data-sc-in>
-            <span class="trabajos__link trabajos__link--soon">
-              <span class="trabajos__name"><span class="trabajos__wipe">Runtrack</span><small class="trabajos__soon" data-i18n="trabajos_soon">próximamente</small></span>
-            </span>
+            <a class="trabajos__link" href="https://runtrack.francojmansilla.workers.dev" target="_blank" rel="noopener noreferrer">
+              <span class="trabajos__wipe">Runtrack</span><span class="sr-only" data-i18n="trabajos_cta">Visitar el sitio (se abre en una pestaña nueva)</span>
+              <svg class="trabajos__arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
           </li>
         </ul>
       </div>
@@ -1713,7 +1703,7 @@
       hero_h1: 'Todo negocio merece <em>un hogar digital</em>.',
       hero_sub: 'Diseño a medida y desarrollo digital: la imagen de tu negocio hecha realidad.',
       trabajos_h2: 'Evidencia, no promesas.', trabajos_sub: 'Seis negocios que ya encontraron su sendero.',
-      trabajos_cta: 'Visitar el sitio (se abre en una pestaña nueva)', trabajos_soon: 'próximamente',
+      trabajos_cta: 'Visitar el sitio (se abre en una pestaña nueva)',
       quien_l1: 'Construimos cada sitio<br>como si fuera <em>el nuestro</em>.',
       quien_l2: 'Sin plantillas genéricas. Sin atajos. Un estudio de una sola persona, no una fábrica de sitios.',
       quien_l3: 'Somos Tierra, desde Copenhague.',
@@ -1742,7 +1732,7 @@
       hero_h1: 'Every business deserves <em>a digital home</em>.',
       hero_sub: 'Custom design and digital development: your business, brought to life.',
       trabajos_h2: 'Evidence, not promises.', trabajos_sub: 'Six businesses that have already found their path.',
-      trabajos_cta: 'Visit the site (opens in a new tab)', trabajos_soon: 'coming soon',
+      trabajos_cta: 'Visit the site (opens in a new tab)',
       quien_l1: 'We build every site<br>as if it were <em>our own</em>.',
       quien_l2: 'No generic templates. No shortcuts. A one-person studio, not a site factory.',
       quien_l3: 'We are Tierra, from Copenhagen.',
@@ -1771,7 +1761,7 @@
       hero_h1: 'Enhver virksomhed fortjener <em>et digitalt hjem</em>.',
       hero_sub: 'Skræddersyet design og digital udvikling: din virksomheds udtryk, blevet til virkelighed.',
       trabajos_h2: 'Beviser, ikke løfter.', trabajos_sub: 'Seks virksomheder, der allerede har fundet deres vej.',
-      trabajos_cta: 'Besøg sitet (åbner i en ny fane)', trabajos_soon: 'kommer snart',
+      trabajos_cta: 'Besøg sitet (åbner i en ny fane)',
       quien_l1: 'Vi bygger hver hjemmeside<br>som var den <em>vores egen</em>.',
       quien_l2: 'Ingen generiske skabeloner. Ingen genveje. Et enmandsstudie, ikke en hjemmesidefabrik.',
       quien_l3: 'Vi er Tierra, fra København.',

@@ -436,6 +436,10 @@
      <span>, la regla empezo a encogerla y "700" quedo a 15px, del mismo tamano
      que "kr./mes", en vez de ser el numero grande de la tarjeta. */
   .plan__price [data-i18n$="_price_unit"] { font-family: var(--sc-font-text); font-size: var(--sc-t-sm); font-weight: 400; color: var(--sc-ink-soft); margin-left: 0.35em; }
+  /* Las condiciones van pegadas al precio, porque son parte de el: sin IVA,
+     y en el plan A la permanencia. Una linea en cada tarjeta, asi las dos
+     siguen midiendo lo mismo. */
+  .plan__terms { font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); letter-spacing: 0.04em; color: var(--sc-ink-soft); margin: var(--sc-1) 0 0; text-wrap: balance; }
   .plan__desc { font-family: var(--sc-font-accent); font-style: italic; font-size: var(--sc-t-lg); margin: var(--sc-5) 0 0; max-width: 22ch; }
   .plan__list { list-style: none; margin: var(--sc-6) 0 0; padding: 0; border-top: 1px solid color-mix(in oklab, var(--sc-ink) 16%, transparent); }
   .plan__list li { padding: 0.55rem 0; font-family: var(--sc-font-mono); font-size: var(--sc-t-sm); color: var(--sc-ink-soft); border-bottom: 1px solid color-mix(in oklab, var(--sc-ink) 10%, transparent); }
@@ -987,6 +991,18 @@
     .cierre__form textarea { min-height: 3.4rem; height: 3.4rem; }
     .foot { padding-block: var(--sc-4); }
   }
+  /* Va al final para ganarle a las reglas base de .plan y a los bloques
+     compactos de mas arriba. */
+  @media (max-height: 480px) {
+    /* Celular acostado: 390px de alto para titulo, subtitulo y dos tarjetas
+       no alcanzaba ni al zoom minimo (faltaban 7-18px, y con la linea de
+       condiciones 15-26px). El subtitulo se va, que el titulo ya dice que hay
+       que elegir, y "Plan A" sube a la misma fila que el precio. */
+    .planes__lead p.sc-body { display: none; }
+    .plan { display: grid; grid-template-columns: auto 1fr; column-gap: 0.7rem; align-items: baseline; }
+    .plan > :not(.plan__eyebrow):not(.plan__price) { grid-column: 1 / -1; }
+    .plan__price { margin-top: 0; }
+  }
 </style>
 </head>
 <body>
@@ -1195,6 +1211,7 @@
           <article class="plan" data-sc-in>
             <p class="plan__eyebrow">Plan A</p>
             <p class="plan__price"><span data-i18n="planA_price_num">500</span><span data-i18n="planA_price_unit">kr./mes</span></p>
+            <p class="plan__terms" data-i18n="planA_terms">Sin IVA (moms) · mínimo 12 meses</p>
             <p class="plan__desc" data-i18n="planA_desc">Nosotros mantenemos todo. Vos solo avisás qué cambiar.</p>
             <ul class="plan__list">
               <li data-i18n="planA_li1">Cambios incluidos cada mes</li>
@@ -1205,6 +1222,7 @@
           <article class="plan" data-sc-in>
             <p class="plan__eyebrow">Plan B</p>
             <p class="plan__price"><span data-i18n="planB_price_num">15.000</span><span data-i18n="planB_price_unit">kr. pago único</span></p>
+            <p class="plan__terms" data-i18n="planB_terms">Sin IVA (moms)</p>
             <p class="plan__desc" data-i18n="planB_desc">El sitio queda tuyo. Sin mensualidad.</p>
             <ul class="plan__list">
               <li data-i18n="planB_li1">Código y diseño te pertenecen</li>
@@ -1710,6 +1728,7 @@
       planes_h2: 'Elegí tu sendero.', planes_sub: 'Dos formas honestas de tener tu sitio. Vos decidís cuál te queda mejor.',
       planA_price_num: '500', planA_price_unit: 'kr./mes',
       planA_desc: 'Nosotros mantenemos todo. Vos solo avisás qué cambiar.',
+      planA_terms: 'Sin IVA (moms) · mínimo 12 meses', planB_terms: 'Sin IVA (moms)',
       planA_li1: 'Cambios incluidos cada mes', planA_li2: 'Hosting y dominio cubiertos', planA_li3: 'Soporte directo con Tierra',
       planB_price_num: '15.000', planB_price_unit: 'kr. pago único',
       planB_desc: 'El sitio queda tuyo. Sin mensualidad.',
@@ -1739,6 +1758,7 @@
       planes_h2: 'Choose your path.', planes_sub: 'Two honest ways to get your site. You decide which suits you best.',
       planA_price_num: '500', planA_price_unit: 'kr/month',
       planA_desc: 'We maintain everything. You just tell us what to change.',
+      planA_terms: 'Excl. VAT (moms) · 12-month minimum', planB_terms: 'Excl. VAT (moms)',
       planA_li1: 'Changes included every month', planA_li2: 'Hosting and domain covered', planA_li3: 'Direct support from Tierra',
       planB_price_num: '15,000', planB_price_unit: 'kr one-time',
       planB_desc: 'The site is yours to keep. No monthly fee.',
@@ -1768,6 +1788,7 @@
       planes_h2: 'Vælg din vej.', planes_sub: 'To ærlige måder at få din hjemmeside på. Du bestemmer, hvad der passer dig bedst.',
       planA_price_num: '500', planA_price_unit: 'kr./md.',
       planA_desc: 'Vi vedligeholder det hele. Du siger bare til, hvad der skal ændres.',
+      planA_terms: 'Ekskl. moms · 12 måneders binding', planB_terms: 'Ekskl. moms',
       planA_li1: 'Ændringer inkluderet hver måned', planA_li2: 'Hosting og domæne dækket', planA_li3: 'Direkte support fra Tierra',
       planB_price_num: '15.000', planB_price_unit: 'kr. engangsbeløb',
       planB_desc: 'Hjemmesiden er din for altid. Intet abonnement.',
